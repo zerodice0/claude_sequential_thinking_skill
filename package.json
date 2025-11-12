@@ -42,7 +42,11 @@
     "lint:fix": "eslint helpers/ test/ --ext .ts --fix",
     "format": "prettier --write \"**/*.{ts,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,md,json}\"",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "validate:workflow": "./actionlint .github/workflows/ci.yml",
+    "validate:yaml": "python3 -c \"import yaml; yaml.safe_load(open('.github/workflows/ci.yml')); print('✅ YAML valid')\"",
+    "pre-push": "pnpm run validate:workflow && pnpm run validate:yaml",
+    "install:githooks": ".githooks/install-hooks.sh"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",

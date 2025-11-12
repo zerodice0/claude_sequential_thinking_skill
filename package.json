@@ -1,0 +1,62 @@
+{
+  "name": "@zerodice0/sequential-thinking-skill",
+  "version": "1.0.0",
+  "description": "Sequential thinking skill for Claude Code - structured multi-step reasoning framework",
+  "author": "zerodice0",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zerodice0/claude_sequential_thinking_skill.git"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "skill",
+    "sequential-thinking",
+    "reasoning",
+    "problem-solving",
+    "structured-thinking",
+    "mcp",
+    "ai-assistant"
+  ],
+  "type": "module",
+  "main": "helpers/index.ts",
+  "types": "helpers/index.ts",
+  "files": [
+    "SKILL.md",
+    "helpers/",
+    "examples/",
+    "docs/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui",
+    "lint": "eslint helpers/ test/ --ext .ts",
+    "lint:fix": "eslint helpers/ test/ --ext .ts --fix",
+    "format": "prettier --write \"**/*.{ts,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,md,json}\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "@vitest/coverage-v8": "^1.2.0",
+    "@vitest/ui": "^1.2.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.4",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  },
+  "peerDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

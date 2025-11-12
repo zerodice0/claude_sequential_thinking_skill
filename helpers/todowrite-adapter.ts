@@ -138,7 +138,9 @@ export class TodoWriteAdapter {
           thoughts: []
         };
       }
-      this.sessionState.branches[thoughtData.branchId].thoughts.push(entry);
+      if (this.sessionState.branches[thoughtData.branchId]) {
+        this.sessionState.branches[thoughtData.branchId].thoughts.push(entry);
+      }
     }
 
     // Auto-cleanup if enabled
@@ -293,7 +295,7 @@ export class TodoWriteAdapter {
    */
   public importSession(json: string): void {
     try {
-      this.sessionState = JSON.parse(json);
+      this.sessionState = JSON.parse(json) as SessionState;
     } catch (error) {
       throw new Error(
         `Failed to import session: ${error instanceof Error ? error.message : String(error)}`

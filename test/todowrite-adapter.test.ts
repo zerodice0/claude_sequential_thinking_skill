@@ -180,7 +180,7 @@ describe('TodoWriteAdapter', () => {
       });
 
       const todos = adapter.generateTodoList(3);
-      expect(todos[0].content).toContain('🎯');
+      expect(todos[0]?.content).toContain('🎯');
     });
   });
 
@@ -238,7 +238,7 @@ describe('TodoWriteAdapter', () => {
 
       const found = adapter.findThought(2);
       expect(found).toBeDefined();
-      expect(found!.thought).toBe('Test');
+      expect(found?.thought).toBe('Test');
     });
 
     it('should return undefined for non-existent thought', () => {
@@ -324,7 +324,7 @@ describe('TodoWriteAdapter', () => {
 
       const json = adapter.exportSession();
       expect(json).toBeDefined();
-      expect(() => JSON.parse(json)).not.toThrow();
+      expect(() => JSON.parse(json) as unknown).not.toThrow();
     });
 
     it('should import session from JSON', () => {

@@ -9,7 +9,7 @@ import { readFileSync } from 'fs';
 import { join } from 'path';
 import {
   validateThought,
-  normalizeThought,
+  normalizeThought as _normalizeThought,
   processThought,
   createSessionState
 } from '../../helpers/sequential-thinking';
@@ -31,7 +31,7 @@ describe('Sequential Thinking Skill Integration', () => {
 
       expect(frontmatterMatch).toBeTruthy();
 
-      const frontmatter = frontmatterMatch![1];
+      const frontmatter = frontmatterMatch?.[1] || '';
       expect(frontmatter).toContain('name:');
       expect(frontmatter).toContain('description:');
     });
@@ -225,7 +225,7 @@ describe('Sequential Thinking Skill Integration', () => {
 
       const revisions = sessionState.thoughtHistory.filter(t => t.isRevision);
       expect(revisions).toHaveLength(1);
-      expect(revisions[0].revisesThought).toBe(3);
+      expect(revisions[0]?.revisesThought).toBe(3);
     });
 
     test('동적 확장 워크플로우', () => {
@@ -273,7 +273,7 @@ describe('Sequential Thinking Skill Integration', () => {
 
       expect(validation.valid).toBe(false);
       expect(validation.errors).toBeDefined();
-      expect(validation.errors!.some(e => e.includes('thoughtNumber'))).toBe(true);
+      expect(validation.errors?.some(e => e.includes('thoughtNumber')) ?? false).toBe(true);
     });
 
     test('빈 thought는 허용되지 않음', () => {
@@ -300,7 +300,7 @@ describe('Sequential Thinking Skill Integration', () => {
 
       expect(validation.valid).toBe(true);  // 유효하지만
       expect(validation.warnings).toBeDefined();  // 경고 발생
-      expect(validation.warnings!.some(w => w.includes('revisesThought'))).toBe(true);
+      expect(validation.warnings?.some(w => w.includes('revisesThought')) ?? false).toBe(true);
     });
 
     test('branchFromThought 있지만 branchId 없으면 경고', () => {
@@ -315,7 +315,7 @@ describe('Sequential Thinking Skill Integration', () => {
 
       expect(validation.valid).toBe(true);
       expect(validation.warnings).toBeDefined();
-      expect(validation.warnings!.some(w => w.includes('branchId'))).toBe(true);
+      expect(validation.warnings?.some(w => w.includes('branchId')) ?? false).toBe(true);
     });
   });
 

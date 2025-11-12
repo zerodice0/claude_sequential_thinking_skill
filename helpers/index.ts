@@ -216,7 +216,7 @@ export function createFinalThought(
 
 // Import statements for type checking
 import {
-  validateThought,
+  validateThought as _validateThought,
   normalizeThought,
   processThought
 } from './sequential-thinking';

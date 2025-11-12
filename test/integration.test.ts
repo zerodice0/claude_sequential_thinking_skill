@@ -4,7 +4,7 @@
  * End-to-end tests for the complete sequential thinking workflow.
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach as _beforeEach } from 'vitest';
 import {
   createSequentialThinking,
   createInitialThought,

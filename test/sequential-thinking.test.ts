@@ -42,7 +42,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('Invalid thought');
+      expect(result.errors?.[0]).toContain('Invalid thought');
     });
 
     it('should reject empty thought string', () => {
@@ -55,7 +55,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('Thought cannot be empty');
+      expect(result.errors?.[0]).toContain('Thought cannot be empty');
     });
 
     it('should reject input with missing thoughtNumber', () => {
@@ -67,7 +67,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('Invalid thoughtNumber');
+      expect(result.errors?.[0]).toContain('Invalid thoughtNumber');
     });
 
     it('should reject input with non-number thoughtNumber', () => {
@@ -92,7 +92,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('must be at least 1');
+      expect(result.errors?.[0]).toContain('must be at least 1');
     });
 
     it('should reject input with missing totalThoughts', () => {
@@ -104,7 +104,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('Invalid totalThoughts');
+      expect(result.errors?.[0]).toContain('Invalid totalThoughts');
     });
 
     it('should reject input with non-number totalThoughts', () => {
@@ -128,7 +128,7 @@ describe('Sequential Thinking - Validation', () => {
 
       const result = validateThought(input);
       expect(result.valid).toBe(false);
-      expect(result.errors![0]).toContain('Invalid nextThoughtNeeded');
+      expect(result.errors?.[0]).toContain('Invalid nextThoughtNeeded');
     });
 
     it('should reject input with non-boolean nextThoughtNeeded', () => {
@@ -155,7 +155,7 @@ describe('Sequential Thinking - Validation', () => {
       const result = validateThought(input);
       expect(result.valid).toBe(true);
       expect(result.warnings).toBeDefined();
-      expect(result.warnings![0]).toContain('revisesThought is not specified');
+      expect(result.warnings?.[0]).toContain('revisesThought is not specified');
     });
 
     it('should warn if branchFromThought without branchId', () => {
@@ -170,7 +170,7 @@ describe('Sequential Thinking - Validation', () => {
       const result = validateThought(input);
       expect(result.valid).toBe(true);
       expect(result.warnings).toBeDefined();
-      expect(result.warnings![0]).toContain('branchId is missing');
+      expect(result.warnings?.[0]).toContain('branchId is missing');
     });
 
     it('should warn if thoughtNumber exceeds totalThoughts', () => {
@@ -184,7 +184,7 @@ describe('Sequential Thinking - Validation', () => {
       const result = validateThought(input);
       expect(result.valid).toBe(true);
       expect(result.warnings).toBeDefined();
-      expect(result.warnings![0]).toContain('exceeds totalThoughts');
+      expect(result.warnings?.[0]).toContain('exceeds totalThoughts');
     });
   });
 
@@ -371,7 +371,7 @@ describe('Sequential Thinking - Processing', () => {
 
       expect(result.branches).toContain('branch-a');
       expect(result.branches).toContain('branch-b');
-      expect(result.branches!.length).toBe(2);
+      expect(result.branches?.length ?? 0).toBe(2);
       expect(result.thoughtHistoryLength).toBe(3);
     });
 
@@ -398,7 +398,7 @@ describe('Sequential Thinking - Processing', () => {
       const result = processThought(input2, { sessionState });
 
       expect(result.branches).toContain('branch-a');
-      expect(result.branches!.length).toBe(1);
+      expect(result.branches?.length ?? 0).toBe(1);
     });
   });
 
@@ -496,7 +496,7 @@ describe('Sequential Thinking - Session Management', () => {
 
       const found = findThought(sessionState, 2);
       expect(found).toBeDefined();
-      expect(found!.thought).toBe('Test thought');
+      expect(found?.thought).toBe('Test thought');
     });
 
     it('should return undefined for non-existent thought', () => {

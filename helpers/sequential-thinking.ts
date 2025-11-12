@@ -209,7 +209,9 @@ function updateSessionState(state: SessionState, thought: ThoughtData): void {
         thoughts: []
       };
     }
-    state.branches[thought.branchId].thoughts.push(entry);
+    if (state.branches[thought.branchId]) {
+      state.branches[thought.branchId].thoughts.push(entry);
+    }
   }
 }
 

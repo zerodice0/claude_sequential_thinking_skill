@@ -55,7 +55,7 @@ export function formatThought(
   } else if (branchFromThought) {
     emoji = useEmoji ? '🌿' : '[Branch]';
     context = ` (from thought ${branchFromThought}${branchId ? `, ID: ${branchId}` : ''})`;
-  } else if (thoughtNumber === totalThoughts && !nextThoughtNeeded) {
+  } else if (thoughtNumber === totalThoughts) {
     emoji = useEmoji ? '💡' : '[Insight]';
     context = '';
   } else {

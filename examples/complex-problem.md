@@ -1,108 +1,110 @@
 # Example: Complex Architecture Decision
 
-복잡한 아키텍처 결정에 sequential thinking을 적용하는 예시입니다.
+> English | **[한국어](complex-problem-kr.md)**
+
+Example demonstrating how to apply sequential thinking to complex architecture decisions.
 
 ## Problem Statement
 
-**상황**: 레거시 모놀리식 애플리케이션이 확장성 문제에 직면
+**Situation**: Legacy monolithic application facing scalability issues
 
-**현재 상태**:
-- 단일 Rails 애플리케이션 (10년 history)
-- 100만 DAU, 점점 증가 중
-- 배포 시간 2시간
-- 팀 규모: 20명 개발자
+**Current State**:
+- Single Rails application (10-year history)
+- 1 million DAU, continuously growing
+- 2-hour deployment time
+- Team size: 20 developers
 
-**문제**:
-- 배포 느림 (전체 재시작 필요)
-- 스케일링 어려움 (수직 확장만 가능)
-- 팀 간 코드 충돌 빈번
-- 새 기능 추가 어려움
+**Problems**:
+- Slow deployments (full restart required)
+- Scaling difficulties (only vertical scaling possible)
+- Frequent code conflicts between teams
+- Difficulty adding new features
 
-**질문**: "마이크로서비스로 전환해야 할까요?"
+**Question**: "Should we migrate to microservices?"
 
 ---
 
 ## Sequential Thinking Process
 
 ```
-💭 Thought 1/12: 현재 시스템의 정확한 문제점 파악
+💭 Thought 1/12: Identifying exact problems with current system
 
-**기술적 문제:**
-- 배포: 전체 시스템 재시작 필요
-- 확장: CPU/메모리 중 하나만 병목이어도 전체 확장
-- 기술 스택: 레거시 Ruby 버전, 업그레이드 리스크
-- 데이터베이스: 단일 PostgreSQL, 읽기 병목
+**Technical Issues:**
+- Deployment: Full system restart required
+- Scaling: Must scale entire system even if only CPU or memory is bottlenecked
+- Tech stack: Legacy Ruby version, high upgrade risk
+- Database: Single PostgreSQL, read bottleneck
 
-**조직적 문제:**
-- 팀 의존성: 모든 팀이 같은 코드베이스
-- 배포 조율: 여러 팀의 변경사항 동시 배포
-- 온보딩: 신규 개발자가 전체 시스템 이해 필요
-- 책임 범위: 누가 어느 코드를 소유하는지 불명확
-
----
-
-💭 Thought 2/12: 비즈니스 목표와 제약사항
-
-**비즈니스 목표:**
-- 3배 트래픽 증가 대응 (3년 내)
-- 배포 빈도 증가 (현재 주 1회 → 일 10회)
-- 신규 기능 출시 속도 2배
-- 시스템 안정성 유지 (99.9% → 99.95%)
-
-**제약사항:**
-- 예산: 리팩토링에 3개월 팀 시간 할애 가능
-- 리스크: 서비스 중단 불가
-- 팀: 현재 팀으로 유지 및 운영
-- 레거시: 기존 기능 모두 유지
+**Organizational Issues:**
+- Team dependencies: All teams work in same codebase
+- Deployment coordination: Multiple teams' changes deployed simultaneously
+- Onboarding: New developers must understand entire system
+- Responsibility boundaries: Unclear code ownership
 
 ---
 
-💭 Thought 3/12: 세 가지 주요 전략 식별
+💭 Thought 2/12: Business goals and constraints
 
-1. **Keep Monolith** - 최적화만 수행
-2. **Hybrid (Modular Monolith)** - 내부 모듈화
-3. **Microservices** - 완전 분리
+**Business Goals:**
+- Handle 3x traffic increase (within 3 years)
+- Increase deployment frequency (currently weekly → 10x daily)
+- Double new feature release speed
+- Maintain system stability (99.9% → 99.95%)
 
-각 전략을 브랜치로 평가
-
----
-
-🌿 [Branch: keep-monolith] Thought 4a/12: 모놀리스 최적화 전략
-
-**접근법:**
-- 수평 확장 가능하도록 stateless 리팩토링
-- 데이터베이스 읽기 replica 추가
-- 캐싱 강화 (Redis)
-- 코드 모듈화 (namespace 분리)
-- 배포 최적화 (blue-green, canary)
-
-**장점:**
-✅ 최소 리스크
-✅ 빠른 구현 (1-2개월)
-✅ 팀 러닝 커브 없음
-✅ 기존 도구/프로세스 유지
-
-**단점:**
-❌ 근본적 확장성 해결 안됨
-❌ 팀 의존성 지속
-❌ 장기적으로 한계 도달
-
-**예상 결과:**
-- 트래픽 1.5배까지 대응 가능
-- 배포 시간 1시간으로 단축
-- 2년 후 다시 같은 문제
+**Constraints:**
+- Budget: Can allocate 3 months of team time to refactoring
+- Risk: No service interruption tolerated
+- Team: Maintain and operate with current team
+- Legacy: Must preserve all existing functionality
 
 ---
 
-🌿 [Branch: modular-monolith] Thought 4b/12: 모듈러 모놀리스 전략
+💭 Thought 3/12: Identifying three main strategies
 
-**접근법:**
-- 애플리케이션 내부를 명확한 모듈로 분리
-- 각 모듈은 독립적 API 제공
-- 같은 프로세스, 다른 네임스페이스
-- 팀별 모듈 소유권 명확화
+1. **Keep Monolith** - Optimize only
+2. **Hybrid (Modular Monolith)** - Internal modularization
+3. **Microservices** - Complete separation
 
-**구조 예:**
+Evaluate each strategy as a branch
+
+---
+
+🌿 [Branch: keep-monolith] Thought 4a/12: Monolith optimization strategy
+
+**Approach:**
+- Refactor to stateless for horizontal scaling
+- Add database read replicas
+- Strengthen caching (Redis)
+- Code modularization (namespace separation)
+- Deployment optimization (blue-green, canary)
+
+**Pros:**
+✅ Minimum risk
+✅ Fast implementation (1-2 months)
+✅ No team learning curve
+✅ Maintain existing tools/processes
+
+**Cons:**
+❌ Doesn't solve fundamental scalability
+❌ Team dependencies persist
+❌ Long-term limitations inevitable
+
+**Expected Results:**
+- Can handle up to 1.5x traffic
+- Deployment time reduced to 1 hour
+- Same problems resurface in 2 years
+
+---
+
+🌿 [Branch: modular-monolith] Thought 4b/12: Modular monolith strategy
+
+**Approach:**
+- Separate application internals into clear modules
+- Each module provides independent API
+- Same process, different namespaces
+- Clarify team ownership per module
+
+**Structure Example:**
 ```
 monolith/
 ├── modules/
@@ -115,33 +117,33 @@ monolith/
     └── common_libs
 ```
 
-**장점:**
-✅ 점진적 전환 가능
-✅ 팀 자율성 증가
-✅ 배포는 여전히 단순
-✅ 마이크로서비스로의 중간 단계
+**Pros:**
+✅ Gradual transition possible
+✅ Increased team autonomy
+✅ Deployment remains simple
+✅ Intermediate step to microservices
 
-**단점:**
-❌ 여전히 단일 배포 단위
-❌ 스케일링 제한
-❌ 모듈 경계 설정의 어려움
+**Cons:**
+❌ Still single deployment unit
+❌ Limited scaling
+❌ Difficulty setting module boundaries
 
-**예상 결과:**
-- 트래픽 2배까지 대응
-- 팀 생산성 30% 향상
-- 향후 마이크로서비스 전환 용이
+**Expected Results:**
+- Handle up to 2x traffic
+- 30% team productivity improvement
+- Easier future microservices transition
 
 ---
 
-🌿 [Branch: microservices] Thought 4c/12: 마이크로서비스 전략
+🌿 [Branch: microservices] Thought 4c/12: Microservices strategy
 
-**접근법:**
-- 도메인별 독립 서비스 분리
-- 각 서비스는 독립 배포/확장
-- API Gateway 도입
-- 서비스 간 통신: REST/gRPC
+**Approach:**
+- Separate independent services by domain
+- Each service independently deployed/scaled
+- Introduce API Gateway
+- Inter-service communication: REST/gRPC
 
-**목표 아키텍처:**
+**Target Architecture:**
 ```
 API Gateway
 ├── User Service
@@ -151,129 +153,129 @@ API Gateway
 └── Notification Service
 ```
 
-**장점:**
-✅ 완전한 독립 확장
-✅ 팀 완전 자율성
-✅ 기술 스택 자유
-✅ 장애 격리
+**Pros:**
+✅ Complete independent scaling
+✅ Full team autonomy
+✅ Technology stack freedom
+✅ Failure isolation
 
-**단점:**
-❌ 높은 복잡도
-❌ 운영 부담 증가 (모니터링, 배포)
-❌ 네트워크 레이턴시
-❌ 분산 트랜잭션 어려움
-❌ 긴 전환 기간 (6-12개월)
+**Cons:**
+❌ High complexity
+❌ Increased operational burden (monitoring, deployment)
+❌ Network latency
+❌ Distributed transaction challenges
+❌ Long transition period (6-12 months)
 
-**예상 결과:**
-- 무한 확장 가능
-- 팀 생산성 2배
-- 하지만 초기 생산성 저하
-
----
-
-💭 Thought 5/12: 각 전략의 비용-효과 분석
-
-| 기준 | Keep | Modular | Microservices |
-|------|------|---------|---------------|
-| 구현 비용 | $50K | $200K | $800K |
-| 시간 | 1-2개월 | 3-4개월 | 8-12개월 |
-| 확장성 | 1.5x | 2x | 무한 |
-| 팀 생산성 | 10% ↑ | 30% ↑ | 100% ↑ (장기) |
-| 운영 복잡도 | 현재 유지 | +20% | +100% |
-| 리스크 | 낮음 | 중간 | 높음 |
+**Expected Results:**
+- Infinite scalability potential
+- 2x team productivity
+- But initial productivity decrease
 
 ---
 
-💭 Thought 6/12: 3년 로드맵 관점에서 재평가
+💭 Thought 5/12: Cost-effectiveness analysis for each strategy
 
-**중요한 인사이트:**
-- 목표는 3년 내 3배 트래픽
-- 단계적 접근이 가능한가?
-
-**새로운 전략: Strangler Fig Pattern**
-1. Year 1: Modular Monolith로 전환
-2. Year 2: 핵심 서비스부터 점진적 분리
-3. Year 3: 완전한 마이크로서비스
+| Criteria | Keep | Modular | Microservices |
+|----------|------|---------|---------------|
+| Implementation cost | $50K | $200K | $800K |
+| Time | 1-2 months | 3-4 months | 8-12 months |
+| Scalability | 1.5x | 2x | Infinite |
+| Team productivity | 10% ↑ | 30% ↑ | 100% ↑ (long-term) |
+| Operational complexity | Maintained | +20% | +100% |
+| Risk | Low | Medium | High |
 
 ---
 
-💡 Thought 7/12: 핵심 발견 - 단계적 하이브리드 접근
+💭 Thought 6/12: Re-evaluating from 3-year roadmap perspective
 
-**최적 전략:**
-Modular Monolith로 시작 → 점진적 Microservices 전환
+**Important Insight:**
+- Goal is 3x traffic in 3 years
+- Is phased approach possible?
+
+**New Strategy: Strangler Fig Pattern**
+1. Year 1: Transition to Modular Monolith
+2. Year 2: Gradually separate core services
+3. Year 3: Complete microservices
+
+---
+
+💡 Thought 7/12: Key finding - Phased hybrid approach
+
+**Optimal Strategy:**
+Start with Modular Monolith → Gradual Microservices transition
 
 **Phase 1 (Month 1-4): Modular Monolith**
-- 내부 모듈 경계 명확히
-- 팀별 소유권 설정
-- 모듈 간 인터페이스 정의
-- CI/CD 개선
+- Clarify internal module boundaries
+- Establish team ownership
+- Define inter-module interfaces
+- Improve CI/CD
 
-**Phase 2 (Month 5-8): 첫 서비스 분리**
-- 가장 독립적인 서비스 선택 (예: Notification)
-- 마이크로서비스 인프라 구축
+**Phase 2 (Month 5-8): First service separation**
+- Choose most independent service (e.g., Notification)
+- Build microservices infrastructure
   - API Gateway
   - Service Mesh (optional)
   - Monitoring/Logging
-- 학습 곡선 극복
+- Overcome learning curve
 
-**Phase 3 (Month 9-12): 핵심 서비스 분리**
+**Phase 3 (Month 9-12): Core services separation**
 - Payment Service
 - User Service
-- 나머지는 모놀리스 유지
+- Keep rest as monolith
 
-**Year 2+: 점진적 계속 전환**
-- 필요한 서비스만 분리
-- 비즈니스 가치 기준 우선순위
+**Year 2+: Continue gradual transition**
+- Separate only necessary services
+- Prioritize by business value
 
 ---
 
-✅ Thought 12/12 [Complete]: 최종 권장 아키텍처 및 실행 계획
+✅ Thought 12/12 [Complete]: Final recommended architecture and execution plan
 
-**권장 전략: Strangler Fig Pattern (점진적 전환)**
+**Recommended Strategy: Strangler Fig Pattern (gradual transition)**
 
 ### Phase 1: Foundation (Month 1-4)
 
-**목표:** 모듈러 모놀리스로 전환
+**Goal:** Transition to modular monolith
 
-**작업:**
-1. 도메인 경계 설계
-   - 팀과 워크샵 (2주)
-   - Bounded Context 정의
-   - 모듈 간 의존성 맵핑
+**Tasks:**
+1. Domain boundary design
+   - Workshop with teams (2 weeks)
+   - Define Bounded Contexts
+   - Map inter-module dependencies
 
-2. 코드 리팩토링
-   - 모듈별 네임스페이스 분리
-   - 순환 의존성 제거
-   - Interface 명확화
+2. Code refactoring
+   - Separate module namespaces
+   - Remove circular dependencies
+   - Clarify interfaces
 
-3. 팀 재구성
-   - 모듈별 소유권 할당
-   - Code Owner 설정
-   - 독립 배포 프로세스 시작
+3. Team reorganization
+   - Assign module ownership
+   - Set up Code Owners
+   - Start independent deployment process
 
-**예상 효과:**
-- 배포 충돌 50% 감소
-- 팀 생산성 20% 향상
+**Expected Effects:**
+- 50% reduction in deployment conflicts
+- 20% team productivity improvement
 
 ### Phase 2: First Microservice (Month 5-8)
 
-**목표:** 첫 서비스 분리 및 인프라 구축
+**Goal:** Separate first service and build infrastructure
 
-**선택:** Notification Service
-**이유:**
-- 명확한 경계
-- 낮은 의존성
-- 높은 트래픽 (독립 확장 필요)
-- 실패 시 영향 제한적
+**Choice:** Notification Service
+**Reasons:**
+- Clear boundaries
+- Low dependencies
+- High traffic (needs independent scaling)
+- Limited impact if failure occurs
 
-**인프라:**
+**Infrastructure:**
 ```
 ┌─────────────────────┐
 │  API Gateway        │
 ├─────────────────────┤
 │  Monolith (Core)    │
 ├─────────────────────┤
-│  Notification       │  ← 첫 분리 서비스
+│  Notification       │  ← First separated service
 │  Service            │
 ├─────────────────────┤
 │  Monitoring         │
@@ -281,94 +283,94 @@ Modular Monolith로 시작 → 점진적 Microservices 전환
 └─────────────────────┘
 ```
 
-**학습 포인트:**
-- 서비스 간 통신 패턴
-- 장애 처리
-- 모니터링
-- 배포 자동화
+**Learning Points:**
+- Inter-service communication patterns
+- Failure handling
+- Monitoring
+- Deployment automation
 
 ### Phase 3: Core Services (Month 9-12)
 
-**분리 우선순위:**
-1. Payment Service (높은 격리 필요)
-2. User Service (많은 다른 서비스가 의존)
+**Separation Priority:**
+1. Payment Service (needs high isolation)
+2. User Service (many other services depend on it)
 
-**나머지:** 당분간 모놀리스 유지
+**Rest:** Maintain as monolith for now
 
 ### Success Metrics
 
-**기술 지표:**
-- 배포 빈도: 주 1회 → 일 5회
-- 배포 시간: 2시간 → 15분
-- 장애 복구: 1시간 → 10분
-- 확장성: 2배 → 5배
+**Technical Metrics:**
+- Deployment frequency: weekly → 5x daily
+- Deployment time: 2 hours → 15 minutes
+- Failure recovery: 1 hour → 10 minutes
+- Scalability: 2x → 5x
 
-**비즈니스 지표:**
-- 기능 출시: 월 2개 → 월 8개
-- 팀 생산성: +50%
-- 시스템 가용성: 99.9% → 99.95%
+**Business Metrics:**
+- Feature releases: 2/month → 8/month
+- Team productivity: +50%
+- System availability: 99.9% → 99.95%
 
 ### Risk Management
 
-**주요 리스크:**
-1. 분산 트랜잭션
-   → Saga 패턴 사용
+**Key Risks:**
+1. Distributed transactions
+   → Use Saga pattern
 
-2. 네트워크 레이턴시
-   → 캐싱, 비동기 통신
+2. Network latency
+   → Caching, asynchronous communication
 
-3. 운영 복잡도
-   → 자동화, 관측성 도구
+3. Operational complexity
+   → Automation, observability tools
 
-4. 팀 학습 곡선
-   → 점진적 전환, 교육
+4. Team learning curve
+   → Gradual transition, training
 
 ---
 
 ## Results & Insights
 
-### 의사결정 과정
+### Decision-making Process
 
-1. **3개 브랜치 평가**
-   - 각 접근법의 장단점 명확화
-   - 비용-효과 분석
+1. **3-branch evaluation**
+   - Clarified pros/cons of each approach
+   - Cost-effectiveness analysis
 
-2. **재평가 단계**
-   - 3년 로드맵 고려
-   - 단계적 접근 발견
+2. **Re-evaluation phase**
+   - Considered 3-year roadmap
+   - Discovered phased approach
 
-3. **최종 전략**
-   - 하이브리드 접근
-   - Strangler Fig 패턴
+3. **Final strategy**
+   - Hybrid approach
+   - Strangler Fig pattern
 
 ### Key Learnings
 
-1. **이분법적 선택 피하기**
-   - "모놀리스 vs 마이크로서비스"가 아님
-   - 스펙트럼 상의 여러 옵션
+1. **Avoid binary choices**
+   - Not "monolith vs microservices"
+   - Multiple options on a spectrum
 
-2. **시간 축 고려**
-   - 단기 vs 장기 트레이드오프
-   - 점진적 전환의 가치
+2. **Consider time dimension**
+   - Short-term vs long-term trade-offs
+   - Value of gradual transition
 
-3. **리스크 관리**
-   - 한 번에 모든 것을 바꾸지 않음
-   - 학습하며 진화
+3. **Risk management**
+   - Don't change everything at once
+   - Evolve while learning
 
-4. **비즈니스 맥락**
-   - 기술 결정이 아닌 비즈니스 결정
-   - ROI 중심 사고
+4. **Business context**
+   - Not technical decision but business decision
+   - ROI-centric thinking
 
 ---
 
 ## Exercise
 
-다음 복잡한 문제에 적용해보세요:
+Apply this to the following complex problem:
 
-**문제**: "Legacy PHP 애플리케이션을 현대화해야 합니다. Go로 전환할까요, Node.js로 전환할까요, 아니면 PHP 8로 업그레이드할까요?"
+**Problem**: "We need to modernize a legacy PHP application. Should we migrate to Go, Node.js, or upgrade to PHP 8?"
 
-**힌트:**
-- 3개 브랜치 생성
-- 비용, 시간, 리스크 평가
-- 팀 역량 고려
-- 단계적 전환 가능성
+**Hints:**
+- Create 3 branches
+- Evaluate cost, time, risk
+- Consider team capabilities
+- Explore phased transition possibilities

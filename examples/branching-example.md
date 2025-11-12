@@ -1,181 +1,183 @@
 # Example: Branching for Multiple Approaches
 
-분기 기능을 활용하여 여러 접근법을 동시에 탐색하는 예시입니다.
+> English | **[한국어](branching-example-kr.md)**
+
+Example demonstrating how to explore multiple approaches simultaneously using the branching feature.
 
 ## Problem Statement
 
-**상황**: 대용량 로그 데이터를 처리하는 시스템 설계
+**Situation**: Designing a system to process large-scale log data
 
-**요구사항**:
-- 일일 100GB 로그 데이터 처리
-- 실시간 검색 및 분석 필요
-- 로그 보존 기간: 90일
-- 예산: 월 $1000 이내
+**Requirements**:
+- Process 100GB of log data daily
+- Real-time search and analysis required
+- Log retention period: 90 days
+- Budget: Within $1000/month
 
-**질문**: "어떤 아키텍처를 선택해야 할까요?"
+**Question**: "Which architecture should we choose?"
 
 ---
 
 ## Sequential Thinking with Branching
 
 ```
-💭 Thought 1/10: 문제 정의 및 요구사항 분석
+💭 Thought 1/10: Problem definition and requirements analysis
 
-핵심 요구사항:
-- 데이터 볼륨: 100GB/일 = 3TB/월 = 9TB/90일
-- 성능: 실시간 인덱싱 및 검색
-- 쿼리: 로그 검색, 집계, 시각화
-- 비용: 월 $1000 제약
+Core requirements:
+- Data volume: 100GB/day = 3TB/month = 9TB/90 days
+- Performance: Real-time indexing and search
+- Queries: Log search, aggregation, visualization
+- Cost: $1000/month constraint
 
 ---
 
-💭 Thought 2/10: 주요 옵션 식별
+💭 Thought 2/10: Identifying major options
 
-세 가지 주요 접근법:
+Three main approaches:
 1. ELK Stack (Elasticsearch, Logstash, Kibana)
 2. Managed Service (AWS CloudWatch, Datadog)
-3. ClickHouse (OLAP 데이터베이스)
+3. ClickHouse (OLAP database)
 
-각각 독립적으로 평가하기 위해 3개 브랜치 생성
-
----
-
-🌿 [Branch: elk-stack] Thought 3a/10: ELK Stack 접근
-
-**장점:**
-✅ 오픈소스 (라이선스 비용 없음)
-✅ 강력한 검색 기능
-✅ 풍부한 커뮤니티 및 플러그인
-✅ 완전한 제어권
-
-**단점:**
-❌ 직접 운영 부담
-❌ 높은 리소스 요구 (RAM, CPU)
-❌ 복잡한 설정 및 튜닝
-❌ 모니터링 및 유지보수 필요
-
-**비용 예상 (AWS 기준):**
-- EC2 instances: $400/월 (m5.xlarge × 3)
-- EBS storage: $300/월 (9TB × $0.10)
-- 총: $700/월 + 운영 시간
-
-**구현 복잡도:** 높음
-**예상 구축 기간:** 4-6주
+Creating 3 branches to evaluate each independently
 
 ---
 
-🌿 [Branch: managed-service] Thought 3b/10: Managed Service 접근
+🌿 [Branch: elk-stack] Thought 3a/10: ELK Stack approach
 
-**장점:**
-✅ 즉시 사용 가능
-✅ 자동 확장
-✅ 관리 부담 최소화
-✅ 기본 제공되는 통합 및 대시보드
+**Pros:**
+✅ Open source (no licensing costs)
+✅ Powerful search capabilities
+✅ Rich community and plugins
+✅ Complete control
 
-**단점:**
-❌ 높은 비용
-❌ 데이터 볼륨에 따른 급증
-❌ 제한된 커스터마이징
-❌ 벤더 락인
+**Cons:**
+❌ Operational burden of self-hosting
+❌ High resource requirements (RAM, CPU)
+❌ Complex setup and tuning
+❌ Monitoring and maintenance required
 
-**비용 예상:**
-- AWS CloudWatch Logs: $0.50/GB 수집 + $0.03/GB 저장
-  - 수집: $1,500/월 (100GB/일)
-  - 저장: $270/월 (9TB)
-  - 총: ~$1,770/월 ← 예산 초과!
+**Cost estimate (AWS basis):**
+- EC2 instances: $400/month (m5.xlarge × 3)
+- EBS storage: $300/month (9TB × $0.10)
+- Total: $700/month + operational time
 
-- Datadog: 유사하거나 더 높음
-
-**구현 복잡도:** 낮음
-**예상 구축 기간:** 1주
+**Implementation complexity:** High
+**Estimated build time:** 4-6 weeks
 
 ---
 
-🌿 [Branch: clickhouse] Thought 3c/10: ClickHouse OLAP 접근
+🌿 [Branch: managed-service] Thought 3b/10: Managed Service approach
 
-**장점:**
-✅ 컬럼 기반 DB (로그 분석에 최적화)
-✅ 매우 빠른 집계 쿼리
-✅ 높은 압축률 (5-10배)
-✅ 오픈소스
+**Pros:**
+✅ Immediately available
+✅ Auto-scaling
+✅ Minimal management burden
+✅ Built-in integrations and dashboards
 
-**단점:**
-❌ 전문 검색 기능 제한적
-❌ 러닝 커브
-❌ 생태계가 ELK보다 작음
-❌ 직접 운영 필요
+**Cons:**
+❌ High cost
+❌ Rapid increase with data volume
+❌ Limited customization
+❌ Vendor lock-in
 
-**비용 예상:**
-- EC2: $200/월 (m5.large × 2)
-- Storage: $90/월 (1TB after compression)
-- 총: $290/월 ← 예산 내!
+**Cost estimate:**
+- AWS CloudWatch Logs: $0.50/GB ingestion + $0.03/GB storage
+  - Ingestion: $1,500/month (100GB/day)
+  - Storage: $270/month (9TB)
+  - Total: ~$1,770/month ← Budget exceeded!
 
-**구현 복잡도:** 중간
-**예상 구축 기간:** 2-3주
+- Datadog: Similar or higher
 
----
-
-💭 Thought 4/10: 각 브랜치의 핵심 trade-off 비교
-
-| 기준 | ELK | Managed | ClickHouse |
-|------|-----|---------|------------|
-| **비용** | $700 | $1,770 ❌ | $290 ✅ |
-| **운영 부담** | 높음 | 낮음 ✅ | 중간 |
-| **검색 기능** | 최고 ✅ | 좋음 | 제한적 |
-| **구축 시간** | 6주 | 1주 ✅ | 3주 |
-| **확장성** | 좋음 | 최고 ✅ | 매우 좋음 |
+**Implementation complexity:** Low
+**Estimated build time:** 1 week
 
 ---
 
-💭 Thought 5/10: 실제 사용 패턴 고려
+🌿 [Branch: clickhouse] Thought 3c/10: ClickHouse OLAP approach
 
-로그 분석 워크로드 분석:
-- 70%: 시계열 집계 (시간별 에러 수 등)
-- 20%: 필터링 및 그룹화
-- 10%: 전문 검색 (특정 메시지 찾기)
+**Pros:**
+✅ Column-based DB (optimized for log analysis)
+✅ Very fast aggregation queries
+✅ High compression ratio (5-10x)
+✅ Open source
 
-**인사이트:**
-- 대부분이 OLAP 스타일 쿼리
-- 전문 검색은 보조적
-- ClickHouse의 강점이 잘 맞음
+**Cons:**
+❌ Limited full-text search capabilities
+❌ Learning curve
+❌ Smaller ecosystem than ELK
+❌ Self-hosting required
 
----
+**Cost estimate:**
+- EC2: $200/month (m5.large × 2)
+- Storage: $90/month (1TB after compression)
+- Total: $290/month ← Within budget!
 
-💭 Thought 6/10: 하이브리드 접근 고려
-
-**아이디어:** ClickHouse + Elasticsearch Lite
-
-ClickHouse를 메인으로:
-- 시계열 데이터 저장 및 분석
-- 집계 및 대시보드
-
-Elasticsearch 작은 클러스터:
-- 최근 7일 로그만 인덱싱
-- 전문 검색 전용
-- 비용: +$200/월
-
-총 비용: $490/월 (예산 내)
+**Implementation complexity:** Medium
+**Estimated build time:** 2-3 weeks
 
 ---
 
-💡 Thought 7/10: 핵심 발견 - ClickHouse가 최적
+💭 Thought 4/10: Comparing core trade-offs of each branch
 
-분석 결과:
-1. ClickHouse 단독 사용 추천
-2. 이유:
-   - 예산의 30%만 사용 ($290/$1000)
-   - 워크로드의 90%를 효과적으로 처리
-   - 나머지 예산으로 모니터링 도구 추가 가능
-
-3. 전문 검색 제한은:
-   - 로그 구조화로 보완 (JSON 필드 검색)
-   - 필요시 소규모 Elasticsearch 추가
+| Criteria | ELK | Managed | ClickHouse |
+|----------|-----|---------|------------|
+| **Cost** | $700 | $1,770 ❌ | $290 ✅ |
+| **Operational burden** | High | Low ✅ | Medium |
+| **Search capability** | Best ✅ | Good | Limited |
+| **Build time** | 6 weeks | 1 week ✅ | 3 weeks |
+| **Scalability** | Good | Best ✅ | Very good |
 
 ---
 
-✅ Thought 10/10 [Complete]: 최종 권장 아키텍처
+💭 Thought 5/10: Considering actual usage patterns
 
-**선택: ClickHouse 기반 아키텍처**
+Log analysis workload breakdown:
+- 70%: Time-series aggregation (hourly error counts, etc.)
+- 20%: Filtering and grouping
+- 10%: Full-text search (finding specific messages)
+
+**Insight:**
+- Mostly OLAP-style queries
+- Full-text search is supplementary
+- Aligns well with ClickHouse's strengths
+
+---
+
+💭 Thought 6/10: Considering hybrid approach
+
+**Idea:** ClickHouse + Elasticsearch Lite
+
+ClickHouse as primary:
+- Store and analyze time-series data
+- Aggregation and dashboards
+
+Small Elasticsearch cluster:
+- Index only last 7 days of logs
+- Dedicated to full-text search
+- Cost: +$200/month
+
+Total cost: $490/month (within budget)
+
+---
+
+💡 Thought 7/10: Key finding - ClickHouse is optimal
+
+Analysis results:
+1. Recommend standalone ClickHouse
+2. Reasons:
+   - Uses only 30% of budget ($290/$1000)
+   - Handles 90% of workload effectively
+   - Remaining budget allows adding monitoring tools
+
+3. Full-text search limitation:
+   - Compensate with structured logging (JSON field search)
+   - Add small-scale Elasticsearch if needed
+
+---
+
+✅ Thought 10/10 [Complete]: Final recommended architecture
+
+**Choice: ClickHouse-based architecture**
 
 ### Architecture
 
@@ -192,18 +194,18 @@ Grafana (Visualization)
 ### Implementation Plan
 
 **Week 1-2:**
-- ClickHouse 클러스터 설치
-- 스키마 설계
-- Vector 설정
+- Install ClickHouse cluster
+- Design schema
+- Configure Vector
 
 **Week 3:**
-- 데이터 수집 파이프라인 구축
-- 기본 쿼리 작성
+- Build data collection pipeline
+- Write basic queries
 
 **Week 4:**
-- Grafana 대시보드 생성
-- 알림 설정
-- 성능 튜닝
+- Create Grafana dashboards
+- Set up alerts
+- Performance tuning
 
 ### Cost Breakdown
 
@@ -214,50 +216,50 @@ Vector (included): $0
 Grafana Cloud Free: $0
 Buffer (20%): $60
 ---
-Total: $350/월 (예산의 35%)
+Total: $350/month (35% of budget)
 ```
 
 ### Success Metrics
 
-- 쿼리 응답 시간 < 1초 (95 percentile)
-- 데이터 지연 < 1분
-- 압축률 > 5x
-- 가용성 > 99.9%
+- Query response time < 1 second (95 percentile)
+- Data latency < 1 minute
+- Compression ratio > 5x
+- Availability > 99.9%
 
 ---
 
 ## Key Learnings
 
-### 브랜치 사용의 이점
+### Benefits of using branches
 
-1. **병렬 평가**: 세 가지 옵션을 동시에 깊이 분석
-2. **편향 방지**: 각 옵션에 공정한 기회
-3. **명확한 비교**: 구조화된 비교표 생성
-4. **최적 선택**: 데이터 기반 의사결정
+1. **Parallel evaluation**: Deep analysis of three options simultaneously
+2. **Bias prevention**: Fair opportunity for each option
+3. **Clear comparison**: Structured comparison table generation
+4. **Optimal choice**: Data-driven decision making
 
-### 브랜치 명명의 중요성
+### Importance of branch naming
 
 - `elk-stack`, `managed-service`, `clickhouse`
-- 명확한 ID로 각 브랜치의 목적 즉시 파악 가능
+- Clear IDs allow immediate understanding of each branch's purpose
 
-### 비교 단계의 필수성
+### Necessity of comparison phase
 
-Thought 4에서 명시적 비교가 결정적:
-- 모든 브랜치의 결과를 한눈에
-- 트레이드오프가 명확히 드러남
-- 객관적 선택 가능
+Explicit comparison in Thought 4 was decisive:
+- All branch results at a glance
+- Trade-offs clearly revealed
+- Objective selection possible
 
 ---
 
 ## Exercise
 
-다음 시나리오에 브랜치를 활용해보세요:
+Apply branching to this scenario:
 
-**문제**: "CI/CD 도구를 선택해야 합니다. Jenkins, GitLab CI, GitHub Actions 중 무엇이 좋을까요?"
+**Problem**: "We need to choose a CI/CD tool. Which is better: Jenkins, GitLab CI, or GitHub Actions?"
 
-**힌트**:
-1. 각 도구마다 브랜치 생성
-2. 동일한 기준으로 평가 (비용, 기능, 유지보수)
-3. 팀 상황 고려
-4. 비교표 작성
-5. 최종 추천
+**Hints**:
+1. Create a branch for each tool
+2. Evaluate using same criteria (cost, features, maintenance)
+3. Consider team situation
+4. Create comparison table
+5. Make final recommendation

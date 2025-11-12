@@ -3,20 +3,22 @@
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![GitHub Stars](https://img.shields.io/github/stars/zerodice0/claude_sequential_thinking_skill)](https://github.com/zerodice0/claude_sequential_thinking_skill/stargazers)
 
-복잡한 문제를 체계적으로 분석하고 해결하는 Claude Code Skill
+> **[한국어 문서](README-kr.md)** | English
+
+A structured thinking framework for Claude Code that enables systematic multi-step reasoning to solve complex problems.
 
 ## 🎯 Overview
 
-Sequential Thinking Skill은 복잡한 문제를 단계적으로 분석하고 해결하기 위한 구조화된 사고 프레임워크입니다. MCP (Model Context Protocol) 서버로 구현된 기능을 Claude Code Skill로 재구현하여, 별도의 서버 설치 없이 TodoWrite 도구를 활용한 체계적인 다단계 추론을 제공합니다.
+Sequential Thinking Skill is a structured reasoning framework designed for systematic analysis and problem-solving. Originally implemented as an MCP (Model Context Protocol) server, it has been reimagined as a Claude Code Skill that leverages TodoWrite for enhanced state management without requiring separate server installation.
 
 ### ✨ Key Features
 
-- 🧠 **단계별 추론**: TodoWrite를 활용하여 각 사고 단계를 명확하게 추적
-- 🌿 **분기 지원**: 동일한 지점에서 여러 접근 방식을 동시에 탐색
-- ✏️ **수정 기능**: 이전 단계로 돌아가 새로운 인사이트 반영
-- 📊 **시각화**: 이모지와 구조화된 출력으로 사고 흐름 표현
-- 🎯 **동적 조정**: 필요에 따라 사고 단계 수를 자동 조정
-- 💾 **상태 지속성**: TodoWrite를 통한 세션 간 상태 유지
+- 🧠 **Step-by-Step Reasoning**: Clear tracking of each thought step using TodoWrite
+- 🌿 **Branching Support**: Explore multiple approaches simultaneously from the same point
+- ✏️ **Revision Capability**: Return to previous steps to incorporate new insights
+- 📊 **Visual Flow**: Structured output with emojis to represent thinking progression
+- 🎯 **Dynamic Adjustment**: Automatically adjusts thought count as needed
+- 💾 **State Persistence**: Cross-session state management through TodoWrite
 
 ---
 
@@ -24,57 +26,126 @@ Sequential Thinking Skill은 복잡한 문제를 단계적으로 분석하고 �
 
 ### Installation
 
-#### Method 1: Via Marketplace (권장, 출시 후)
+#### Method 1: Using Install Script (Recommended)
+
+The easiest and fastest installation method:
+
+```bash
+# Clone repository
+git clone https://github.com/zerodice0/claude_sequential_thinking_skill.git
+cd claude_sequential_thinking_skill
+
+# Run interactive installer
+./install.sh
+
+# Or install directly to global location
+./install.sh --global
+
+# Or install to local project only
+./install.sh --local
+```
+
+The install script automatically:
+- ✅ Creates necessary directories
+- ✅ Copies SKILL.md and slash command files
+- ✅ Verifies installation and provides usage instructions
+
+#### Method 2: Via Marketplace (After official release)
 
 ```bash
 /plugin marketplace add anthropics/skills
 /plugin install sequential-thinking@anthropic-agent-skills
 ```
 
-#### Method 2: GitHub 직접 설치
+#### Method 3: Manual Installation
 
 ```bash
-# Skill 디렉토리 생성
+# Create skill directory
 mkdir -p ~/.claude/skills/sequential-thinking
+mkdir -p ~/.claude/commands/sequential-thinking
 
-# SKILL.md 다운로드
+# Download files
 curl -o ~/.claude/skills/sequential-thinking/SKILL.md \
   https://raw.githubusercontent.com/zerodice0/claude_sequential_thinking_skill/main/SKILL.md
+
+curl -o ~/.claude/commands/sequential-thinking/think.md \
+  https://raw.githubusercontent.com/zerodice0/claude_sequential_thinking_skill/main/.claude/commands/think.md
+
+curl -o ~/.claude/commands/sequential-thinking/analyze.md \
+  https://raw.githubusercontent.com/zerodice0/claude_sequential_thinking_skill/main/.claude/commands/analyze.md
 ```
 
-#### Method 3: 개발 설치 (Git)
+### Uninstallation
+
+To remove the installation:
 
 ```bash
-git clone https://github.com/zerodice0/claude_sequential_thinking_skill.git \
-  ~/.claude/skills/sequential-thinking
+# Interactive removal
+./uninstall.sh
+
+# Remove global installation
+./uninstall.sh --global
+
+# Remove local installation
+./uninstall.sh --local
+
+# Remove all installations
+./uninstall.sh --all
 ```
 
 ### Basic Usage
 
-Claude Code에서 복잡한 문제를 다룰 때:
+#### Method 1: Using Slash Commands (Recommended)
+
+Quickly activate sequential thinking with slash commands:
+
+```bash
+# Analyze complex problems
+/think How should I design a scalable microservices architecture?
+
+# Quick systematic analysis
+/analyze performance bottleneck in user authentication flow
+```
+
+#### Method 2: Natural Language (Auto-activation)
+
+Automatically activates when dealing with complex problems in Claude Code:
 
 ```
-You: "이 마이크로서비스 아키텍처의 장단점을 체계적으로 분석해줘"
+You: "Systematically analyze the pros and cons of this microservices architecture"
 
-Claude: [sequential-thinking skill 자동 활성화]
+Claude: [sequential-thinking skill auto-activated]
 
-💭 Thought 1/6: 마이크로서비스 아키텍처의 핵심 특성 파악
+💭 Thought 1/6: Understanding core characteristics of microservices
 ...
 ```
 
-스킬은 다음과 같은 경우 자동으로 활성화됩니다:
-- "단계적으로 생각해봐", "체계적으로 분석해줘"
-- 3단계 이상의 추론이 필요한 복잡한 문제
-- 여러 옵션을 비교하고 평가하는 상황
+The skill automatically activates when:
+- "Think step by step", "Systematically analyze"
+- Complex problems requiring 3+ reasoning steps
+- Situations involving comparison and evaluation of multiple options
+
+#### Available Commands
+
+- **`/think [problem]`**: Full sequential thinking activation for complex problems
+- **`/analyze [topic]`**: Streamlined version for quick systematic analysis
 
 ---
 
 ## 📚 Documentation
 
-- [📖 User Guide](docs/user-guide.md) - 상세한 사용 가이드
-- [💡 Best Practices](docs/best-practices.md) - 효과적인 사용법
-- [🔄 Migration from MCP](docs/migration-from-mcp.md) - MCP 서버에서 마이그레이션
-- [⚙️ Installation Guide](docs/installation.md) - 설치 방법 상세
+### 🚀 Getting Started
+- [⚡ 5-Minute Quick Start](SKILL.md#-5분-시작-가이드) - Fast tutorial
+- [⚙️ Installation Guide](docs/installation.md) - Detailed installation and verification
+- [⚡ Slash Command Usage](examples/slash-command-usage.md) - `/think` and `/analyze` guide
+
+### 📖 Core Guides
+- [📖 User Guide](docs/user-guide.md) - Complete feature and usage guide
+- [💡 Best Practices](docs/best-practices.md) - Effective usage patterns and guidelines
+
+### 🔄 Migration & Advanced
+- [🔄 Migration from MCP](docs/migration-from-mcp.md) - Migrating from MCP server
+- [🧪 Testing Guide](test/SKILL_TEST_GUIDE.md) - Skill testing guide
 
 ---
 
@@ -82,44 +153,44 @@ Claude: [sequential-thinking skill 자동 활성화]
 
 ### Example 1: Basic Problem Analysis
 
-**Problem**: 새로운 결제 시스템 설계
+**Problem**: Designing a new payment system
 
 ```
-💭 Thought 1/6: 결제 시스템의 핵심 요구사항 파악
-💭 Thought 2/6: 주요 제약사항 및 트레이드오프 식별
-🌿 [Branch A] Thought 3a/8: PG사 직접 연동 접근
-🌿 [Branch B] Thought 3b/8: 자체 결제 시스템 구축
-💭 Thought 4/8: 비용 분석 및 하이브리드 전략 고려
-✅ Thought 6/8 [Complete]: 최종 권장사항 및 실행 계획
+💭 Thought 1/6: Understanding core requirements of payment system
+💭 Thought 2/6: Identifying key constraints and trade-offs
+🌿 [Branch A] Thought 3a/8: Direct PG integration approach
+🌿 [Branch B] Thought 3b/8: Custom payment system approach
+💭 Thought 4/8: Cost analysis and hybrid strategy consideration
+✅ Thought 6/8 [Complete]: Final recommendations and action plan
 ```
 
-[→ 전체 예시 보기](examples/basic-usage.md)
+[→ View full example](examples/basic-usage.md)
 
 ### Example 2: Debugging with Branching
 
-**Problem**: 프로덕션 간헐적 500 에러
+**Problem**: Intermittent 500 errors in production
 
 ```
-💭 Thought 1/7: 문제 현상 정확히 파악
-🔍 Thought 2/7: 로그 및 메트릭 분석
-🌿 [Branch: hypothesis-1] Connection pool 검증
-🌿 [Branch: hypothesis-2] 느린 쿼리 분석
-💡 Thought 5/10: 핵심 발견 - 복합 원인 식별
-✅ Thought 7/10 [Complete]: 실행 계획 및 검증 방법
+💭 Thought 1/7: Accurately identifying problem symptoms
+🔍 Thought 2/7: Analyzing logs and metrics
+🌿 [Branch: hypothesis-1] Connection pool verification
+🌿 [Branch: hypothesis-2] Slow query analysis
+💡 Thought 5/10: Key discovery - identifying compound causes
+✅ Thought 7/10 [Complete]: Action plan and verification method
 ```
 
-[→ 전체 예시 보기](examples/debugging-scenario.md)
+[→ View full example](examples/debugging-scenario.md)
 
 ### Example 3: Architecture Decision
 
-**Problem**: 마이크로서비스 vs 모놀리식
+**Problem**: Microservices vs Monolith
 
-[→ 전체 예시 보기](examples/complex-problem.md)
+[→ View full example](examples/complex-problem.md)
 
 ### More Examples
 
-- [Branching Example](examples/branching-example.md) - 분기 기능 활용
-- [Revision Example](examples/revision-example.md) - 수정 기능 활용
+- [Branching Example](examples/branching-example.md) - Using branching features
+- [Revision Example](examples/revision-example.md) - Using revision features
 
 ---
 
@@ -129,75 +200,75 @@ Claude: [sequential-thinking skill 자동 활성화]
 
 | Feature | MCP Server | Skill |
 |---------|-----------|-------|
-| **Installation** | NPM/Docker 필요 | 단일 파일 복사 |
-| **Setup Time** | 5-10분 | 1분 |
-| **Performance** | ~50ms (IPC 오버헤드) | ~5ms (직접 호출) |
-| **Customization** | 소스 수정 + 빌드 | SKILL.md 직접 편집 |
-| **State Management** | 메모리 (휘발성) | TodoWrite (지속성) |
-| **Debugging** | 외부 프로세스 | 로컬 실행 |
-| **Dependencies** | Node.js, npm | 없음 |
+| **Installation** | Requires NPM/Docker | Single file copy |
+| **Setup Time** | 5-10 minutes | 1 minute |
+| **Performance** | ~50ms (IPC overhead) | ~5ms (direct call) |
+| **Customization** | Source modification + build | Direct SKILL.md editing |
+| **State Management** | Memory (volatile) | TodoWrite (persistent) |
+| **Debugging** | External process | Local execution |
+| **Dependencies** | Node.js, npm | None |
 
 ### When to Use
 
 **Sequential Thinking Skill is best for:**
-- 🎯 복잡한 문제 분석 (3단계 이상)
-- 🔍 체계적인 디버깅 및 조사
-- 🏗️ 아키텍처 및 설계 의사결정
-- 📊 여러 옵션의 장단점 비교
-- 🎨 창의적 문제 해결 및 브레인스토밍
+- 🎯 Complex problem analysis (3+ steps)
+- 🔍 Systematic debugging and investigation
+- 🏗️ Architecture and design decisions
+- 📊 Comparing pros and cons of multiple options
+- 🎨 Creative problem-solving and brainstorming
 
 **Not recommended for:**
-- ❌ 단순한 정보 검색
-- ❌ 1-2단계로 끝나는 간단한 질문
-- ❌ 코드 생성만 필요한 경우
+- ❌ Simple information lookup
+- ❌ Simple questions that end in 1-2 steps
+- ❌ Cases where only code generation is needed
 
 ---
 
 ## 🎓 Core Concepts
 
-### 1. Thoughts (생각)
+### 1. Thoughts
 
-각 사고 단계는 다음 구조를 가집니다:
+Each thought step has the following structure:
 
 ```typescript
 interface ThoughtData {
-  // 필수 필드
-  thought: string;              // 생각 내용
-  thoughtNumber: number;        // 현재 단계
-  totalThoughts: number;        // 총 단계
-  nextThoughtNeeded: boolean;   // 다음 필요 여부
+  // Required fields
+  thought: string;              // Thought content
+  thoughtNumber: number;        // Current step
+  totalThoughts: number;        // Total steps
+  nextThoughtNeeded: boolean;   // Whether next step is needed
 
-  // 선택 필드
-  isRevision?: boolean;         // 수정 여부
-  revisesThought?: number;      // 수정 대상
-  branchId?: string;            // 분기 ID
-  branchFromThought?: number;   // 분기 시작점
+  // Optional fields
+  isRevision?: boolean;         // Whether it's a revision
+  revisesThought?: number;      // Target of revision
+  branchId?: string;            // Branch ID
+  branchFromThought?: number;   // Branch starting point
 }
 ```
 
-### 2. Branching (분기)
+### 2. Branching
 
-여러 접근법을 동시에 탐색:
+Explore multiple approaches simultaneously:
 
 ```
-Thought 1: 문제 정의
-Thought 2: 제약사항 파악
-  ├─ 🌿 Branch A: 성능 우선
+Thought 1: Problem definition
+Thought 2: Constraint identification
+  ├─ 🌿 Branch A: Performance-first
   │   └─ Thought 3a, 4a, 5a
-  └─ 🌿 Branch B: 단순성 우선
+  └─ 🌿 Branch B: Simplicity-first
       └─ Thought 3b, 4b, 5b
-Thought 6: 브랜치 비교 및 결론
+Thought 6: Branch comparison and conclusion
 ```
 
-### 3. Revision (수정)
+### 3. Revision
 
-이전 생각을 재평가하고 개선:
+Re-evaluate and improve previous thoughts:
 
 ```
-Thought 4: MySQL 선택
+Thought 4: Choose MySQL
 ...
-Thought 6: 실시간 분석 요구사항 발견
-Thought 4' (revision): PostgreSQL로 재평가
+Thought 6: Discover real-time analysis requirements
+Thought 4' (revision): Re-evaluate with PostgreSQL
 ```
 
 ---
@@ -225,7 +296,7 @@ Response to User
 
 ### Helper Functions (Optional)
 
-복잡한 시나리오를 위한 TypeScript 헬퍼:
+TypeScript helpers for complex scenarios:
 
 ```typescript
 // helpers/sequential-thinking.ts
@@ -236,7 +307,7 @@ export class SequentialThinkingHelper {
 }
 ```
 
-자세한 내용은 `helpers/` 디렉토리를 참조하세요.
+See the `helpers/` directory for details.
 
 ---
 
@@ -245,7 +316,7 @@ export class SequentialThinkingHelper {
 ### Prerequisites
 
 ```bash
-# Node.js 18+ (헬퍼 개발용, 선택사항)
+# Node.js 18+ (optional, for helper development)
 node --version
 
 # Git
@@ -255,38 +326,81 @@ git --version
 ### Local Development
 
 ```bash
-# Repository 클론
+# Clone repository
 git clone https://github.com/zerodice0/claude_sequential_thinking_skill.git
 cd claude_sequential_thinking_skill
 
-# Dependencies 설치 (헬퍼 개발 시)
+# Install dependencies (for helper development)
 npm install
 
-# 테스트 실행
+# Run tests
 npm test
 
-# SKILL.md 수정 후 로컬 테스트
+# Test locally after modifying SKILL.md
 cp SKILL.md ~/.claude/skills/sequential-thinking/
 ```
 
 ### Running Tests
 
 ```bash
-# 전체 테스트
+# Run all tests
 npm test
 
-# Watch 모드
+# Watch mode
 npm run test:watch
 
 # Coverage
-npm run coverage
+npm run test:coverage
+
+# Integration tests only
+npm run test:integration
+
+# Integration tests watch mode
+npm run test:integration:watch
 ```
+
+### Testing the Skill (Independent of MCP server)
+
+How to test the Skill implementation without conflicts with MCP server:
+
+#### Method 1: Using Test-Specific Skill (Quick test)
+
+```bash
+# 1. Check if test skill is installed
+ls ~/.claude/skills/sequential-thinking-test/
+
+# 2. Explicitly call in prompt
+"Use sequential-thinking-test skill to
+analyze microservices architecture step by step"
+```
+
+#### Method 2: Temporarily Disable MCP Server (Complete test)
+
+```bash
+# 1. Backup MCP settings
+cp "$HOME/Library/Application Support/Claude/claude_desktop_config.json" \
+   "$HOME/Library/Application Support/Claude/claude_desktop_config.json.backup"
+
+# 2. Disable sequential-thinking server in claude_desktop_config.json
+# Rename to "_disabled_sequential-thinking"
+
+# 3. Install Skill
+mkdir -p ~/.claude/skills/sequential-thinking
+cp SKILL.md ~/.claude/skills/sequential-thinking/
+
+# 4. Test auto-activation after restarting Claude
+"Analyze this system step by step"  # Auto-activates
+```
+
+#### Detailed Testing Guide
+
+See [test/SKILL_TEST_GUIDE.md](test/SKILL_TEST_GUIDE.md) for complete test scenarios, checklists, and troubleshooting.
 
 ---
 
 ## 🤝 Contributing
 
-버그 제보, 개선 제안, 기여를 환영합니다!
+Bug reports, improvement suggestions, and contributions are welcome!
 
 ### How to Contribute
 
@@ -296,10 +410,10 @@ npm run coverage
    git checkout -b feature/amazing-improvement
    ```
 3. **Make your changes**:
-   - SKILL.md 개선
-   - 예시 추가
-   - 문서 업데이트
-   - 헬퍼 함수 개선
+   - Improve SKILL.md
+   - Add examples
+   - Update documentation
+   - Enhance helper functions
 4. **Test your changes**
 5. **Commit with clear message**:
    ```bash
@@ -309,18 +423,18 @@ npm run coverage
 
 ### Contribution Guidelines
 
-- 명확하고 설명적인 커밋 메시지 사용
-- SKILL.md 수정 시 실제 사용 검증
-- 새로운 기능은 예시와 함께 문서화
-- 테스트 추가 (헬퍼 함수 수정 시)
+- Use clear and descriptive commit messages
+- Verify actual usage when modifying SKILL.md
+- Document new features with examples
+- Add tests (when modifying helper functions)
 
-자세한 내용은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참조하세요.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
 ---
 
 ## 📜 License
 
-Apache 2.0 License - [LICENSE](LICENSE) 파일을 참조하세요.
+Apache 2.0 License - See [LICENSE](LICENSE) file.
 
 ```
 Copyright 2025 zerodice0
@@ -333,11 +447,11 @@ you may not use this file except in compliance with the License.
 
 ## 🙏 Credits
 
-이 skill은 다음을 기반으로 개발되었습니다:
+This skill was developed based on:
 
-- [Sequential Thinking MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking) - 원본 MCP 구현
-- [Model Context Protocol](https://modelcontextprotocol.io/) - MCP 표준
-- [Claude Code](https://claude.ai/code) - Anthropic의 AI 코딩 도구
+- [Sequential Thinking MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking) - Original MCP implementation
+- [Model Context Protocol](https://modelcontextprotocol.io/) - MCP standard
+- [Claude Code](https://claude.ai/code) - Anthropic's AI coding tool
 
 ---
 
@@ -345,9 +459,9 @@ you may not use this file except in compliance with the License.
 
 ### Getting Help
 
-- 📖 [Documentation](docs/user-guide.md) - 상세 가이드
-- 💬 [GitHub Discussions](https://github.com/zerodice0/claude_sequential_thinking_skill/discussions) - 질문 및 토론
-- 🐛 [GitHub Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues) - 버그 제보
+- 📖 [Documentation](docs/user-guide.md) - Detailed guide
+- 💬 [GitHub Discussions](https://github.com/zerodice0/claude_sequential_thinking_skill/discussions) - Questions and discussions
+- 🐛 [GitHub Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues) - Bug reports
 
 ### Useful Links
 
@@ -359,14 +473,14 @@ you may not use this file except in compliance with the License.
 
 ## 🗺️ Roadmap
 
-### v1.0 (Current)
-- ✅ Core skill implementation
-- ✅ TodoWrite integration
-- ✅ Branching and revision support
-- ✅ Comprehensive documentation
+### v1.1 (Current)
+- ✅ GitHub Actions CI/CD pipeline
+- ✅ Quick Start guide
+- ✅ Enhanced cross-document references
+- ✅ Installation verification guide
 
-### v1.1 (Planned)
-- ⏳ Additional examples
+### v1.2 (Planned)
+- ⏳ Additional real-world examples
 - ⏳ Helper function enhancements
 - ⏳ Integration with other skills
 - ⏳ Performance optimizations

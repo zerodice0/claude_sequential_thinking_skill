@@ -1,367 +1,254 @@
 # Example: Basic Problem Analysis
 
-결제 시스템 설계를 위한 기본적인 sequential thinking 사용 예시입니다.
+> English | **[한국어](basic-usage-kr.md)**
+
+Basic example of using sequential thinking for payment system design.
 
 ## Problem Statement
 
-**상황**: 새로운 e-commerce 플랫폼의 결제 시스템을 설계해야 합니다.
+**Situation**: Need to design a payment system for a new e-commerce platform.
 
-**요구사항**:
-- 지원할 결제 수단: 신용카드, 계좌이체, 간편결제
-- 보안: PCI DSS 준수 필요
-- 성능: 초당 100건 트랜잭션 처리
-- 안정성: 99.9% 가용성 필요
-- 예산 제약: 초기 투자 최소화
+**Requirements**:
+- Payment methods: Credit cards, bank transfers, simple payment
+- Security: PCI DSS compliance required
+- Performance: Handle 100 transactions per second
+- Reliability: 99.9% availability required
+- Budget constraint: Minimize initial investment
 
-**질문**: "어떻게 접근해야 할까요?"
+**Question**: "How should we approach this?"
 
 ---
 
 ## Sequential Thinking Application
 
-### 사고 과정
+### Step 1: Problem Understanding (💭 Thought 1/6)
 
+**Analysis**:
 ```
-💭 Thought 1/6: 결제 시스템의 핵심 요구사항 파악
-
-핵심 요구사항 정리:
-1. 다양한 결제 수단 지원
-   - 신용카드 (VISA, MasterCard, AMEX)
-   - 계좌이체 (실시간 계좌이체)
-   - 간편결제 (카카오페이, 네이버페이, 토스)
-
-2. 보안 요구사항
-   - PCI DSS Level 1 준수
-   - 카드 정보 암호화
-   - 안전한 데이터 저장 및 전송
-
-3. 성능 목표
-   - 초당 100 TPS (Transactions Per Second)
-   - 평균 응답시간 < 500ms
-   - 피크 시간 대응 가능
-
-4. 안정성
-   - 99.9% 가용성 (월 43분 다운타임 허용)
-   - 자동 복구 메커니즘
-   - 거래 무결성 보장
-
----
-
-💭 Thought 2/6: 주요 제약사항 및 트레이드오프 식별
-
-제약사항:
-1. 예산: 초기 투자 최소화 필요
-   - 개발 인력 한정
-   - 인프라 비용 고려
-
-2. 기술 스택: 기존 시스템과의 호환성
-   - 백엔드: Node.js/Express
-   - 데이터베이스: PostgreSQL
-   - 클라우드: AWS
-
-3. 규제: 국내 전자금융거래법 준수
-   - 전자금융업자 등록
-   - 보안 인증 획득
-   - 정기 감사 대응
-
-주요 트레이드오프:
-- **직접 구현 vs PG사 API 활용**
-  - 직접 구현: 완전한 제어, 장기 비용 절감
-    단점: 개발 시간, 보안 인증 부담
-  - PG 연동: 빠른 구축, 검증된 솔루션
-    단점: 수수료 부담, 제한된 커스터마이징
-
----
-
-💭 Thought 3/6: 두 가지 주요 접근법 발견
-
-분석 결과, 두 가지 주요 접근법이 있음을 인식:
-1. PG사 직접 연동 (빠른 출시)
-2. 자체 결제 시스템 구축 (장기적 비용 절감)
-
-각 접근법을 독립적으로 평가하기 위해 브랜치 생성이 필요합니다.
-
-→ 브랜치 탐색 시작
-
----
-
-🌿 [Branch: direct-integration] Thought 4a/8: PG사 직접 연동 접근법
-
-장점:
-✅ 빠른 구축 (2-4주)
-✅ 검증된 솔루션 (안정성 보장)
-✅ PCI DSS 인증 불필요 (PG사가 보유)
-✅ 기술 지원 제공
-✅ 다양한 결제 수단 즉시 사용 가능
-
-단점:
-❌ 거래당 수수료 (3-5%)
-❌ 제한된 커스터마이징
-❌ PG사 의존성 (시스템 장애 시 영향)
-❌ 수익 증가 시 수수료 부담 급증
-
-주요 PG사 비교:
-- 토스페이먼츠: 수수료 3.3%, 간편한 API, 좋은 문서화
-- NHN KCP: 수수료 3.5%, 레거시 많음, 안정성
-- 이니시스: 수수료 4%, 전통적 시장 점유율
-
-예상 비용 (월 거래액 5천만원 기준):
-- 수수료: 150만원/월 (3%)
-- 초기 비용: 최소화 (~500만원)
-- 개발 기간: 2-4주
-
----
-
-🌿 [Branch: self-implementation] Thought 4b/8: 자체 결제 시스템 구축
-
-장점:
-✅ 완전한 제어권
-✅ 장기적 비용 절감 (수수료 없음)
-✅ 자유로운 커스터마이징
-✅ 데이터 완전 소유
-
-단점:
-❌ 긴 개발 기간 (6개월+)
-❌ PCI DSS 인증 취득 필요 (시간과 비용)
-❌ 보안 전문 인력 필요
-❌ 지속적인 유지보수 부담
-❌ 초기 안정성 문제 가능
-
-필요 작업:
-1. PCI DSS Level 1 인증 (3-6개월, 비용 1억+)
-2. 보안 시스템 구축
-3. 각 결제사와 직접 계약
-4. 결제 모듈 개발 및 테스트
-5. 정기 보안 감사 준비
-
-예상 비용:
-- 개발 비용: 2억원+ (인력 6개월)
-- PCI DSS 인증: 1억원
-- 인프라: 300만원/월
-- 총 초기 투자: 3억원+
-- 월 운영비: 500만원
-
----
-
-💭 Thought 5/8: 두 접근법의 비용 분석
-
-현실적인 비용 비교 (3년 기준):
-
-**PG 연동 접근:**
-- 초기 비용: 500만원
-- 월 거래액 5천만원 → 수수료 150만원/월
-- 3년 총 비용: 500만 + (150만 × 36개월) = 5,900만원
-
-**자체 구축 접근:**
-- 초기 비용: 3억원
-- 월 운영비: 500만원
-- 3년 총 비용: 3억 + (500만 × 36개월) = 4.8억원
-
-**손익분기점:**
-- 월 거래액 10억원 시점에서 자체 구축이 유리
-- 현재 예상 거래액 (월 5천만원)에서는 PG 연동이 압도적으로 경제적
-
-**결론:** 초기 단계에서는 PG 연동이 현실적
-
----
-
-💭 Thought 6/8: 하이브리드 전략 고려
-
-단순히 하나를 선택하는 것이 아니라, 단계적 접근 고려:
-
-**Phase 1 (0-6개월): PG사 API 연동**
-- 목표: 빠른 시장 진입
-- 사용: 토스페이먼츠 API
-- 이유: 빠른 구축, 검증된 안정성
-- 예상 비용: 초기 500만원, 월 150만원
-
-**Phase 2 (6-12개월): 트래픽 모니터링 및 분석**
-- 실제 거래량 데이터 수집
-- 수수료 부담 vs 자체 구축 비용 재평가
-- 의사결정 시점 결정
-
-**Phase 3 (12개월+): 필요시 자체 시스템 전환**
-- 조건: 월 거래액 10억원 이상
-- 점진적 마이그레이션
-- 멀티 PG 지원으로 리스크 분산
-
-이점:
-✅ 즉시 시장 진입 가능
-✅ 실제 데이터 기반 의사결정
-✅ 리스크 최소화
-✅ 유연한 확장 전략
-
----
-
-✏️ [Revision of #5] Thought 5': 장기 비용 재계산
-
-새로운 인사이트: 월 거래량 1억원 이상 시 자체 구축 고려 가능
-
-**수정된 손익분기점 분석:**
-
-월 거래액별 연간 수수료:
-- 5천만원: 1,800만원/년
-- 1억원: 3,600만원/년
-- 5억원: 1.8억원/년
-- 10억원: 3.6억원/년
-
-자체 구축 시 연간 비용:
-- 초기 투자 상각 (3년): 1억원/년
-- 운영비: 6,000만원/년
-- 총: 1.6억원/년 (고정)
-
-**수정된 결론:**
-- 월 거래액 5억원 시점에서 손익분기점
-- 성장 전망이 밝다면 더 일찍 전환 고려 가능
-- 하이브리드 전략이 여전히 최적
-
----
-
-✅ Thought 8/8 [Complete]: 최종 권장사항
-
-**권장 전략: 단계적 하이브리드 접근**
-
-### Immediate Actions (Week 1-2)
-
-1. **PG사 선택 및 계약**
-   - 토스페이먼츠 선택
-   - 이유: API 품질, 문서화, 지원
-   - 예상 비용: 초기 500만원
-
-2. **기술 스택 설계**
-   ```
-   Frontend: React + TypeScript
-   Backend: Node.js/Express
-   Database: PostgreSQL
-   Cache: Redis (결제 상태 임시 저장)
-   ```
-
-3. **보안 설계**
-   - HTTPS 필수
-   - 카드 정보 미저장 (토큰 사용)
-   - 거래 로그 암호화
-
-### Short-term (Month 1-2)
-
-4. **결제 모듈 구현**
-   - 토스페이먼츠 API 연동
-   - 결제 상태 관리
-   - 에러 핸들링
-   - 웹훅 처리
-
-5. **테스트 전략**
-   - 단위 테스트 (Jest)
-   - 통합 테스트
-   - 부하 테스트 (초당 100 TPS)
-   - 보안 테스트
-
-### Mid-term (Month 3-6)
-
-6. **모니터링 시스템**
-   - 실시간 거래 추적
-   - 성공률 모니터링
-   - 응답시간 측정
-   - 수수료 비용 추적
-
-7. **최적화**
-   - API 호출 최적화
-   - 캐싱 전략
-   - 데이터베이스 쿼리 최적화
-
-### Long-term (Month 6+)
-
-8. **전환 의사결정**
-   - 조건 평가:
-     * 월 거래액 5억원 이상?
-     * 수수료 부담이 운영비의 주요 부분?
-     * 커스터마이징 필요성?
-
-   - Yes → 자체 시스템 구축 검토
-   - No → PG 연동 유지
-
-9. **리스크 관리**
-   - 멀티 PG 지원 (백업)
-   - 자동 페일오버
-   - 거래 재시도 로직
-
-### Success Metrics
-
-- ✅ 응답시간 < 500ms
-- ✅ 성공률 > 99.5%
-- ✅ 가용성 > 99.9%
-- ✅ 보안 사고 0건
-- ✅ 월 거래액 추적 및 분석
-
-### Budget Summary
-
-**Year 1:**
-- 초기: 500만원
-- 월별: 150만원 (평균)
-- 연간 총: 2,300만원
-
-**Year 2-3:**
-- 거래량 증가에 따라 재평가
-- 월 거래액 5억원 도달 시 자체 구축 검토
-
----
-
-## Results & Key Learnings
-
-### 의사결정 결과
-
-최종 선택: **단계적 하이브리드 접근**
-- Phase 1: PG 연동 (즉시 시작)
-- Phase 2: 모니터링 (6-12개월)
-- Phase 3: 필요시 자체 구축 전환
-
-### 핵심 인사이트
-
-1. **즉시성 vs 장기 비용**
-   - 초기에는 빠른 출시가 우선
-   - 규모 성장 후 비용 구조 재평가
-
-2. **리스크 관리**
-   - 단계적 접근으로 리스크 최소화
-   - 실제 데이터 기반 의사결정
-
-3. **유연성 유지**
-   - 멀티 PG 지원으로 벤더 락인 방지
-   - 전환 가능한 아키텍처 설계
-
-### TodoWrite 활용
-
-이 사고 과정에서 TodoWrite는 다음과 같이 사용되었습니다:
-
-```
-✅ Thought 1/8 [completed]: 요구사항 파악
-✅ Thought 2/8 [completed]: 제약사항 식별
-✅ Thought 3/8 [completed]: 접근법 발견
-✅ Thought 4a/8 [completed]: Branch A 평가
-✅ Thought 4b/8 [completed]: Branch B 평가
-✅ Thought 5/8 → 5' [completed]: 비용 분석 (수정됨)
-✅ Thought 6/8 [completed]: 하이브리드 전략
-✅ Thought 8/8 [completed]: 최종 권장사항
+Analyzing core payment system requirements
+
+Key considerations:
+1. Security is top priority - PCI DSS compliance mandatory
+2. Must support multiple payment methods (credit card, bank transfer, simple payment)
+3. Performance requirement: 100 TPS
+4. High availability: 99.9% SLA
+5. Budget constraint: Need cost-effective solution
+
+Initial approach: Explore PG integration vs custom implementation
 ```
 
-### 적용 가능한 다른 시나리오
-
-이 패턴은 다음과 같은 상황에도 적용 가능:
-- 클라우드 서비스 선택 (AWS vs GCP vs Azure)
-- 데이터베이스 선택 (SQL vs NoSQL)
-- 프레임워크 선택 (React vs Vue vs Angular)
-- 인프라 전략 (온프레미스 vs 클라우드)
+**Decision**: Start with exploring existing PG (Payment Gateway) solutions to minimize initial cost and development time.
 
 ---
 
-## Exercise
+### Step 2: Constraint Analysis (💭 Thought 2/6)
 
-이 예시를 참고하여 다음 문제에 sequential thinking을 적용해보세요:
+**Technical Constraints**:
+- Must comply with PCI DSS Level 1
+- Need secure tokenization for card storage
+- API response time <500ms
+- Transaction consistency guarantee required
 
-**문제**: "새로운 프로젝트를 시작합니다. TypeScript를 사용해야 할까요, 아니면 JavaScript를 사용해야 할까요?"
+**Business Constraints**:
+- Budget: $10K initial, $2K/month operating cost
+- Timeline: Must launch in 3 months
+- Team size: 2 backend developers
 
-**힌트**:
-1. 요구사항과 제약사항 파악
-2. 각 옵션의 장단점 (브랜치 활용)
-3. 팀의 상황과 프로젝트 특성 고려
-4. 단계적 접근 가능성 탐색
-5. 최종 권장사항 및 실행 계획
+**Risk Factors**:
+- PG vendor lock-in
+- Transaction fee structure
+- Regulatory compliance
+
+---
+
+### Step 3: Solution Exploration - Branching
+
+**Recognizing** there are two main approaches, let's explore both systematically:
+
+#### 🌿 Branch A: Direct PG Integration (Thought 3a/8)
+
+**Approach**: Integrate major PG services (Stripe, Toss Payments, etc.)
+
+**Pros**:
+- ✅ Fast time to market (1-2 months)
+- ✅ PCI DSS compliance handled by vendor
+- ✅ Lower initial development cost
+- ✅ Proven reliability and security
+
+**Cons**:
+- ❌ Transaction fees: 2.5-3.5% per transaction
+- ❌ Vendor lock-in risk
+- ❌ Limited customization
+- ❌ Dependent on vendor API stability
+
+**Cost Analysis**:
+- Initial: $5K (integration development)
+- Monthly: $2K + variable fees (2.5% of revenue)
+- Break-even: ~$100K monthly transaction volume
+
+#### 🌿 Branch B: Custom Payment System (Thought 3b/8)
+
+**Approach**: Build in-house payment processing system
+
+**Pros**:
+- ✅ Full control and customization
+- ✅ No transaction fees to third parties
+- ✅ Potential long-term cost savings
+- ✅ Competitive advantage through unique features
+
+**Cons**:
+- ❌ High initial development cost ($50K+)
+- ❌ PCI DSS compliance burden
+- ❌ Longer time to market (6-9 months)
+- ❌ Ongoing maintenance overhead
+- ❌ Security responsibility
+
+**Cost Analysis**:
+- Initial: $50K (development + certification)
+- Monthly: $5K (infrastructure + compliance)
+- Break-even: ~$500K monthly transaction volume
+
+---
+
+### Step 4: Hybrid Strategy Consideration (💭 Thought 4/8)
+
+**Insight**: Pure approaches may not be optimal. Consider hybrid strategy.
+
+**Hybrid Approach**:
+```
+Phase 1 (Month 1-3): PG Integration
+- Quick market entry with Stripe
+- Validate business model
+- Build customer base
+
+Phase 2 (Month 6-12): Selective In-house
+- Evaluate transaction volume and patterns
+- Build custom solution for high-frequency transactions
+- Keep PG for complex/low-volume transactions
+```
+
+**Benefits**:
+- Balanced risk-reward
+- Flexible adaptation to business growth
+- Lower initial barrier
+- Future scalability
+
+---
+
+### Step 5: Technology Stack Decision (💭 Thought 5/8)
+
+**Selected Technologies**:
+
+**Backend**:
+- Node.js + Express (team expertise)
+- PostgreSQL (transaction reliability)
+- Redis (session management)
+
+**PG Integration**:
+- Primary: Stripe (international)
+- Secondary: Toss Payments (domestic)
+
+**Security**:
+- Token-based authentication
+- PG-provided tokenization
+- End-to-end encryption
+- Compliance monitoring
+
+**Infrastructure**:
+- AWS (cloud platform)
+- Load balancer for high availability
+- Multi-AZ deployment
+- Auto-scaling
+
+---
+
+### Step 6: Final Recommendations (✅ Thought 6/8 - Complete)
+
+**Recommended Approach**: **Hybrid Strategy with Phase-based Implementation**
+
+**Phase 1: Immediate (Month 1-3)**
+```
+Action Items:
+1. Integrate Stripe as primary PG
+   - Set up merchant account
+   - Implement API integration
+   - Build payment UI
+
+2. Integrate Toss Payments as secondary
+   - Domestic market coverage
+   - Alternative payment methods
+
+3. Implement basic infrastructure
+   - PostgreSQL for transaction records
+   - Redis for session management
+   - Basic monitoring and logging
+
+Expected Cost: $8K initial + $2.5K/month
+Timeline: 2-3 months
+Risk: Low
+```
+
+**Phase 2: Evaluation (Month 4-6)**
+```
+Metrics to Monitor:
+- Transaction volume and patterns
+- Average transaction value
+- Payment method preferences
+- PG fees as % of revenue
+- Customer pain points
+
+Decision Point: If monthly transaction fees >$5K, proceed to Phase 3
+```
+
+**Phase 3: Optimization (Month 7+)**
+```
+If Conditions Met:
+- Build custom solution for high-frequency transactions
+- Keep PG for complex scenarios
+- Implement gradual migration
+
+Expected ROI: 18-24 months
+```
+
+**Risk Mitigation**:
+- Maintain PG backup for business continuity
+- Gradual migration strategy
+- Regular compliance audits
+- Vendor diversification
+
+**Success Metrics**:
+- 99.9% uptime achieved
+- <500ms average response time
+- PCI DSS compliance maintained
+- Total cost <20% of transaction volume
+
+---
+
+## Key Takeaways
+
+This example demonstrates:
+- ✅ **Structured Problem Analysis**: Breaking down complex problem into manageable steps
+- ✅ **Branching**: Exploring multiple approaches (PG vs Custom)
+- ✅ **Trade-off Analysis**: Systematic pros/cons evaluation
+- ✅ **Hybrid Thinking**: Combining best of both approaches
+- ✅ **Phased Strategy**: Risk-managed implementation plan
+- ✅ **Measurable Outcomes**: Clear success metrics
+
+---
+
+## Related Examples
+
+- [Branching Example](branching-example.md) - More on exploring multiple approaches
+- [Revision Example](revision-example.md) - How to revise thoughts when new information emerges
+- [Complex Problem](complex-problem.md) - Handling more complex architectural decisions
+
+---
+
+## How to Use This Pattern
+
+1. **Define Problem Clearly**: Requirements, constraints, questions
+2. **Analyze Systematically**: Break down into logical steps
+3. **Branch When Needed**: Explore significantly different approaches
+4. **Compare Trade-offs**: Objective pros/cons analysis
+5. **Synthesize Solution**: Often best solution combines multiple approaches
+6. **Plan Implementation**: Phased approach with clear milestones

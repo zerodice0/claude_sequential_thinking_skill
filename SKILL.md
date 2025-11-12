@@ -22,6 +22,61 @@ description: Structured multi-step reasoning framework with branching, revision,
 
 ---
 
+## ⚡ 5분 시작 가이드
+
+### 빠른 시작
+
+**1. 설치** (선택사항 - 자동 활성화됨)
+```bash
+# 설치 스크립트 사용 (권장)
+./install.sh --global
+
+# 또는 수동 설치
+mkdir -p ~/.claude/skills/sequential-thinking
+cp SKILL.md ~/.claude/skills/sequential-thinking/
+```
+
+**2. 사용 방법**
+
+**Option A: Slash Command (명시적)**
+```
+/think [문제 설명]
+/analyze [분석 주제]
+```
+
+**Option B: 자연어 (자동 활성화)**
+```
+"이 시스템을 단계적으로 분석해줘"
+"체계적으로 생각해보자"
+"Sequential thinking을 사용해서..."
+```
+
+**3. 예시**
+```
+You: "마이크로서비스 아키텍처의 장단점을 분석해줘"
+
+Claude: 💭 Thought 1/6: 마이크로서비스의 핵심 특성 파악
+- 서비스 독립성
+- 분산 시스템 구조
+...
+
+💭 Thought 2/6: 주요 장점 분석
+...
+
+✅ Thought 6/6 [Complete]: 최종 권장사항
+```
+
+**4. 설치 검증**
+- Skill 인식: "단계적으로 생각해봐" → Sequential Thinking 활성화 확인
+- Slash 명령어: `/think` 입력 → 자동완성 표시 확인
+
+**5. 다음 단계**
+- 자세한 사용법: [Usage Protocol](#usage-protocol) 섹션 참조
+- 실전 예시: [Examples](#examples) 섹션 참조
+- 문제 해결: [Troubleshooting](#troubleshooting) 섹션 참조
+
+---
+
 ## When to Use This Skill
 
 이 스킬은 다음과 같은 상황에서 특히 유용합니다:
@@ -197,7 +252,27 @@ Thought 6: 수정된 데이터베이스 선택을 반영한 API 설계 조정
 
 ### Activation
 
-이 스킬은 다음과 같은 상황에서 자동으로 활성화되어야 합니다:
+이 스킬은 다음과 같은 방법으로 활성화할 수 있습니다:
+
+#### Method 1: Slash Commands (권장)
+
+가장 빠르고 명시적인 활성화 방법:
+
+```bash
+# 복잡한 문제 분석 - 전체 기능 활성화
+/think How should I design a scalable microservices architecture?
+
+# 빠른 체계적 분석 - 간소화 버전
+/analyze performance bottleneck in user authentication
+```
+
+**Available Commands**:
+- **`/think [problem]`**: 전체 sequential thinking 프레임워크 활성화 (branching, revision 지원)
+- **`/analyze [topic]`**: 빠른 체계적 분석을 위한 간소화 버전
+
+#### Method 2: Natural Language (자동 활성화)
+
+다음과 같은 상황에서 자동으로 활성화됩니다:
 
 1. **명시적 요청**:
    - "단계적으로 생각해봐"

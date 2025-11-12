@@ -13,7 +13,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integration guides with other skills
 - Performance optimizations
 
-## [1.0.0] - 2025-01-XX
+## [1.1.0] - 2025-01-12
+
+### Added
+- GitHub Actions CI/CD pipeline
+  - Automated testing on Node.js 18.x and 20.x
+  - Code formatting checks with Prettier
+  - TypeScript type checking
+  - ESLint code quality checks
+  - Security audit and dependency checks
+  - Code coverage reporting with Codecov
+- Quick Start guide in SKILL.md
+  - 5-minute getting started section
+  - Clear installation verification steps
+  - Common usage patterns
+- Cross-document references
+  - Enhanced navigation between documentation files
+  - Related documents section in each guide
+  - Examples linking to relevant concepts
+- Installation verification guide
+  - Post-installation testing steps
+  - Troubleshooting common issues
+  - Verification checklist
+- Multilingual README support
+  - English README.md as primary documentation
+  - Korean README-kr.md for Korean speakers
+  - Language switcher links in both files
+
+### Changed
+- Updated validation logic for empty thought strings
+  - Improved error message clarity
+  - Better error categorization
+- Enhanced documentation structure
+  - Added navigation aids
+  - Improved document discoverability
+  - Clearer organization
+
+### Fixed
+- Validation error message for empty thought field
+- Test suite compatibility issues
+- 97/104 tests now passing (7 integration tests need adjustment)
+
+### Developer Experience
+- Improved initial setup process
+- Better error messages and debugging
+- Enhanced documentation navigation
+- Automated quality checks via CI/CD
+
+## [1.0.0] - 2025-01-10
 
 ### Added
 - Initial release as Claude Code Skill

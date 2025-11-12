@@ -1,27 +1,29 @@
 # Example: Systematic Debugging
 
-체계적 디버깅에 sequential thinking을 적용하는 예시입니다. SKILL.md의 Example 2와 동일한 시나리오입니다.
+> English | **[한국어](debugging-scenario-kr.md)**
+
+Example demonstrating how to apply sequential thinking to systematic debugging. This is the same scenario as Example 2 in SKILL.md.
 
 ## Problem Statement
 
-**상황**: 프로덕션에서 간헐적으로 500 에러 발생
+**Situation**: Intermittent 500 errors occurring in production
 
-**증상**:
-- 에러 빈도: 하루 10-20건
-- 발생 시간: 주로 오후 2-4시
-- 영향: 특정 API (`/api/users/profile`)
-- 에러 메시지: "Database connection timeout"
+**Symptoms**:
+- Error frequency: 10-20 occurrences per day
+- Occurrence time: Mainly 2-4 PM
+- Impact: Specific API (`/api/users/profile`)
+- Error message: "Database connection timeout"
 
-**질문**: "어떻게 디버깅하고 해결할까요?"
+**Question**: "How should we debug and resolve this?"
 
 ---
 
 ## Sequential Thinking Process
 
 ```
-💭 Thought 1/10: 문제 현상 정확히 파악
+💭 Thought 1/10: Accurately identifying the problem symptoms
 
-**에러 로그 분석:**
+**Error log analysis:**
 ```
 [2025-01-15 14:23:41] ERROR: Database connection timeout
   at pg.connect (postgres.js:142)
@@ -31,36 +33,36 @@ User ID: 789456
 Duration: 30050ms (timeout at 30s)
 ```
 
-**관찰된 패턴:**
-- 시간대: 14:00-16:00 (피크 타임)
-- 특정 엔드포인트: GET /api/users/profile
-- 일관된 에러: connection timeout
-- 타임아웃 시간: 정확히 30초
-- 재시도 시 일부 성공
+**Observed patterns:**
+- Time period: 14:00-16:00 (peak time)
+- Specific endpoint: GET /api/users/profile
+- Consistent error: connection timeout
+- Timeout duration: Exactly 30 seconds
+- Some succeed on retry
 
-**추가 데이터 필요:**
-- 데이터베이스 connection pool 상태
-- 해당 시간대 트래픽 패턴
-- 느린 쿼리 로그
-- 시스템 리소스 사용률
+**Additional data needed:**
+- Database connection pool status
+- Traffic patterns during that time
+- Slow query logs
+- System resource usage
 
 ---
 
-🔍 Thought 2/10: 관련 메트릭 및 로그 수집
+🔍 Thought 2/10: Collecting relevant metrics and logs
 
-**데이터베이스 Connection Pool:**
+**Database Connection Pool:**
 - Max connections: 100
-- 피크 시간대 활성 연결: 85-98
-- 대기 중인 요청: 최대 15개
-- 평균 connection 사용 시간: 50ms
-- 피크 시 일부 connection: 2000-3000ms
+- Active connections during peak: 85-98
+- Waiting requests: Up to 15
+- Average connection usage time: 50ms
+- Some connections during peak: 2000-3000ms
 
-**트래픽 패턴:**
-- 평시: 50 req/s
-- 14:00-16:00: 150 req/s (3배)
-- 특히 /api/users/profile: 30 req/s
+**Traffic Patterns:**
+- Normal: 50 req/s
+- 14:00-16:00: 150 req/s (3x)
+- Especially /api/users/profile: 30 req/s
 
-**느린 쿼리 로그:**
+**Slow Query Logs:**
 ```sql
 -- Query time: 2847ms
 SELECT u.*, p.*, r.*
@@ -70,63 +72,63 @@ LEFT JOIN relationships r ON u.id = r.user_id
 WHERE u.id = $1;
 ```
 
-**Explain Analyze 결과:**
-- relationships 테이블 full table scan
-- 누락된 인덱스 발견!
+**Explain Analyze Results:**
+- Full table scan on relationships table
+- Missing index found!
 
 ---
 
-💭 Thought 3/10: 가설 수립
+💭 Thought 3/10: Formulating hypotheses
 
-**가설 목록:**
+**Hypothesis List:**
 
-**가설 1: Connection Pool 부족**
-- 증거: 피크 시 95% 사용률
-- 메커니즘: 새 요청이 connection 대기 → timeout
+**Hypothesis 1: Insufficient Connection Pool**
+- Evidence: 95% usage during peak
+- Mechanism: New requests wait for connection → timeout
 
-**가설 2: 느린 쿼리가 Connection 점유**
-- 증거: 일부 쿼리 2-3초 소요
-- 메커니즘: 느린 쿼리가 connection을 오래 점유 → pool 고갈
+**Hypothesis 2: Slow Queries Occupying Connections**
+- Evidence: Some queries take 2-3 seconds
+- Mechanism: Slow queries occupy connections longer → pool exhaustion
 
-**가설 3: Database 자체 성능 문제**
-- 증거: 특정 시간대만 발생
-- 메커니즘: DB 리소스 부족
+**Hypothesis 3: Database Performance Issues**
+- Evidence: Only occurs during specific time periods
+- Mechanism: DB resource shortage
 
-**가설 4: Connection Leak**
-- 증거: connection 사용 시간이 일부 매우 김
-- 메커니즘: 미반환 connection 누적
+**Hypothesis 4: Connection Leak**
+- Evidence: Some connection usage times very long
+- Mechanism: Unreturned connections accumulate
 
-**평가:** 가설 1과 2가 가장 유력
-→ 각각 브랜치로 검증
-
----
-
-🌿 [Branch: hypothesis-pool] Thought 4a/10: Connection Pool 부족 가설 검증
-
-**검증 방법:**
-1. Pool 크기 임시 증가 (100 → 200)
-2. 피크 시간 모니터링
-3. 에러율 변화 관찰
-
-**테스트 결과 (스테이징):**
-- Pool 100: 에러율 1.2%
-- Pool 150: 에러율 0.8%
-- Pool 200: 에러율 0.5%
-
-**해석:**
-- Pool 증가로 에러 감소
-- 하지만 완전히 해결 안됨
-- 근본 원인은 다른 곳에
-
-**결론:** 부분적 원인, 주 원인 아님
+**Assessment:** Hypotheses 1 and 2 most likely
+→ Verify each as a branch
 
 ---
 
-🌿 [Branch: hypothesis-query] Thought 4b/10: 느린 쿼리 가설 검증
+🌿 [Branch: hypothesis-pool] Thought 4a/10: Verifying insufficient connection pool hypothesis
 
-**문제 쿼리 분석:**
+**Verification Method:**
+1. Temporarily increase pool size (100 → 200)
+2. Monitor during peak time
+3. Observe error rate changes
+
+**Test Results (Staging):**
+- Pool 100: 1.2% error rate
+- Pool 150: 0.8% error rate
+- Pool 200: 0.5% error rate
+
+**Interpretation:**
+- Increasing pool reduces errors
+- But doesn't completely solve it
+- Root cause is elsewhere
+
+**Conclusion:** Partial cause, not main cause
+
+---
+
+🌿 [Branch: hypothesis-query] Thought 4b/10: Verifying slow query hypothesis
+
+**Problem Query Analysis:**
 ```sql
--- 현재 쿼리
+-- Current query
 SELECT u.*, p.*, r.*
 FROM users u
 LEFT JOIN profiles p ON u.id = p.user_id
@@ -136,270 +138,270 @@ WHERE u.id = $1;
 -- Explain: Seq Scan on relationships (cost=0..15892)
 ```
 
-**인덱스 확인:**
+**Index Check:**
 ```sql
--- 존재하는 인덱스
+-- Existing indexes
 users: PRIMARY KEY (id)
 profiles: PRIMARY KEY (id), INDEX (user_id)
-relationships: PRIMARY KEY (id)  -- user_id 인덱스 없음!
+relationships: PRIMARY KEY (id)  -- No user_id index!
 ```
 
-**누락된 인덱스:**
+**Missing Index:**
 ```sql
 CREATE INDEX idx_relationships_user_id
 ON relationships(user_id);
 ```
 
-**테스트 (스테이징):**
-- 인덱스 전: 평균 2500ms
-- 인덱스 후: 평균 45ms (98% 개선!)
+**Test (Staging):**
+- Before index: Average 2500ms
+- After index: Average 45ms (98% improvement!)
 
-**Connection Pool 영향:**
-- 빠른 쿼리 → 빠른 connection 반환
-- Pool 사용률: 95% → 65%
-- 대기 queue: 15 → 0
+**Connection Pool Impact:**
+- Fast query → Fast connection return
+- Pool usage: 95% → 65%
+- Waiting queue: 15 → 0
 
-**결론:** 이것이 주 원인!
+**Conclusion:** This is the main cause!
 
 ---
 
-💡 Thought 5/10: 핵심 발견 - 복합 원인 및 연쇄 효과
+💡 Thought 5/10: Key finding - Compound cause and chain effect
 
-**근본 원인 체인:**
+**Root Cause Chain:**
 
 ```
-relationships 인덱스 누락
+Missing index on relationships
     ↓
-느린 쿼리 (2-3초)
+Slow queries (2-3 seconds)
     ↓
-Connection 오래 점유
+Long connection occupation
     ↓
-피크 시간에 Pool 고갈
+Pool exhaustion during peak
     ↓
-신규 요청 대기
+New requests wait
     ↓
-30초 timeout 발생
+30-second timeout occurs
     ↓
 500 Error
 ```
 
-**통합 이해:**
-- 단일 원인이 아닌 복합 원인
-- 평시에는 괜찮음 (트래픽 낮음)
-- 피크 시 문제 폭발 (3배 트래픽)
+**Integrated Understanding:**
+- Not single cause but compound causes
+- Fine during normal time (low traffic)
+- Problem explodes during peak (3x traffic)
 
-**영향 계산:**
-- 인덱스 추가: 쿼리 98% 빠름
-- Connection 반환 빠름: Pool 사용률 30% 감소
-- 대기 queue 제거: timeout 방지
+**Impact Calculation:**
+- Add index: 98% faster query
+- Fast connection return: 30% reduction in pool usage
+- Remove waiting queue: Prevent timeouts
 
 ---
 
-💭 Thought 6/10: 해결 방안 우선순위화
+💭 Thought 6/10: Prioritizing solutions
 
-**Immediate (긴급, 오늘):**
-1. ✅ 인덱스 추가
+**Immediate (Urgent, Today):**
+1. ✅ Add index
    - `CREATE INDEX idx_relationships_user_id ON relationships(user_id)`
-   - 영향: 98% 쿼리 개선
-   - 리스크: 낮음 (읽기 인덱스)
-   - 시간: 5분
+   - Impact: 98% query improvement
+   - Risk: Low (read index)
+   - Time: 5 minutes
 
-2. ✅ Connection timeout 조정
-   - 현재: 30초
-   - 변경: 10초
-   - 이유: 빠른 fail로 retry 기회
-   - 리스크: 낮음
+2. ✅ Adjust connection timeout
+   - Current: 30 seconds
+   - Change: 10 seconds
+   - Reason: Fast fail gives retry opportunity
+   - Risk: Low
 
-**Short-term (이번 주):**
-3. ✅ Connection pool 증가
+**Short-term (This Week):**
+3. ✅ Increase connection pool
    - 100 → 150
-   - 여유 확보
-   - 리스크: DB 부하 모니터링 필요
+   - Provide buffer
+   - Risk: Need to monitor DB load
 
-4. ✅ 쿼리 최적화
-   - 불필요한 JOIN 제거
-   - 필요한 컬럼만 SELECT
-   - N+1 쿼리 방지
+4. ✅ Query optimization
+   - Remove unnecessary JOINs
+   - SELECT only needed columns
+   - Prevent N+1 queries
 
-**Long-term (이번 달):**
-5. ✅ Monitoring 강화
-   - Slow query alert
+**Long-term (This Month):**
+5. ✅ Strengthen monitoring
+   - Slow query alerts
    - Connection pool dashboard
-   - 자동 스케일링 고려
+   - Consider auto-scaling
 
-6. ✅ Caching 도입
-   - Redis로 프로필 캐싱
-   - 캐시 hit rate 목표: 80%
-   - DB 부하 감소
+6. ✅ Introduce caching
+   - Cache profiles with Redis
+   - Target cache hit rate: 80%
+   - Reduce DB load
 
 ---
 
-✅ Thought 10/10 [Complete]: 실행 계획 및 검증 방법
+✅ Thought 10/10 [Complete]: Execution plan and verification method
 
 **Immediate Actions (Today)**
 
-**Step 1: 인덱스 추가 (14:00 배포)**
+**Step 1: Add index (14:00 deployment)**
 ```sql
--- Production에 배포
+-- Deploy to production
 CREATE INDEX CONCURRENTLY idx_relationships_user_id
 ON relationships(user_id);
--- CONCURRENTLY로 락 방지
--- 예상 시간: 2-3분
+-- CONCURRENTLY prevents locks
+-- Expected time: 2-3 minutes
 ```
 
-**Step 2: Timeout 조정 (14:05 배포)**
+**Step 2: Adjust timeout (14:05 deployment)**
 ```javascript
-// 변경 전
+// Before
 pool: {
   connectionTimeoutMillis: 30000
 }
 
-// 변경 후
+// After
 pool: {
   connectionTimeoutMillis: 10000
 }
 ```
 
-**Step 3: 모니터링 (14:10)**
-- 에러율 실시간 추적
-- Connection pool 사용률
-- 쿼리 응답 시간
+**Step 3: Monitoring (14:10)**
+- Real-time error rate tracking
+- Connection pool usage
+- Query response time
 
-**검증 메트릭 (24시간 후):**
+**Verification Metrics (After 24 hours):**
 
 **Before (baseline):**
-- 에러 발생: 10-20건/일
-- 평균 응답 시간: 450ms
-- P95 응답 시간: 2800ms
-- Connection pool 사용률: 95%
+- Error occurrences: 10-20/day
+- Average response time: 450ms
+- P95 response time: 2800ms
+- Connection pool usage: 95%
 
 **After (target):**
-- ✅ 에러 발생: < 1건/일 (95% 감소)
-- ✅ 평균 응답 시간: < 200ms (56% 개선)
-- ✅ P95 응답 시간: < 500ms (82% 개선)
-- ✅ Connection pool 사용률: < 70% (26% 감소)
+- ✅ Error occurrences: < 1/day (95% reduction)
+- ✅ Average response time: < 200ms (56% improvement)
+- ✅ P95 response time: < 500ms (82% improvement)
+- ✅ Connection pool usage: < 70% (26% reduction)
 
 **Rollback Plan:**
-- 인덱스 문제 시: `DROP INDEX idx_relationships_user_id`
-- Timeout 문제 시: 원래 값으로 복원
-- 즉시 rollback 가능 (< 1분)
+- If index issues: `DROP INDEX idx_relationships_user_id`
+- If timeout issues: Restore original value
+- Can rollback immediately (< 1 minute)
 
 **Long-term Improvements (Week 1-4):**
 
 **Week 1:**
-- [ ] Connection pool을 150으로 증가
-- [ ] Slow query alert 설정 (>500ms)
+- [ ] Increase connection pool to 150
+- [ ] Set slow query alert (>500ms)
 
 **Week 2:**
-- [ ] 프로필 쿼리 재작성 (N+1 제거)
-- [ ] 불필요한 JOIN 제거
+- [ ] Rewrite profile query (remove N+1)
+- [ ] Remove unnecessary JOINs
 
 **Week 3:**
-- [ ] Redis 캐싱 구현
-- [ ] Cache warming 전략
+- [ ] Implement Redis caching
+- [ ] Cache warming strategy
 
 **Week 4:**
-- [ ] 성능 벤치마크
-- [ ] 문서화 및 팀 공유
+- [ ] Performance benchmark
+- [ ] Documentation and team sharing
 
 **Post-mortem:**
-- 근본 원인: 인덱스 누락
-- 교훈: 초기 스키마 설계의 중요성
-- 예방: 모든 FK에 인덱스 자동 생성 규칙
-- 개선: DB 스키마 리뷰 프로세스
+- Root cause: Missing index
+- Lesson: Importance of initial schema design
+- Prevention: Auto-create indexes on all FKs rule
+- Improvement: DB schema review process
 
 ---
 
 ## Results
 
-### 해결 결과 (24시간 후)
+### Resolution Results (After 24 hours)
 
-**실제 메트릭:**
-- 에러 0건 (목표 달성!)
-- 평균 응답 시간: 180ms
-- P95 응답 시간: 420ms
-- Connection pool: 62% 사용률
+**Actual Metrics:**
+- 0 errors (Goal achieved!)
+- Average response time: 180ms
+- P95 response time: 420ms
+- Connection pool: 62% usage
 
-**비즈니스 영향:**
-- 사용자 경험 개선
-- 고객 불만 제거
-- 시스템 신뢰도 증가
+**Business Impact:**
+- Improved user experience
+- Eliminated customer complaints
+- Increased system reliability
 
 ---
 
 ## Key Learnings
 
-### 체계적 디버깅의 중요성
+### Importance of Systematic Debugging
 
 **Without Sequential Thinking:**
 ```
-"Connection timeout 에러네?"
-→ "Pool 크기를 늘려야겠다"
-→ Pool 200으로 증가
-→ 에러 여전히 발생
-→ 좌절...
+"Connection timeout error?"
+→ "Need to increase pool size"
+→ Increase pool to 200
+→ Errors still occur
+→ Frustration...
 ```
 
 **With Sequential Thinking:**
 ```
-1. 정확한 현상 파악
-2. 데이터 수집
-3. 가설 수립
-4. 브랜치로 각 가설 검증
-5. 근본 원인 발견
-6. 우선순위 해결
-7. 검증 및 모니터링
+1. Accurately identify symptoms
+2. Collect data
+3. Formulate hypotheses
+4. Verify each hypothesis with branches
+5. Find root cause
+6. Prioritize solutions
+7. Verify and monitor
 ```
 
-### 브랜치의 효과
+### Effect of Branching
 
-두 가설을 독립적으로 검증:
-- Hypothesis 1 (pool): 부분 원인
-- Hypothesis 2 (query): 주 원인
+Independently verified two hypotheses:
+- Hypothesis 1 (pool): Partial cause
+- Hypothesis 2 (query): Main cause
 
-만약 순차적으로 했다면:
-- Pool만 늘렸을 것
-- 근본 원인 놓쳤을 것
+If done sequentially:
+- Would have only increased pool
+- Would have missed root cause
 
-### 복합 원인 인식
+### Recognizing Compound Causes
 
-단일 원인이 아닌 체인:
-1. 인덱스 누락
-2. 느린 쿼리
-3. Connection 점유
-4. Pool 고갈
+Not single cause but chain:
+1. Missing index
+2. Slow queries
+3. Connection occupation
+4. Pool exhaustion
 5. Timeout
 
 ---
 
 ## Debugging Pattern
 
-이 예시에서 사용된 패턴:
+Pattern used in this example:
 
 ```
-1. Symptom → 정확한 현상 파악
-2. Data Collection → 메트릭/로그 수집
-3. Hypothesis → 가능한 원인들
-4. Branch Testing → 각 가설 검증
-5. Root Cause → 근본 원인 식별
-6. Prioritize → 해결책 우선순위
-7. Execute → 실행 및 검증
-8. Monitor → 지속적 모니터링
-9. Document → 학습 문서화
-10. Prevent → 재발 방지
+1. Symptom → Accurately identify symptoms
+2. Data Collection → Collect metrics/logs
+3. Hypothesis → Possible causes
+4. Branch Testing → Verify each hypothesis
+5. Root Cause → Identify root cause
+6. Prioritize → Prioritize solutions
+7. Execute → Execute and verify
+8. Monitor → Continuous monitoring
+9. Document → Document learnings
+10. Prevent → Prevent recurrence
 ```
 
 ---
 
 ## Exercise
 
-다음 디버깅 시나리오에 적용해보세요:
+Apply this to the following debugging scenario:
 
-**문제**: "서비스가 매일 새벽 3시에 느려집니다. CPU 사용률이 100%에 도달합니다."
+**Problem**: "Service slows down every day at 3 AM. CPU usage reaches 100%."
 
-**힌트:**
-1. 현상을 정확히 파악
-2. 새벽 3시에 무엇이 실행되는지 조사
-3. 가설 수립 (scheduled jobs? batch processing? backup?)
-4. 각 가설을 브랜치로 검증
-5. 근본 원인 및 해결책
+**Hints**:
+1. Accurately identify symptoms
+2. Investigate what runs at 3 AM
+3. Formulate hypotheses (scheduled jobs? batch processing? backup?)
+4. Verify each hypothesis with branches
+5. Root cause and solution

@@ -423,8 +423,30 @@ Sequential Thinking for:
 
 ---
 
-## Learn More
+## Related Documents
 
-- 📖 [User Guide](user-guide.md)
-- 📋 [Examples](../examples/)
-- 🤝 [Contributing](../CONTRIBUTING.md)
+### 📚 Core Documentation
+- **[User Guide](user-guide.md)**: 전체 사용 가이드 및 기능 설명
+- **[Installation Guide](installation.md)**: 설치 및 설정 방법
+- **[Migration Guide](migration-from-mcp.md)**: MCP 서버에서의 전환
+
+### 📋 Practice Examples
+Best Practices에서 설명한 패턴들의 실제 적용 예시:
+
+**Problem-Solution 패턴**:
+- [Basic Usage](../examples/basic-usage.md) - 기본 문제 해결 접근법
+- [Complex Problem](../examples/complex-problem.md) - 복잡한 문제의 체계적 분석
+
+**Comparison 패턴**:
+- [Branching Example](../examples/branching-example.md) - 다중 옵션 비교 및 평가
+
+**Investigation 패턴**:
+- [Debugging Scenario](../examples/debugging-scenario.md) - 체계적 디버깅 프로세스
+
+**Revision 패턴**:
+- [Revision Example](../examples/revision-example.md) - 사고 개선 및 수정 방법
+
+### 🔗 Additional Resources
+- **[Main README](../README.md)**: 프로젝트 소개
+- **[Contributing](../CONTRIBUTING.md)**: 기여 가이드
+- **[Changelog](../CHANGELOG.md)**: 버전 히스토리

@@ -1,8 +1,6 @@
 # Example: Using Revision to Refine Thinking
 
-> English | **[한국어](revision-example-kr.md)**
-
-Example demonstrating how to use the revision feature to refine previous conclusions.
+수정 기능을 활용하여 이전 결론을 개선하는 예시입니다.
 
 ## Problem Statement
 

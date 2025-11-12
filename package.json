@@ -1,6 +1,6 @@
 {
   "name": "@zerodice0/sequential-thinking-skill",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Sequential thinking skill for Claude Code - structured multi-step reasoning framework",
   "author": "zerodice0",
   "license": "Apache-2.0",
@@ -36,6 +36,8 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:ui": "vitest --ui",
+    "test:integration": "vitest run test/integration/",
+    "test:integration:watch": "vitest test/integration/",
     "lint": "eslint helpers/ test/ --ext .ts",
     "lint:fix": "eslint helpers/ test/ --ext .ts --fix",
     "format": "prettier --write \"**/*.{ts,md,json}\"",

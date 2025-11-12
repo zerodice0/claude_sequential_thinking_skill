@@ -41,7 +41,23 @@ Sequential Thinking is a structured approach to solving complex problems by:
 
 ## Basic Usage
 
-### Automatic Activation
+### Method 1: Slash Commands (권장)
+
+가장 빠르고 명시적인 방법:
+
+```bash
+# 복잡한 문제 분석
+/think How should I design this microservices architecture?
+
+# 빠른 체계적 분석
+/analyze performance bottleneck in authentication
+```
+
+**Available Commands:**
+- **`/think [problem]`**: Full sequential thinking with branching and revision support
+- **`/analyze [topic]`**: Streamlined version for quick systematic analysis
+
+### Method 2: Automatic Activation
 
 The skill activates automatically when you:
 
@@ -51,9 +67,9 @@ The skill activates automatically when you:
 "Help me debug this complex issue"
 ```
 
-### Explicit Activation
+### Method 3: Explicit Activation
 
-Force activation with:
+Force activation with natural language:
 
 ```
 "Use sequential thinking to..."
@@ -329,8 +345,21 @@ See detailed examples in:
 
 ---
 
-## Next Steps
+## Related Documents
 
-- 💡 Read [Best Practices](best-practices.md)
-- 🔄 Check [Migration Guide](migration-from-mcp.md) (if coming from MCP)
-- 🤝 Consider [Contributing](../CONTRIBUTING.md)
+### 📚 Documentation Guide
+- **[Best Practices](best-practices.md)**: 효과적인 사용을 위한 가이드라인과 패턴
+- **[Installation Guide](installation.md)**: 설치 방법 및 문제 해결
+- **[Migration Guide](migration-from-mcp.md)**: MCP 서버에서 마이그레이션하는 경우
+
+### 📋 Example Reference
+- **[Basic Usage](../examples/basic-usage.md)**: 기본 사용 패턴 및 워크플로우
+- **[Branching Example](../examples/branching-example.md)**: 다중 접근 방식 탐색 예시
+- **[Revision Example](../examples/revision-example.md)**: 사고 개선 및 수정 예시
+- **[Complex Problem](../examples/complex-problem.md)**: 복잡한 문제 해결 전체 프로세스
+- **[Debugging Scenario](../examples/debugging-scenario.md)**: 체계적 디버깅 접근법
+
+### 🔗 External Resources
+- **[Main README](../README.md)**: 프로젝트 개요 및 소개
+- **[Contributing Guide](../CONTRIBUTING.md)**: 기여 방법
+- **[Changelog](../CHANGELOG.md)**: 버전 히스토리

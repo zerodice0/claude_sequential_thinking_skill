@@ -36,7 +36,7 @@ export function validateThought(input: unknown): ValidationResult {
   const data = input as Record<string, unknown>;
 
   // Required fields validation
-  if (!data.thought || typeof data.thought !== 'string') {
+  if (typeof data.thought !== 'string') {
     errors.push('Invalid thought: must be a non-empty string');
   } else if (data.thought.length === 0) {
     errors.push('Thought cannot be empty');

@@ -138,9 +138,7 @@ export class TodoWriteAdapter {
           thoughts: []
         };
       }
-      if (this.sessionState.branches[thoughtData.branchId]) {
-        this.sessionState.branches[thoughtData.branchId].thoughts.push(entry);
-      }
+      this.sessionState.branches[thoughtData.branchId]?.thoughts.push(entry);
     }
 
     // Auto-cleanup if enabled

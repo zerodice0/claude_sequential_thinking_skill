@@ -13,7 +13,7 @@ fi
 
 # Prettier로 staged 파일 포맷팅
 echo "🔧 Prettier로 파일 포맷팅 중..."
-echo "$STAGED_FILES" | xargs prettier --write
+echo "$STAGED_FILES" | xargs pnpm exec prettier --write
 
 # 포맷팅된 파일을 다시 스테이징
 echo "$STAGED_FILES" | xargs git add

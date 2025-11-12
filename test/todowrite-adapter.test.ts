@@ -8,7 +8,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import {
   TodoWriteAdapter,
   createTodoWriteAdapter,
-  formatThoughtHistory
+  formatThoughtHistory,
 } from '../helpers/todowrite-adapter';
 import type { ThoughtData } from '../helpers/types';
 
@@ -30,7 +30,7 @@ describe('TodoWriteAdapter', () => {
       const adapter = createTodoWriteAdapter({
         enableTracking: false,
         maxTasksInList: 10,
-        autoCleanup: false
+        autoCleanup: false,
       });
       expect(adapter).toBeDefined();
     });
@@ -42,7 +42,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const task = adapter.trackThought(thought);
@@ -57,7 +57,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Final thought',
         thoughtNumber: 3,
         totalThoughts: 3,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const task = adapter.trackThought(thought);
@@ -71,7 +71,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         isRevision: true,
-        revisesThought: 1
+        revisesThought: 1,
       };
 
       const task = adapter.trackThought(thought);
@@ -84,7 +84,7 @@ describe('TodoWriteAdapter', () => {
         thoughtNumber: 2,
         totalThoughts: 3,
         nextThoughtNeeded: true,
-        branchId: 'test-branch'
+        branchId: 'test-branch',
       };
 
       const task = adapter.trackThought(thought);
@@ -98,7 +98,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       adapter.updateState(thought);
@@ -115,7 +115,7 @@ describe('TodoWriteAdapter', () => {
           thought: `Thought ${i}`,
           thoughtNumber: i,
           totalThoughts: 5,
-          nextThoughtNeeded: i < 5
+          nextThoughtNeeded: i < 5,
         });
       }
 
@@ -131,7 +131,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 2,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       });
 
       const state = adapter.getSessionState();
@@ -142,7 +142,7 @@ describe('TodoWriteAdapter', () => {
     it('should cleanup old tasks when enabled', () => {
       const adapter = createTodoWriteAdapter({
         autoCleanup: true,
-        maxTasksInList: 5
+        maxTasksInList: 5,
       });
 
       // Add 10 thoughts
@@ -151,7 +151,7 @@ describe('TodoWriteAdapter', () => {
           thought: `Thought ${i}`,
           thoughtNumber: i,
           totalThoughts: 10,
-          nextThoughtNeeded: i < 10
+          nextThoughtNeeded: i < 10,
         });
       }
 
@@ -176,7 +176,7 @@ describe('TodoWriteAdapter', () => {
 
     it('should use custom task prefix', () => {
       const adapter = createTodoWriteAdapter({
-        taskPrefix: '🎯'
+        taskPrefix: '🎯',
       });
 
       const todos = adapter.generateTodoList(3);
@@ -198,7 +198,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Thought 1',
         thoughtNumber: 1,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       adapter.updateState({
@@ -207,7 +207,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 5,
         nextThoughtNeeded: true,
         isRevision: true,
-        revisesThought: 1
+        revisesThought: 1,
       });
 
       adapter.updateState({
@@ -216,7 +216,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 5,
         nextThoughtNeeded: true,
         branchFromThought: 2,
-        branchId: 'test-branch'
+        branchId: 'test-branch',
       });
 
       const stats = adapter.getStats();
@@ -233,7 +233,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 2,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       const found = adapter.findThought(2);
@@ -255,7 +255,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 2,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'test-branch'
+        branchId: 'test-branch',
       });
 
       adapter.updateState({
@@ -264,7 +264,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 2,
         nextThoughtNeeded: false,
         branchFromThought: 1,
-        branchId: 'test-branch'
+        branchId: 'test-branch',
       });
 
       const thoughts = adapter.getBranchThoughts('test-branch');
@@ -283,7 +283,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       expect(adapter.canRevise(1)).toBe(true);
@@ -300,7 +300,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       adapter.reset();
@@ -319,7 +319,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       const json = adapter.exportSession();
@@ -332,7 +332,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       const json = adapter.exportSession();
@@ -354,7 +354,7 @@ describe('TodoWriteAdapter', () => {
         thought: 'Thought 1',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       adapter1.updateState({
@@ -363,7 +363,7 @@ describe('TodoWriteAdapter', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       });
 
       const json = adapter1.exportSession();
@@ -385,12 +385,14 @@ describe('formatThoughtHistory', () => {
   });
 
   it('should format single entry', () => {
-    const history = [{
-      thoughtNumber: 1,
-      totalThoughts: 3,
-      thought: 'Test thought',
-      timestamp: new Date().toISOString()
-    }];
+    const history = [
+      {
+        thoughtNumber: 1,
+        totalThoughts: 3,
+        thought: 'Test thought',
+        timestamp: new Date().toISOString(),
+      },
+    ];
 
     const formatted = formatThoughtHistory(history);
     expect(formatted).toContain('💭');
@@ -403,7 +405,7 @@ describe('formatThoughtHistory', () => {
       thoughtNumber: i + 1,
       totalThoughts: 20,
       thought: `Thought ${i + 1}`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     }));
 
     const formatted = formatThoughtHistory(history, 5);
@@ -412,27 +414,31 @@ describe('formatThoughtHistory', () => {
   });
 
   it('should show revision emoji', () => {
-    const history = [{
-      thoughtNumber: 1,
-      totalThoughts: 3,
-      thought: 'Revised',
-      timestamp: new Date().toISOString(),
-      isRevision: true,
-      revisesThought: 0
-    }];
+    const history = [
+      {
+        thoughtNumber: 1,
+        totalThoughts: 3,
+        thought: 'Revised',
+        timestamp: new Date().toISOString(),
+        isRevision: true,
+        revisesThought: 0,
+      },
+    ];
 
     const formatted = formatThoughtHistory(history);
     expect(formatted).toContain('✏️');
   });
 
   it('should show branch emoji', () => {
-    const history = [{
-      thoughtNumber: 1,
-      totalThoughts: 3,
-      thought: 'Branch',
-      timestamp: new Date().toISOString(),
-      branchId: 'test-branch'
-    }];
+    const history = [
+      {
+        thoughtNumber: 1,
+        totalThoughts: 3,
+        thought: 'Branch',
+        timestamp: new Date().toISOString(),
+        branchId: 'test-branch',
+      },
+    ];
 
     const formatted = formatThoughtHistory(history);
     expect(formatted).toContain('🌿');

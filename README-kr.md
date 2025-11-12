@@ -46,6 +46,7 @@ cd claude_sequential_thinking_skill
 ```
 
 설치 스크립트는 다음을 자동으로 수행합니다:
+
 - ✅ 필요한 디렉터리 생성
 - ✅ SKILL.md 및 slash command 파일 복사
 - ✅ 설치 검증 및 사용법 안내
@@ -121,6 +122,7 @@ Claude: [sequential-thinking skill 자동 활성화]
 ```
 
 스킬은 다음과 같은 경우 자동으로 활성화됩니다:
+
 - "단계적으로 생각해봐", "체계적으로 분석해줘"
 - 3단계 이상의 추론이 필요한 복잡한 문제
 - 여러 옵션을 비교하고 평가하는 상황
@@ -135,15 +137,18 @@ Claude: [sequential-thinking skill 자동 활성화]
 ## 📚 Documentation
 
 ### 🚀 Getting Started
+
 - [⚡ 5분 시작 가이드](SKILL.md#-5분-시작-가이드) - 빠른 시작 튜토리얼
 - [⚙️ Installation Guide](docs/installation.md) - 설치 방법 상세 및 검증
 - [⚡ Slash Command Usage](examples/slash-command-usage.md) - `/think`와 `/analyze` 명령어 가이드
 
 ### 📖 Core Guides
+
 - [📖 User Guide](docs/user-guide.md) - 전체 기능 및 사용 가이드
 - [💡 Best Practices](docs/best-practices.md) - 효과적인 사용 패턴 및 가이드라인
 
 ### 🔄 Migration & Advanced
+
 - [🔄 Migration from MCP](docs/migration-from-mcp.md) - MCP 서버에서 마이그레이션
 - [🧪 Testing Guide](test/SKILL_TEST_GUIDE.md) - Skill 테스트 가이드
 
@@ -198,19 +203,20 @@ Claude: [sequential-thinking skill 자동 활성화]
 
 ### MCP Server vs Skill
 
-| Feature | MCP Server | Skill |
-|---------|-----------|-------|
-| **Installation** | NPM/Docker 필요 | 단일 파일 복사 |
-| **Setup Time** | 5-10분 | 1분 |
-| **Performance** | ~50ms (IPC 오버헤드) | ~5ms (직접 호출) |
-| **Customization** | 소스 수정 + 빌드 | SKILL.md 직접 편집 |
-| **State Management** | 메모리 (휘발성) | TodoWrite (지속성) |
-| **Debugging** | 외부 프로세스 | 로컬 실행 |
-| **Dependencies** | Node.js, npm | 없음 |
+| Feature              | MCP Server           | Skill              |
+| -------------------- | -------------------- | ------------------ |
+| **Installation**     | NPM/Docker 필요      | 단일 파일 복사     |
+| **Setup Time**       | 5-10분               | 1분                |
+| **Performance**      | ~50ms (IPC 오버헤드) | ~5ms (직접 호출)   |
+| **Customization**    | 소스 수정 + 빌드     | SKILL.md 직접 편집 |
+| **State Management** | 메모리 (휘발성)      | TodoWrite (지속성) |
+| **Debugging**        | 외부 프로세스        | 로컬 실행          |
+| **Dependencies**     | Node.js, npm         | 없음               |
 
 ### When to Use
 
 **Sequential Thinking Skill is best for:**
+
 - 🎯 복잡한 문제 분석 (3단계 이상)
 - 🔍 체계적인 디버깅 및 조사
 - 🏗️ 아키텍처 및 설계 의사결정
@@ -218,6 +224,7 @@ Claude: [sequential-thinking skill 자동 활성화]
 - 🎨 창의적 문제 해결 및 브레인스토밍
 
 **Not recommended for:**
+
 - ❌ 단순한 정보 검색
 - ❌ 1-2단계로 끝나는 간단한 질문
 - ❌ 코드 생성만 필요한 경우
@@ -233,16 +240,16 @@ Claude: [sequential-thinking skill 자동 활성화]
 ```typescript
 interface ThoughtData {
   // 필수 필드
-  thought: string;              // 생각 내용
-  thoughtNumber: number;        // 현재 단계
-  totalThoughts: number;        // 총 단계
-  nextThoughtNeeded: boolean;   // 다음 필요 여부
+  thought: string; // 생각 내용
+  thoughtNumber: number; // 현재 단계
+  totalThoughts: number; // 총 단계
+  nextThoughtNeeded: boolean; // 다음 필요 여부
 
   // 선택 필드
-  isRevision?: boolean;         // 수정 여부
-  revisesThought?: number;      // 수정 대상
-  branchId?: string;            // 분기 ID
-  branchFromThought?: number;   // 분기 시작점
+  isRevision?: boolean; // 수정 여부
+  revisesThought?: number; // 수정 대상
+  branchId?: string; // 분기 ID
+  branchFromThought?: number; // 분기 시작점
 }
 ```
 
@@ -474,18 +481,21 @@ you may not use this file except in compliance with the License.
 ## 🗺️ Roadmap
 
 ### v1.0 (Current)
+
 - ✅ Core skill implementation
 - ✅ TodoWrite integration
 - ✅ Branching and revision support
 - ✅ Comprehensive documentation
 
 ### v1.1 (Planned)
+
 - ⏳ Additional examples
 - ⏳ Helper function enhancements
 - ⏳ Integration with other skills
 - ⏳ Performance optimizations
 
 ### v2.0 (Future)
+
 - 🔮 Advanced visualization
 - 🔮 Collaborative thinking sessions
 - 🔮 Thought templates

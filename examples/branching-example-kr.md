@@ -7,6 +7,7 @@
 **상황**: 대용량 로그 데이터를 처리하는 시스템 설계
 
 **요구사항**:
+
 - 일일 100GB 로그 데이터 처리
 - 실시간 검색 및 분석 필요
 - 로그 보존 기간: 90일
@@ -180,13 +181,15 @@ Elasticsearch 작은 클러스터:
 ### Architecture
 
 ```
+
 Log Sources
-    ↓
+↓
 Vector (Log Collector)
-    ↓
+↓
 ClickHouse Cluster (2 nodes)
-    ↓
+↓
 Grafana (Visualization)
+
 ```
 
 ### Implementation Plan
@@ -208,13 +211,17 @@ Grafana (Visualization)
 ### Cost Breakdown
 
 ```
+
 ClickHouse (m5.large × 2): $200
 Storage (EBS): $90
 Vector (included): $0
 Grafana Cloud Free: $0
 Buffer (20%): $60
+
 ---
+
 Total: $350/월 (예산의 35%)
+
 ```
 
 ### Success Metrics
@@ -261,3 +268,4 @@ Thought 4에서 명시적 비교가 결정적:
 3. 팀 상황 고려
 4. 비교표 작성
 5. 최종 추천
+```

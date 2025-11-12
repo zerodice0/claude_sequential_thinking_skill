@@ -45,7 +45,7 @@ export type {
   BranchInfo,
   SessionState,
   FormatOptions,
-  TodoTask
+  TodoTask,
 } from './types';
 
 // Core logic exports
@@ -57,7 +57,7 @@ export {
   getSessionStats,
   findThought,
   getBranchThoughts,
-  canReviseThought
+  canReviseThought,
 } from './sequential-thinking';
 
 // Formatter exports
@@ -67,14 +67,14 @@ export {
   formatValidationErrors,
   formatSessionSummary,
   formatProgress,
-  wrapText
+  wrapText,
 } from './formatters';
 
 // TodoWrite adapter exports
 export {
   TodoWriteAdapter,
   createTodoWriteAdapter,
-  formatThoughtHistory
+  formatThoughtHistory,
 } from './todowrite-adapter';
 export type { TodoWriteConfig } from './todowrite-adapter';
 
@@ -95,7 +95,7 @@ export function createSequentialThinking() {
     // Process a thought
     processThought: (input: unknown) => {
       const result = processThought(input, {
-        sessionState: adapter.getSessionState()
+        sessionState: adapter.getSessionState(),
       });
 
       if (result.success) {
@@ -115,7 +115,7 @@ export function createSequentialThinking() {
 
     // Export/import session
     exportSession: () => adapter.exportSession(),
-    importSession: (json: string) => adapter.importSession(json)
+    importSession: (json: string) => adapter.importSession(json),
   };
 }
 
@@ -126,15 +126,12 @@ export function createSequentialThinking() {
  * @param totalThoughts - Total planned thoughts
  * @returns ThoughtData object
  */
-export function createInitialThought(
-  thought: string,
-  totalThoughts: number
-): ThoughtData {
+export function createInitialThought(thought: string, totalThoughts: number): ThoughtData {
   return {
     thought,
     thoughtNumber: 1,
     totalThoughts,
-    nextThoughtNeeded: true
+    nextThoughtNeeded: true,
   };
 }
 
@@ -161,7 +158,7 @@ export function createBranchThought(
     totalThoughts,
     nextThoughtNeeded: true,
     branchId,
-    branchFromThought
+    branchFromThought,
   };
 }
 
@@ -186,7 +183,7 @@ export function createRevisionThought(
     totalThoughts,
     nextThoughtNeeded: true,
     isRevision: true,
-    revisesThought
+    revisesThought,
   };
 }
 
@@ -207,7 +204,7 @@ export function createFinalThought(
     thought,
     thoughtNumber,
     totalThoughts,
-    nextThoughtNeeded: false
+    nextThoughtNeeded: false,
   };
 }
 
@@ -215,7 +212,7 @@ export function createFinalThought(
 import {
   validateThought as _validateThought,
   normalizeThought,
-  processThought
+  processThought,
 } from './sequential-thinking';
 import type { ThoughtData } from './types';
 import { createTodoWriteAdapter } from './todowrite-adapter';

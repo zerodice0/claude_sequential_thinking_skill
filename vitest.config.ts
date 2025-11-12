@@ -23,12 +23,12 @@ export default defineConfig({
         'test/',
         '**/*.test.ts',
         '**/*.config.ts',
-        '**/index.ts' // Entry point, mostly re-exports
+        '**/index.ts', // Entry point, mostly re-exports
       ],
       lines: 80,
       functions: 80,
       branches: 80,
-      statements: 80
+      statements: 80,
     },
 
     // Globals
@@ -38,13 +38,13 @@ export default defineConfig({
     testTimeout: 10000,
 
     // Reporter
-    reporter: ['verbose']
+    reporter: ['verbose'],
   },
 
   // Resolve configuration
   resolve: {
     alias: {
-      '@': '/helpers'
-    }
-  }
+      '@': '/helpers',
+    },
+  },
 });

@@ -11,7 +11,7 @@ import {
   formatValidationErrors,
   formatSessionSummary,
   formatProgress,
-  wrapText
+  wrapText,
 } from '../helpers/formatters';
 import type { ThoughtData } from '../helpers/types';
 
@@ -22,7 +22,7 @@ describe('Formatters', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const formatted = formatThought(thought);
@@ -38,7 +38,7 @@ describe('Formatters', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         isRevision: true,
-        revisesThought: 1
+        revisesThought: 1,
       };
 
       const formatted = formatThought(thought);
@@ -53,7 +53,7 @@ describe('Formatters', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       };
 
       const formatted = formatThought(thought);
@@ -66,7 +66,7 @@ describe('Formatters', () => {
         thought: 'Final thought',
         thoughtNumber: 3,
         totalThoughts: 3,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const formatted = formatThought(thought);
@@ -78,7 +78,7 @@ describe('Formatters', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const formatted = formatThought(thought, { includeBorder: true });
@@ -92,7 +92,7 @@ describe('Formatters', () => {
         thought: 'Test',
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const formatted = formatThought(thought, { useEmoji: false });
@@ -107,7 +107,7 @@ describe('Formatters', () => {
         thought: 'Test thought for todo',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const formatted = formatForTodoWrite(thought);
@@ -121,7 +121,7 @@ describe('Formatters', () => {
         thought: 'a'.repeat(200),
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const formatted = formatForTodoWrite(thought);
@@ -136,7 +136,7 @@ describe('Formatters', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         isRevision: true,
-        revisesThought: 1
+        revisesThought: 1,
       };
 
       const formatted = formatForTodoWrite(thought);
@@ -150,7 +150,7 @@ describe('Formatters', () => {
         thoughtNumber: 2,
         totalThoughts: 3,
         nextThoughtNeeded: true,
-        branchId: 'test-branch'
+        branchId: 'test-branch',
       };
 
       const formatted = formatForTodoWrite(thought);
@@ -244,7 +244,8 @@ describe('Formatters', () => {
     });
 
     it('should wrap long text', () => {
-      const text = 'This is a very long text that should be wrapped to fit within the specified width limit';
+      const text =
+        'This is a very long text that should be wrapped to fit within the specified width limit';
       const wrapped = wrapText(text, 20);
       const lines = wrapped.split('\n');
       expect(lines.length).toBeGreaterThan(1);

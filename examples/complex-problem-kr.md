@@ -7,12 +7,14 @@
 **상황**: 레거시 모놀리식 애플리케이션이 확장성 문제에 직면
 
 **현재 상태**:
+
 - 단일 Rails 애플리케이션 (10년 history)
 - 100만 DAU, 점점 증가 중
 - 배포 시간 2시간
 - 팀 규모: 20명 개발자
 
 **문제**:
+
 - 배포 느림 (전체 재시작 필요)
 - 스케일링 어려움 (수직 확장만 가능)
 - 팀 간 코드 충돌 빈번
@@ -104,15 +106,17 @@
 
 **구조 예:**
 ```
+
 monolith/
 ├── modules/
-│   ├── users/          (Team A)
-│   ├── payments/       (Team B)
-│   ├── inventory/      (Team C)
-│   └── shipping/       (Team D)
+│ ├── users/ (Team A)
+│ ├── payments/ (Team B)
+│ ├── inventory/ (Team C)
+│ └── shipping/ (Team D)
 └── shared/
-    ├── database
-    └── common_libs
+├── database
+└── common_libs
+
 ```
 
 **장점:**
@@ -143,12 +147,14 @@ monolith/
 
 **목표 아키텍처:**
 ```
+
 API Gateway
 ├── User Service
 ├── Payment Service
 ├── Inventory Service
 ├── Shipping Service
 └── Notification Service
+
 ```
 
 **장점:**
@@ -268,17 +274,19 @@ Modular Monolith로 시작 → 점진적 Microservices 전환
 
 **인프라:**
 ```
+
 ┌─────────────────────┐
-│  API Gateway        │
+│ API Gateway │
 ├─────────────────────┤
-│  Monolith (Core)    │
+│ Monolith (Core) │
 ├─────────────────────┤
-│  Notification       │  ← 첫 분리 서비스
-│  Service            │
+│ Notification │ ← 첫 분리 서비스
+│ Service │
 ├─────────────────────┤
-│  Monitoring         │
-│  (Datadog/Grafana)  │
+│ Monitoring │
+│ (Datadog/Grafana) │
 └─────────────────────┘
+
 ```
 
 **학습 포인트:**
@@ -372,3 +380,4 @@ Modular Monolith로 시작 → 점진적 Microservices 전환
 - 비용, 시간, 리스크 평가
 - 팀 역량 고려
 - 단계적 전환 가능성
+```

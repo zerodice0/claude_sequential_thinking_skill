@@ -49,6 +49,7 @@ TodoWrite items should be created like:
 ## ✅ Checklist
 
 If the test is successful:
+
 - [ ] 💭 icon appears in TodoWrite
 - [ ] Progress shown in "Thought X/Y" format
 - [ ] MCP tool (`mcp__sequential-thinking__sequentialthinking`) NOT called
@@ -63,6 +64,7 @@ compare MySQL vs PostgreSQL with branching
 ```
 
 **Expected Result**:
+
 ```
 💭 Thought 1/6: Defining database requirements
 💭 Thought 2/6: Establishing common evaluation criteria
@@ -89,13 +91,14 @@ compare MySQL vs PostgreSQL with branching
 3. Check name field:
    ```yaml
    ---
-   name: sequential-thinking-test  # Must be exact
+   name: sequential-thinking-test # Must be exact
    ---
    ```
 
 ### "MCP tool is still being called"
 
 Explicitly mention the skill name:
+
 ```
 "Use sequential-thinking-test skill to ..."
 ```
@@ -103,6 +106,7 @@ Explicitly mention the skill name:
 ### "TodoWrite items look strange"
 
 Ensure you have the latest SKILL.md:
+
 ```bash
 cd /path/to/sequential_thinking_skill
 cp SKILL.md ~/.claude/skills/sequential-thinking-test/
@@ -111,6 +115,7 @@ cp SKILL.md ~/.claude/skills/sequential-thinking-test/
 ## 🎉 Success?
 
 Now try these:
+
 1. Auto-activation test (after disabling MCP server)
 2. Test with complex real-world problems
 3. Run integration test script: `npm run test:integration`
@@ -118,5 +123,6 @@ Now try these:
 ---
 
 **Questions or Issues?**
+
 - Report at [GitHub Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues)
 - See [Full Testing Guide](test/SKILL_TEST_GUIDE.md)

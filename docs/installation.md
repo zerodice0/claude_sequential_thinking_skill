@@ -33,6 +33,7 @@ cd claude_sequential_thinking_skill
 ```
 
 **What the script does**:
+
 - ✅ Validates source files
 - ✅ Creates necessary directories
 - ✅ Copies SKILL.md and slash commands
@@ -41,6 +42,7 @@ cd claude_sequential_thinking_skill
 - ✅ Provides usage instructions
 
 **Advantages**:
+
 - ✅ Fully automated process
 - ✅ Error handling and validation
 - ✅ Interactive or command-line mode
@@ -50,6 +52,7 @@ cd claude_sequential_thinking_skill
 **When to use**: For all users, especially beginners. This is the safest and easiest method.
 
 **Installation Locations**:
+
 - Global: `~/.claude/skills/sequential-thinking/` and `~/.claude/commands/sequential-thinking/`
 - Local: `./.claude/skills/sequential-thinking/` and `./.claude/commands/sequential-thinking/`
 
@@ -68,6 +71,7 @@ cd claude_sequential_thinking_skill
 ```
 
 **Advantages**:
+
 - ✅ One-click installation
 - ✅ Automatic updates
 - ✅ Version management
@@ -99,11 +103,13 @@ curl -o ~/.claude/commands/sequential-thinking/analyze.md \
 ```
 
 **Advantages**:
+
 - ✅ Fast installation
 - ✅ No git required
 - ✅ Works immediately
 
 **Disadvantages**:
+
 - ❌ Manual updates required
 - ❌ No version control
 - ❌ Must download multiple files
@@ -127,12 +133,14 @@ git clone git@github.com:zerodice0/claude_sequential_thinking_skill.git \
 ```
 
 **Advantages**:
+
 - ✅ Easy updates (git pull)
 - ✅ Version control
 - ✅ Can contribute changes
 - ✅ Access to all files
 
 **Disadvantages**:
+
 - ❌ Requires Git
 - ❌ More setup
 
@@ -152,6 +160,7 @@ ls -la ~/.claude/skills/sequential-thinking/SKILL.md
 ```
 
 Expected output:
+
 ```
 -rw-r--r--  1 user  staff  45678 Jan 15 10:30 SKILL.md
 ```
@@ -224,6 +233,7 @@ git pull origin main
 ```
 
 The uninstall script:
+
 - ✅ Detects existing installations
 - ✅ Shows what will be removed
 - ✅ Asks for confirmation
@@ -257,6 +267,7 @@ rm -rf ./.claude/commands/sequential-thinking
 **Symptom**: Claude Code doesn't recognize the skill
 
 **Solution**:
+
 1. Check file location:
    ```bash
    ls ~/.claude/skills/sequential-thinking/SKILL.md
@@ -272,6 +283,7 @@ rm -rf ./.claude/commands/sequential-thinking
 **Symptom**: Skill exists but doesn't activate
 
 **Solution**:
+
 1. Try explicit activation: "Use sequential thinking..."
 2. Check SKILL.md has correct YAML frontmatter
 3. Look for syntax errors in SKILL.md
@@ -282,6 +294,7 @@ rm -rf ./.claude/commands/sequential-thinking
 **Symptom**: Cannot write to ~/.claude/skills
 
 **Solution**:
+
 ```bash
 # Create directory with correct permissions
 mkdir -p ~/.claude/skills
@@ -293,6 +306,7 @@ chmod 755 ~/.claude/skills
 **Symptom**: Git clone returns error
 
 **Solution**:
+
 1. Check internet connection
 2. Verify Git is installed: `git --version`
 3. Try HTTPS instead of SSH (or vice versa)
@@ -399,6 +413,7 @@ Invoke-WebRequest -Uri "https://raw.githubusercontent.com/zerodice0/claude_seque
 ### ✅ Verification Checklist
 
 **1. 파일 존재 확인**
+
 ```bash
 # Global 설치의 경우
 ls -la ~/.claude/skills/sequential-thinking/SKILL.md
@@ -412,6 +427,7 @@ ls -la ./.claude/commands/sequential-thinking/
 **2. Skill 인식 테스트**
 
 Claude Code에서 다음을 시도:
+
 ```
 "단계적으로 이 문제를 분석해줘"
 ```
@@ -429,11 +445,13 @@ Claude Code에서 다음을 시도:
 **4. 기능 확인**
 
 간단한 문제로 전체 기능 테스트:
+
 ```
 /think "Should I use REST or GraphQL for my API?"
 ```
 
 **Expected**:
+
 - 💭 아이콘과 함께 순차적 사고 시작
 - TodoWrite 항목 생성
 - 체계적인 분석 진행
@@ -442,16 +460,19 @@ Claude Code에서 다음을 시도:
 ### 🔧 Common Issues
 
 **Skill not found**:
+
 - SKILL.md 파일 위치 확인
 - 파일 권한 확인 (`chmod 644`)
 - Claude Code 재시작
 
 **Commands not working**:
+
 - `.claude/commands/` 디렉토리 확인
 - 명령 파일 권한 확인
 - Claude Code 재시작
 
 **설치 문제 해결**:
+
 - [Troubleshooting](#troubleshooting) 섹션 참조
 - [User Guide](user-guide.md) 확인
 - [GitHub Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues) 검색
@@ -473,16 +494,19 @@ After successful installation:
 ## Related Documents
 
 ### 📚 Documentation
+
 - **[User Guide](user-guide.md)**: 전체 기능 및 사용법 상세 설명
 - **[Best Practices](best-practices.md)**: 효과적인 사용 가이드라인
 - **[Migration Guide](migration-from-mcp.md)**: MCP 서버에서 마이그레이션
 
 ### 📋 Examples
+
 - **[Basic Usage](../examples/basic-usage.md)**: 기본 사용 패턴
 - **[Branching Example](../examples/branching-example.md)**: 다중 접근 방식
 - **[Complex Problem](../examples/complex-problem.md)**: 복잡한 문제 해결
 
 ### 🔗 Resources
+
 - **[Main README](../README.md)**: 프로젝트 개요
 - **[Changelog](../CHANGELOG.md)**: 버전 히스토리
 
@@ -491,6 +515,7 @@ After successful installation:
 ## Support
 
 Need help?
+
 - 💬 [GitHub Discussions](https://github.com/zerodice0/claude_sequential_thinking_skill/discussions)
 - 🐛 [Report Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues)
 - 📖 [Full Documentation](user-guide.md)

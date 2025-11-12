@@ -36,14 +36,14 @@ helpers/
 import { validateThought, processThought } from './helpers';
 
 const result = validateThought({
-  thought: "문제 분석",
+  thought: '문제 분석',
   thoughtNumber: 1,
   totalThoughts: 5,
-  nextThoughtNeeded: true
+  nextThoughtNeeded: true,
 });
 
 if (result.valid) {
-  console.log("유효한 사고입니다!");
+  console.log('유효한 사고입니다!');
 }
 ```
 
@@ -56,10 +56,10 @@ const thinking = createSequentialThinking();
 
 // 사고 처리
 const result = thinking.processThought({
-  thought: "첫 번째 단계",
+  thought: '첫 번째 단계',
   thoughtNumber: 1,
   totalThoughts: 5,
-  nextThoughtNeeded: true
+  nextThoughtNeeded: true,
 });
 
 // 통계 확인
@@ -85,7 +85,7 @@ try {
   const thought = normalizeThought(input);
   // 검증된 ThoughtData 사용
 } catch (error) {
-  console.error("검증 실패:", error.message);
+  console.error('검증 실패:', error.message);
 }
 ```
 
@@ -98,7 +98,7 @@ const sessionState = createSessionState();
 
 const result = processThought(input, {
   sessionState,
-  disableFormatting: false
+  disableFormatting: false,
 });
 
 if (result.success) {
@@ -115,7 +115,7 @@ import { formatThought, formatProgress } from './helpers';
 const formatted = formatThought(thoughtData, {
   useEmoji: true,
   includeBorder: true,
-  maxWidth: 80
+  maxWidth: 80,
 });
 
 // 진행 상황 표시
@@ -130,7 +130,7 @@ import { createTodoWriteAdapter } from './helpers';
 const adapter = createTodoWriteAdapter({
   enableTracking: true,
   maxTasksInList: 20,
-  autoCleanup: true
+  autoCleanup: true,
 });
 
 // 사고를 TodoWrite 작업으로 추적
@@ -150,27 +150,19 @@ adapter.importSession(json);
 ### 예시 1: 기본 워크플로우
 
 ```typescript
-import {
-  createSequentialThinking,
-  createInitialThought,
-  createFinalThought
-} from './helpers';
+import { createSequentialThinking, createInitialThought, createFinalThought } from './helpers';
 
 const thinking = createSequentialThinking();
 
 // 초기 사고
-let result = thinking.processThought(
-  createInitialThought("문제 정의", 5)
-);
+let result = thinking.processThought(createInitialThought('문제 정의', 5));
 
 // 중간 사고들...
 
 // 최종 사고
-result = thinking.processThought(
-  createFinalThought("최종 결론", 5, 5)
-);
+result = thinking.processThought(createFinalThought('최종 결론', 5, 5));
 
-console.log("완료!");
+console.log('완료!');
 console.log(thinking.getStats());
 ```
 
@@ -180,13 +172,7 @@ console.log(thinking.getStats());
 import { createBranchThought, processThought } from './helpers';
 
 // 메인 사고 3에서 브랜치 생성
-const branchThought = createBranchThought(
-  "접근법 A 탐색",
-  4,
-  10,
-  "approach-a",
-  3
-);
+const branchThought = createBranchThought('접근법 A 탐색', 4, 10, 'approach-a', 3);
 
 const result = processThought(branchThought, { sessionState });
 
@@ -201,17 +187,12 @@ if (result.success) {
 import { createRevisionThought, processThought } from './helpers';
 
 // 사고 2를 수정
-const revision = createRevisionThought(
-  "수정된 분석 내용",
-  6,
-  10,
-  2
-);
+const revision = createRevisionThought('수정된 분석 내용', 6, 10, 2);
 
 const result = processThought(revision);
 
 if (result.success) {
-  console.log("✏️ 수정 완료");
+  console.log('✏️ 수정 완료');
 }
 ```
 
@@ -235,16 +216,16 @@ const todos = adapter.generateTodoList(5, ['option-a', 'option-b']);
 
 ```typescript
 interface ThoughtData {
-  thought: string;              // 사고 내용 (필수)
-  thoughtNumber: number;        // 현재 단계 번호 (필수)
-  totalThoughts: number;        // 전체 단계 수 (필수)
-  nextThoughtNeeded: boolean;   // 다음 단계 필요 여부 (필수)
+  thought: string; // 사고 내용 (필수)
+  thoughtNumber: number; // 현재 단계 번호 (필수)
+  totalThoughts: number; // 전체 단계 수 (필수)
+  nextThoughtNeeded: boolean; // 다음 단계 필요 여부 (필수)
 
-  isRevision?: boolean;         // 수정 여부
-  revisesThought?: number;      // 수정 대상 번호
-  branchFromThought?: number;   // 브랜치 분기점
-  branchId?: string;            // 브랜치 ID
-  needsMoreThoughts?: boolean;  // 추가 단계 필요
+  isRevision?: boolean; // 수정 여부
+  revisesThought?: number; // 수정 대상 번호
+  branchFromThought?: number; // 브랜치 분기점
+  branchId?: string; // 브랜치 ID
+  needsMoreThoughts?: boolean; // 추가 단계 필요
 }
 ```
 
@@ -311,10 +292,10 @@ const branchThoughts = getBranchThoughts(state, 'approach-a');
 import { formatThought } from './helpers';
 
 const customFormat = formatThought(thoughtData, {
-  useEmoji: false,          // 이모지 비활성화
-  includeBorder: true,      // 테두리 표시
-  includeTimestamp: true,   // 타임스탬프 추가
-  maxWidth: 100             // 최대 너비 설정
+  useEmoji: false, // 이모지 비활성화
+  includeBorder: true, // 테두리 표시
+  includeTimestamp: true, // 타임스탬프 추가
+  maxWidth: 100, // 최대 너비 설정
 });
 ```
 
@@ -352,8 +333,8 @@ const result = thinking.processThought(input);
 
 ```typescript
 const adapter = createTodoWriteAdapter({
-  maxTasksInList: 20,      // 최대 작업 수 제한
-  autoCleanup: true        // 자동 정리 활성화
+  maxTasksInList: 20, // 최대 작업 수 제한
+  autoCleanup: true, // 자동 정리 활성화
 });
 ```
 
@@ -365,8 +346,8 @@ const adapter = createTodoWriteAdapter({
 const result = validateThought(input);
 
 if (!result.valid) {
-  console.error("검증 실패:", result.errors);
-  console.warn("경고:", result.warnings);
+  console.error('검증 실패:', result.errors);
+  console.warn('경고:', result.warnings);
 }
 ```
 

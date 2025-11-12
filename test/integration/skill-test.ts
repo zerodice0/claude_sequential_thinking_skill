@@ -11,7 +11,7 @@ import {
   validateThought,
   normalizeThought as _normalizeThought,
   processThought,
-  createSessionState
+  createSessionState,
 } from '../../helpers/sequential-thinking';
 import { formatThought } from '../../helpers/formatters';
 
@@ -49,9 +49,9 @@ describe('Sequential Thinking Skill Integration', () => {
       const skillMd = readFileSync(skillMdPath, 'utf-8');
 
       expect(skillMd).toContain('TodoWrite');
-      expect(skillMd).toContain('💭');  // 일반 생각 아이콘
-      expect(skillMd).toContain('🌿');  // 분기 아이콘
-      expect(skillMd).toContain('✏️');  // 수정 아이콘
+      expect(skillMd).toContain('💭'); // 일반 생각 아이콘
+      expect(skillMd).toContain('🌿'); // 분기 아이콘
+      expect(skillMd).toContain('✏️'); // 수정 아이콘
     });
 
     test('ThoughtData 구조가 문서화되어 있어야 함', () => {
@@ -66,12 +66,15 @@ describe('Sequential Thinking Skill Integration', () => {
 
   describe('TodoWrite 형식 출력 검증', () => {
     test('일반 생각이 올바른 TodoWrite 형식으로 변환됨', () => {
-      const result = formatThought({
-        thought: '문제의 핵심 요구사항 파악',
-        thoughtNumber: 1,
-        totalThoughts: 5,
-        nextThoughtNeeded: true
-      }, { useEmoji: true });
+      const result = formatThought(
+        {
+          thought: '문제의 핵심 요구사항 파악',
+          thoughtNumber: 1,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+        },
+        { useEmoji: true }
+      );
 
       expect(result).toContain('💭');
       expect(result).toContain('Thought 1/5');
@@ -79,14 +82,17 @@ describe('Sequential Thinking Skill Integration', () => {
     });
 
     test('분기된 생각이 브랜치 표시를 포함해야 함', () => {
-      const result = formatThought({
-        thought: '성능 최적화 접근법',
-        thoughtNumber: 3,
-        totalThoughts: 8,
-        branchId: 'performance',
-        branchFromThought: 2,
-        nextThoughtNeeded: true
-      }, { useEmoji: true });
+      const result = formatThought(
+        {
+          thought: '성능 최적화 접근법',
+          thoughtNumber: 3,
+          totalThoughts: 8,
+          branchId: 'performance',
+          branchFromThought: 2,
+          nextThoughtNeeded: true,
+        },
+        { useEmoji: true }
+      );
 
       expect(result).toContain('🌿');
       expect(result).toContain('Branch');
@@ -94,14 +100,17 @@ describe('Sequential Thinking Skill Integration', () => {
     });
 
     test('수정된 생각이 수정 표시를 포함해야 함', () => {
-      const result = formatThought({
-        thought: 'PostgreSQL로 재평가',
-        thoughtNumber: 4,
-        totalThoughts: 8,
-        isRevision: true,
-        revisesThought: 3,
-        nextThoughtNeeded: true
-      }, { useEmoji: true });
+      const result = formatThought(
+        {
+          thought: 'PostgreSQL로 재평가',
+          thoughtNumber: 4,
+          totalThoughts: 8,
+          isRevision: true,
+          revisesThought: 3,
+          nextThoughtNeeded: true,
+        },
+        { useEmoji: true }
+      );
 
       expect(result).toContain('✏️');
       expect(result).toContain('Revision');
@@ -109,12 +118,15 @@ describe('Sequential Thinking Skill Integration', () => {
     });
 
     test('완료된 생각이 완료 표시를 포함해야 함', () => {
-      const result = formatThought({
-        thought: '최종 권장사항 및 실행 계획',
-        thoughtNumber: 5,
-        totalThoughts: 5,
-        nextThoughtNeeded: false
-      }, { useEmoji: true });
+      const result = formatThought(
+        {
+          thought: '최종 권장사항 및 실행 계획',
+          thoughtNumber: 5,
+          totalThoughts: 5,
+          nextThoughtNeeded: false,
+        },
+        { useEmoji: true }
+      );
 
       expect(result).toContain('✅');
       expect(result).toContain('Complete');
@@ -126,35 +138,44 @@ describe('Sequential Thinking Skill Integration', () => {
       const sessionState = createSessionState();
 
       // Thought 1
-      const result1 = processThought({
-        thought: '문제 정의',
-        thoughtNumber: 1,
-        totalThoughts: 3,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const result1 = processThought(
+        {
+          thought: '문제 정의',
+          thoughtNumber: 1,
+          totalThoughts: 3,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(result1.success).toBe(true);
       expect(result1.thoughtNumber).toBe(1);
       expect(sessionState.thoughtHistory).toHaveLength(1);
 
       // Thought 2
-      const result2 = processThought({
-        thought: '해결책 탐색',
-        thoughtNumber: 2,
-        totalThoughts: 3,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const result2 = processThought(
+        {
+          thought: '해결책 탐색',
+          thoughtNumber: 2,
+          totalThoughts: 3,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(result2.success).toBe(true);
       expect(sessionState.thoughtHistory).toHaveLength(2);
 
       // Thought 3 (완료)
-      const result3 = processThought({
-        thought: '최종 결론',
-        thoughtNumber: 3,
-        totalThoughts: 3,
-        nextThoughtNeeded: false
-      }, { sessionState });
+      const result3 = processThought(
+        {
+          thought: '최종 결론',
+          thoughtNumber: 3,
+          totalThoughts: 3,
+          nextThoughtNeeded: false,
+        },
+        { sessionState }
+      );
 
       expect(result3.success).toBe(true);
       expect(result3.nextThoughtNeeded).toBe(false);
@@ -165,35 +186,44 @@ describe('Sequential Thinking Skill Integration', () => {
       const sessionState = createSessionState();
 
       // 초기 생각
-      processThought({
-        thought: '공통 요구사항 파악',
-        thoughtNumber: 1,
-        totalThoughts: 6,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '공통 요구사항 파악',
+          thoughtNumber: 1,
+          totalThoughts: 6,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // Branch A
-      const branchA = processThought({
-        thought: 'MySQL 접근법',
-        thoughtNumber: 2,
-        totalThoughts: 6,
-        branchId: 'mysql',
-        branchFromThought: 1,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const branchA = processThought(
+        {
+          thought: 'MySQL 접근법',
+          thoughtNumber: 2,
+          totalThoughts: 6,
+          branchId: 'mysql',
+          branchFromThought: 1,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(branchA.success).toBe(true);
       expect(sessionState.branches['mysql']).toBeDefined();
 
       // Branch B
-      const branchB = processThought({
-        thought: 'PostgreSQL 접근법',
-        thoughtNumber: 2,
-        totalThoughts: 6,
-        branchId: 'postgresql',
-        branchFromThought: 1,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const branchB = processThought(
+        {
+          thought: 'PostgreSQL 접근법',
+          thoughtNumber: 2,
+          totalThoughts: 6,
+          branchId: 'postgresql',
+          branchFromThought: 1,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(branchB.success).toBe(true);
       expect(sessionState.branches['postgresql']).toBeDefined();
@@ -204,22 +234,28 @@ describe('Sequential Thinking Skill Integration', () => {
       const sessionState = createSessionState();
 
       // 초기 생각
-      processThought({
-        thought: 'MySQL 선택',
-        thoughtNumber: 3,
-        totalThoughts: 5,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'MySQL 선택',
+          thoughtNumber: 3,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 수정
-      const revision = processThought({
-        thought: 'PostgreSQL로 재평가',
-        thoughtNumber: 4,
-        totalThoughts: 6,
-        isRevision: true,
-        revisesThought: 3,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const revision = processThought(
+        {
+          thought: 'PostgreSQL로 재평가',
+          thoughtNumber: 4,
+          totalThoughts: 6,
+          isRevision: true,
+          revisesThought: 3,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(revision.success).toBe(true);
 
@@ -232,29 +268,38 @@ describe('Sequential Thinking Skill Integration', () => {
       const sessionState = createSessionState();
 
       // 초기 예상: 5단계
-      processThought({
-        thought: '초기 분석',
-        thoughtNumber: 1,
-        totalThoughts: 5,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '초기 분석',
+          thoughtNumber: 1,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 복잡도 발견 → 확장 필요
-      processThought({
-        thought: '복잡한 요구사항 발견',
-        thoughtNumber: 5,
-        totalThoughts: 5,
-        needsMoreThoughts: true,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '복잡한 요구사항 발견',
+          thoughtNumber: 5,
+          totalThoughts: 5,
+          needsMoreThoughts: true,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 확장된 단계
-      const extended = processThought({
-        thought: '추가 분석',
-        thoughtNumber: 6,
-        totalThoughts: 8,  // 확장됨
-        nextThoughtNeeded: true
-      }, { sessionState });
+      const extended = processThought(
+        {
+          thought: '추가 분석',
+          thoughtNumber: 6,
+          totalThoughts: 8, // 확장됨
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(extended.success).toBe(true);
       expect(extended.totalThoughts).toBe(8);
@@ -268,7 +313,7 @@ describe('Sequential Thinking Skill Integration', () => {
         thought: '테스트',
         // thoughtNumber 누락
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       expect(validation.valid).toBe(false);
@@ -281,7 +326,7 @@ describe('Sequential Thinking Skill Integration', () => {
         thought: '',
         thoughtNumber: 1,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       expect(validation.valid).toBe(false);
@@ -294,12 +339,12 @@ describe('Sequential Thinking Skill Integration', () => {
         thoughtNumber: 3,
         totalThoughts: 5,
         nextThoughtNeeded: true,
-        isRevision: true
+        isRevision: true,
         // revisesThought 누락
       });
 
-      expect(validation.valid).toBe(true);  // 유효하지만
-      expect(validation.warnings).toBeDefined();  // 경고 발생
+      expect(validation.valid).toBe(true); // 유효하지만
+      expect(validation.warnings).toBeDefined(); // 경고 발생
       expect(validation.warnings?.some(w => w.includes('revisesThought')) ?? false).toBe(true);
     });
 
@@ -309,7 +354,7 @@ describe('Sequential Thinking Skill Integration', () => {
         thoughtNumber: 3,
         totalThoughts: 5,
         nextThoughtNeeded: true,
-        branchFromThought: 2
+        branchFromThought: 2,
         // branchId 누락
       });
 
@@ -326,56 +371,74 @@ describe('Sequential Thinking Skill Integration', () => {
       // 시나리오: 마이크로서비스 vs 모놀리식 아키텍처 결정
 
       // 1. 문제 정의
-      processThought({
-        thought: '새로운 전자상거래 플랫폼 아키텍처 설계',
-        thoughtNumber: 1,
-        totalThoughts: 8,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '새로운 전자상거래 플랫폼 아키텍처 설계',
+          thoughtNumber: 1,
+          totalThoughts: 8,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 2. 요구사항 파악
-      processThought({
-        thought: '트래픽 예상: 일 10만 주문, 확장성 필수',
-        thoughtNumber: 2,
-        totalThoughts: 8,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '트래픽 예상: 일 10만 주문, 확장성 필수',
+          thoughtNumber: 2,
+          totalThoughts: 8,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 3a. Branch A: 마이크로서비스
-      processThought({
-        thought: '마이크로서비스 아키텍처 분석',
-        thoughtNumber: 3,
-        totalThoughts: 8,
-        branchId: 'microservices',
-        branchFromThought: 2,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '마이크로서비스 아키텍처 분석',
+          thoughtNumber: 3,
+          totalThoughts: 8,
+          branchId: 'microservices',
+          branchFromThought: 2,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
-      processThought({
-        thought: '마이크로서비스 장점: 독립 배포, 확장성',
-        thoughtNumber: 4,
-        totalThoughts: 8,
-        branchId: 'microservices',
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '마이크로서비스 장점: 독립 배포, 확장성',
+          thoughtNumber: 4,
+          totalThoughts: 8,
+          branchId: 'microservices',
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 3b. Branch B: 모놀리식
-      processThought({
-        thought: '모놀리식 아키텍처 분석',
-        thoughtNumber: 3,
-        totalThoughts: 8,
-        branchId: 'monolithic',
-        branchFromThought: 2,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '모놀리식 아키텍처 분석',
+          thoughtNumber: 3,
+          totalThoughts: 8,
+          branchId: 'monolithic',
+          branchFromThought: 2,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
-      processThought({
-        thought: '모놀리식 장점: 단순성, 빠른 개발',
-        thoughtNumber: 4,
-        totalThoughts: 8,
-        branchId: 'monolithic',
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '모놀리식 장점: 단순성, 빠른 개발',
+          thoughtNumber: 4,
+          totalThoughts: 8,
+          branchId: 'monolithic',
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 브랜치 검증
       expect(Object.keys(sessionState.branches)).toHaveLength(2);
@@ -383,38 +446,50 @@ describe('Sequential Thinking Skill Integration', () => {
       expect(sessionState.branches['monolithic']).toBeDefined();
 
       // 5. 비교 분석
-      processThought({
-        thought: '두 접근법 비교: 팀 규모, 초기 복잡도 고려',
-        thoughtNumber: 5,
-        totalThoughts: 8,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '두 접근법 비교: 팀 규모, 초기 복잡도 고려',
+          thoughtNumber: 5,
+          totalThoughts: 8,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 6. 초기 권장사항
-      processThought({
-        thought: '모놀리식으로 시작 권장',
-        thoughtNumber: 6,
-        totalThoughts: 8,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '모놀리식으로 시작 권장',
+          thoughtNumber: 6,
+          totalThoughts: 8,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 7. 새로운 정보 발견 → 수정
-      processThought({
-        thought: '하이브리드 접근: 모놀리식 시작, 점진적 마이크로서비스 전환',
-        thoughtNumber: 7,
-        totalThoughts: 8,
-        isRevision: true,
-        revisesThought: 6,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: '하이브리드 접근: 모놀리식 시작, 점진적 마이크로서비스 전환',
+          thoughtNumber: 7,
+          totalThoughts: 8,
+          isRevision: true,
+          revisesThought: 6,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       // 8. 최종 결론
-      const final = processThought({
-        thought: '최종 권장: 모듈식 모놀리식 → 점진적 분리 전략',
-        thoughtNumber: 8,
-        totalThoughts: 8,
-        nextThoughtNeeded: false
-      }, { sessionState });
+      const final = processThought(
+        {
+          thought: '최종 권장: 모듈식 모놀리식 → 점진적 분리 전략',
+          thoughtNumber: 8,
+          totalThoughts: 8,
+          nextThoughtNeeded: false,
+        },
+        { sessionState }
+      );
 
       // 검증
       expect(final.success).toBe(true);

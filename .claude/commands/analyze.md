@@ -15,6 +15,7 @@ A quick way to activate sequential thinking for immediate problem analysis.
 ## What It Does
 
 This is a streamlined version of `/think` that:
+
 - Activates sequential-thinking skill
 - Focuses on rapid systematic analysis
 - Provides structured breakdown of the problem

@@ -9,6 +9,7 @@ GitHub Actions CI 환경을 로컬에서 재현하여 테스트하는 방법입�
 **증상**: CI에서 `ERR_PNPM_NO_LOCKFILE` 또는 lockfile 관련 에러 발생
 
 **원인**:
+
 - 로컬: pnpm 10.x → lockfileVersion 9.0
 - CI: pnpm 8.x → lockfileVersion 6.0 (호환 안 됨)
 
@@ -18,7 +19,7 @@ GitHub Actions CI 환경을 로컬에서 재현하여 테스트하는 방법입�
 - name: Install pnpm
   uses: pnpm/action-setup@v4
   with:
-    version: 10  # 8에서 10으로 변경
+    version: 10 # 8에서 10으로 변경
 ```
 
 ## 방법 1: 직접 명령어 실행 (빠른 확인)
@@ -39,6 +40,7 @@ pnpm run test:coverage
 ```
 
 이 스크립트는:
+
 - pnpm 버전 확인
 - 의존성 설치 (`--frozen-lockfile`)
 - Linter 실행

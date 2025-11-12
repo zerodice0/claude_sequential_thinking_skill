@@ -47,6 +47,7 @@ TodoWrite에 다음과 같은 항목이 생성됩니다:
 ## ✅ 체크리스트
 
 테스트가 성공적이면:
+
 - [ ] TodoWrite에 💭 아이콘이 표시됨
 - [ ] Thought X/Y 형식으로 진행 상황 표시
 - [ ] MCP 도구(`mcp__sequential-thinking__sequentialthinking`)가 호출되지 않음
@@ -62,6 +63,7 @@ MySQL vs PostgreSQL 선택을
 ```
 
 **기대 결과**:
+
 ```
 💭 Thought 1/6: 데이터베이스 요구사항 정의
 💭 Thought 2/6: 공통 평가 기준 수립
@@ -88,13 +90,14 @@ MySQL vs PostgreSQL 선택을
 3. name 필드 확인:
    ```yaml
    ---
-   name: sequential-thinking-test  # 정확해야 함
+   name: sequential-thinking-test # 정확해야 함
    ---
    ```
 
 ### "MCP 도구가 여전히 호출돼요"
 
 명시적으로 스킬 이름을 언급하세요:
+
 ```
 "sequential-thinking-test 스킬을 사용해서 ..."
 ```
@@ -102,6 +105,7 @@ MySQL vs PostgreSQL 선택을
 ### "TodoWrite 항목이 이상해요"
 
 SKILL.md의 최신 버전인지 확인:
+
 ```bash
 cd /path/to/sequential_thinking_skill
 cp SKILL.md ~/.claude/skills/sequential-thinking-test/
@@ -110,6 +114,7 @@ cp SKILL.md ~/.claude/skills/sequential-thinking-test/
 ## 🎉 성공하셨나요?
 
 이제 다음을 시도해보세요:
+
 1. 자동 활성화 테스트 (MCP 서버 비활성화 후)
 2. 복잡한 실제 문제로 테스트
 3. 통합 테스트 스크립트 실행: `npm run test:integration`
@@ -117,5 +122,6 @@ cp SKILL.md ~/.claude/skills/sequential-thinking-test/
 ---
 
 **질문이나 이슈가 있나요?**
+
 - [GitHub Issues](https://github.com/zerodice0/claude_sequential_thinking_skill/issues)에 보고해주세요
 - [전체 테스트 가이드](test/SKILL_TEST_GUIDE.md)를 참조하세요

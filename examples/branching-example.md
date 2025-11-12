@@ -9,6 +9,7 @@ Example demonstrating how to explore multiple approaches simultaneously using th
 **Situation**: Designing a system to process large-scale log data
 
 **Requirements**:
+
 - Process 100GB of log data daily
 - Real-time search and analysis required
 - Log retention period: 90 days
@@ -182,13 +183,15 @@ Analysis results:
 ### Architecture
 
 ```
+
 Log Sources
-    ↓
+↓
 Vector (Log Collector)
-    ↓
+↓
 ClickHouse Cluster (2 nodes)
-    ↓
+↓
 Grafana (Visualization)
+
 ```
 
 ### Implementation Plan
@@ -210,13 +213,17 @@ Grafana (Visualization)
 ### Cost Breakdown
 
 ```
+
 ClickHouse (m5.large × 2): $200
 Storage (EBS): $90
 Vector (included): $0
 Grafana Cloud Free: $0
 Buffer (20%): $60
+
 ---
+
 Total: $350/month (35% of budget)
+
 ```
 
 ### Success Metrics
@@ -263,3 +270,4 @@ Apply branching to this scenario:
 3. Consider team situation
 4. Create comparison table
 5. Make final recommendation
+```

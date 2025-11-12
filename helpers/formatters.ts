@@ -20,15 +20,12 @@ import { ThoughtData, FormatOptions } from './types';
  * @param options - Formatting options
  * @returns Formatted string for display
  */
-export function formatThought(
-  thoughtData: ThoughtData,
-  options: FormatOptions = {}
-): string {
+export function formatThought(thoughtData: ThoughtData, options: FormatOptions = {}): string {
   const {
     useEmoji = true,
     includeBorder = false,
     includeTimestamp = false,
-    maxWidth = 80
+    maxWidth = 80,
   } = options;
 
   const {
@@ -39,7 +36,7 @@ export function formatThought(
     revisesThought,
     branchFromThought,
     branchId,
-    nextThoughtNeeded
+    nextThoughtNeeded,
   } = thoughtData;
 
   // Determine emoji and prefix
@@ -110,9 +107,8 @@ export function formatForTodoWrite(thoughtData: ThoughtData): string {
 
   // Truncate thought if too long for TodoWrite
   const maxLength = 100;
-  const truncatedThought = thought.length > maxLength
-    ? thought.substring(0, maxLength - 3) + '...'
-    : thought;
+  const truncatedThought =
+    thought.length > maxLength ? thought.substring(0, maxLength - 3) + '...' : thought;
 
   return `${prefix}Thought ${thoughtNumber}/${totalThoughts}: ${truncatedThought}`;
 }
@@ -146,10 +142,7 @@ export function formatSessionSummary(
   branches: string[],
   revisions: number
 ): string {
-  const lines = [
-    '📊 Session Summary',
-    `Total thoughts: ${totalThoughts}`,
-  ];
+  const lines = ['📊 Session Summary', `Total thoughts: ${totalThoughts}`];
 
   if (branches.length > 0) {
     lines.push(`Branches: ${branches.length} (${branches.join(', ')})`);
@@ -172,11 +165,7 @@ export function formatSessionSummary(
  * @param width - Width of progress bar (default: 20)
  * @returns Formatted progress string
  */
-export function formatProgress(
-  current: number,
-  total: number,
-  width: number = 20
-): string {
+export function formatProgress(current: number, total: number, width: number = 20): string {
   const percentage = Math.round((current / total) * 100);
   const filled = Math.round((current / total) * width);
   const empty = width - filled;

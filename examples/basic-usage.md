@@ -9,6 +9,7 @@ Basic example of using sequential thinking for payment system design.
 **Situation**: Need to design a payment system for a new e-commerce platform.
 
 **Requirements**:
+
 - Payment methods: Credit cards, bank transfers, simple payment
 - Security: PCI DSS compliance required
 - Performance: Handle 100 transactions per second
@@ -24,6 +25,7 @@ Basic example of using sequential thinking for payment system design.
 ### Step 1: Problem Understanding (💭 Thought 1/6)
 
 **Analysis**:
+
 ```
 Analyzing core payment system requirements
 
@@ -44,17 +46,20 @@ Initial approach: Explore PG integration vs custom implementation
 ### Step 2: Constraint Analysis (💭 Thought 2/6)
 
 **Technical Constraints**:
+
 - Must comply with PCI DSS Level 1
 - Need secure tokenization for card storage
 - API response time <500ms
 - Transaction consistency guarantee required
 
 **Business Constraints**:
+
 - Budget: $10K initial, $2K/month operating cost
 - Timeline: Must launch in 3 months
 - Team size: 2 backend developers
 
 **Risk Factors**:
+
 - PG vendor lock-in
 - Transaction fee structure
 - Regulatory compliance
@@ -70,18 +75,21 @@ Initial approach: Explore PG integration vs custom implementation
 **Approach**: Integrate major PG services (Stripe, Toss Payments, etc.)
 
 **Pros**:
+
 - ✅ Fast time to market (1-2 months)
 - ✅ PCI DSS compliance handled by vendor
 - ✅ Lower initial development cost
 - ✅ Proven reliability and security
 
 **Cons**:
+
 - ❌ Transaction fees: 2.5-3.5% per transaction
 - ❌ Vendor lock-in risk
 - ❌ Limited customization
 - ❌ Dependent on vendor API stability
 
 **Cost Analysis**:
+
 - Initial: $5K (integration development)
 - Monthly: $2K + variable fees (2.5% of revenue)
 - Break-even: ~$100K monthly transaction volume
@@ -91,12 +99,14 @@ Initial approach: Explore PG integration vs custom implementation
 **Approach**: Build in-house payment processing system
 
 **Pros**:
+
 - ✅ Full control and customization
 - ✅ No transaction fees to third parties
 - ✅ Potential long-term cost savings
 - ✅ Competitive advantage through unique features
 
 **Cons**:
+
 - ❌ High initial development cost ($50K+)
 - ❌ PCI DSS compliance burden
 - ❌ Longer time to market (6-9 months)
@@ -104,6 +114,7 @@ Initial approach: Explore PG integration vs custom implementation
 - ❌ Security responsibility
 
 **Cost Analysis**:
+
 - Initial: $50K (development + certification)
 - Monthly: $5K (infrastructure + compliance)
 - Break-even: ~$500K monthly transaction volume
@@ -115,6 +126,7 @@ Initial approach: Explore PG integration vs custom implementation
 **Insight**: Pure approaches may not be optimal. Consider hybrid strategy.
 
 **Hybrid Approach**:
+
 ```
 Phase 1 (Month 1-3): PG Integration
 - Quick market entry with Stripe
@@ -128,6 +140,7 @@ Phase 2 (Month 6-12): Selective In-house
 ```
 
 **Benefits**:
+
 - Balanced risk-reward
 - Flexible adaptation to business growth
 - Lower initial barrier
@@ -140,21 +153,25 @@ Phase 2 (Month 6-12): Selective In-house
 **Selected Technologies**:
 
 **Backend**:
+
 - Node.js + Express (team expertise)
 - PostgreSQL (transaction reliability)
 - Redis (session management)
 
 **PG Integration**:
+
 - Primary: Stripe (international)
 - Secondary: Toss Payments (domestic)
 
 **Security**:
+
 - Token-based authentication
 - PG-provided tokenization
 - End-to-end encryption
 - Compliance monitoring
 
 **Infrastructure**:
+
 - AWS (cloud platform)
 - Load balancer for high availability
 - Multi-AZ deployment
@@ -167,6 +184,7 @@ Phase 2 (Month 6-12): Selective In-house
 **Recommended Approach**: **Hybrid Strategy with Phase-based Implementation**
 
 **Phase 1: Immediate (Month 1-3)**
+
 ```
 Action Items:
 1. Integrate Stripe as primary PG
@@ -189,6 +207,7 @@ Risk: Low
 ```
 
 **Phase 2: Evaluation (Month 4-6)**
+
 ```
 Metrics to Monitor:
 - Transaction volume and patterns
@@ -201,6 +220,7 @@ Decision Point: If monthly transaction fees >$5K, proceed to Phase 3
 ```
 
 **Phase 3: Optimization (Month 7+)**
+
 ```
 If Conditions Met:
 - Build custom solution for high-frequency transactions
@@ -211,12 +231,14 @@ Expected ROI: 18-24 months
 ```
 
 **Risk Mitigation**:
+
 - Maintain PG backup for business continuity
 - Gradual migration strategy
 - Regular compliance audits
 - Vendor diversification
 
 **Success Metrics**:
+
 - 99.9% uptime achieved
 - <500ms average response time
 - PCI DSS compliance maintained
@@ -227,6 +249,7 @@ Expected ROI: 18-24 months
 ## Key Takeaways
 
 This example demonstrates:
+
 - ✅ **Structured Problem Analysis**: Breaking down complex problem into manageable steps
 - ✅ **Branching**: Exploring multiple approaches (PG vs Custom)
 - ✅ **Trade-off Analysis**: Systematic pros/cons evaluation

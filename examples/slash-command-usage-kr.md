@@ -15,6 +15,7 @@ Use `/think` for complex problems requiring deep analysis, branching, and revisi
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/8: Define core business requirements and constraints
 💭 Thought 2/8: Identify key microservices (catalog, cart, orders, payment)
@@ -34,6 +35,7 @@ Use `/think` for complex problems requiring deep analysis, branching, and revisi
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/7: Gather information about error patterns
 💭 Thought 2/7: Analyze error logs and timing
@@ -52,6 +54,7 @@ Use `/think` for complex problems requiring deep analysis, branching, and revisi
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/6: Define data characteristics and access patterns
 💭 Thought 2/6: Identify key requirements (queries, scale, consistency)
@@ -75,6 +78,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/5: Measure current performance metrics
 💭 Thought 2/5: Identify main bottlenecks (DB queries, API calls, rendering)
@@ -90,6 +94,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/4: Review code structure and patterns
 💭 Thought 2/4: Identify issues (error handling, validation, security)
@@ -104,6 +109,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ```
 
 **Expected Output:**
+
 ```
 💭 Thought 1/5: List key comparison criteria
 💭 Thought 2/5: React advantages and disadvantages
@@ -117,6 +123,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ## When to Use Which Command
 
 ### Use `/think` when:
+
 - ✅ Problem is complex and multi-faceted
 - ✅ Need to explore multiple approaches (branching)
 - ✅ Might need to revise thinking based on new insights
@@ -124,6 +131,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 - ✅ Deep analysis and comprehensive solution needed
 
 ### Use `/analyze` when:
+
 - ✅ Need quick systematic breakdown
 - ✅ Problem is moderately complex (3-5 steps)
 - ✅ Single clear path of analysis
@@ -135,17 +143,21 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ## Tips for Effective Usage
 
 ### 1. Be Specific
+
 ❌ `/think improve performance`
 ✅ `/think how to reduce API response time from 800ms to <200ms`
 
 ### 2. Provide Context
+
 ❌ `/analyze database options`
 ✅ `/analyze PostgreSQL vs MongoDB for time-series IoT data with 1M writes/day`
 
 ### 3. State Your Constraints
+
 ✅ `/think design a caching strategy (budget: $200/month, <10ms latency)`
 
 ### 4. Combine with Other Tools
+
 ```bash
 # First analyze the problem
 /analyze root cause of memory leak in worker service
@@ -201,6 +213,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ### Issue: Too Many Branching Paths
 
 **Solution**: Use `/analyze` for initial filtering, then `/think` for deep dive
+
 ```bash
 /analyze compare 5 authentication providers
 # Output: Top 2 candidates identified
@@ -211,6 +224,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ### Issue: Thinking Process Too Long
 
 **Solution**: Break into smaller problems
+
 ```bash
 # Instead of:
 /think design entire microservices platform
@@ -224,6 +238,7 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 ### Issue: Need Quick Answer
 
 **Solution**: Use `/analyze` instead of `/think`
+
 ```bash
 # Fast decision needed:
 /analyze should we use REST or GraphQL for this API
@@ -233,9 +248,9 @@ Use `/analyze` for quicker systematic analysis without deep branching.
 
 ## Summary
 
-| Command | Depth | Speed | Branching | Best For |
-|---------|-------|-------|-----------|----------|
-| `/think` | Deep | Slower | ✅ Yes | Complex problems, architecture, major decisions |
+| Command    | Depth    | Speed  | Branching  | Best For                                              |
+| ---------- | -------- | ------ | ---------- | ----------------------------------------------------- |
+| `/think`   | Deep     | Slower | ✅ Yes     | Complex problems, architecture, major decisions       |
 | `/analyze` | Moderate | Faster | ❌ Limited | Quick analysis, comparisons, straightforward problems |
 
 Choose the command that matches your problem complexity and time constraints.

@@ -7,11 +7,13 @@ Guidelines for effective use of Sequential Thinking Skill.
 ### 1. 명확한 목표 설정
 
 **시작 전에:**
+
 - 해결하려는 문제가 무엇인가?
 - 원하는 결과는 무엇인가?
 - 성공 기준은 무엇인가?
 
 **Example:**
+
 ```
 ❌ "이 코드를 분석해줘"
 ✅ "이 코드의 성능 병목을 찾고 개선 방안을 제시해줘"
@@ -20,6 +22,7 @@ Guidelines for effective use of Sequential Thinking Skill.
 ### 2. 적절한 범위 설정
 
 **Too Narrow:**
+
 ```
 Thought 1/2: 문제 파악
 Thought 2/2: 해결책
@@ -27,12 +30,14 @@ Thought 2/2: 해결책
 ```
 
 **Too Broad:**
+
 ```
 Thought 1/30: 시작...
 ← 너무 복잡함
 ```
 
 **Just Right:**
+
 ```
 Thought 1/8: Problem definition
 Thought 2/8: Constraint analysis
@@ -46,16 +51,17 @@ Thought 8/8: Final recommendation
 
 ### Estimate Thoughts Realistically
 
-| Complexity | Thoughts | Use Case |
-|------------|----------|----------|
-| Simple | 3-5 | Basic analysis, single decision |
-| Medium | 5-10 | Multi-factor analysis, comparison |
-| Complex | 10-15 | Architecture design, debugging |
-| Very Complex | 15-20 | System redesign, research |
+| Complexity   | Thoughts | Use Case                          |
+| ------------ | -------- | --------------------------------- |
+| Simple       | 3-5      | Basic analysis, single decision   |
+| Medium       | 5-10     | Multi-factor analysis, comparison |
+| Complex      | 10-15    | Architecture design, debugging    |
+| Very Complex | 15-20    | System redesign, research         |
 
 ### Structure Your Thoughts
 
 **Good structure:**
+
 ```
 1-2: Problem definition and understanding
 3-5: Analysis and exploration
@@ -64,6 +70,7 @@ Thought 8/8: Final recommendation
 ```
 
 **Poor structure:**
+
 ```
 1: Random observation
 2: Another random thought
@@ -77,11 +84,13 @@ Thought 8/8: Final recommendation
 ### When to Branch
 
 ✅ **Branch when:**
+
 - 2-3 distinct approaches exist
 - Each needs independent evaluation
 - Trade-offs are significant
 
 ❌ **Don't branch when:**
+
 - Options are very similar
 - Sequential analysis is better
 - Already have 3+ branches
@@ -89,18 +98,21 @@ Thought 8/8: Final recommendation
 ### Branch Management
 
 **Naming:**
+
 ```
 ✅ Good: "performance-optimized", "security-first", "cost-effective"
 ❌ Poor: "option1", "branch", "test"
 ```
 
 **Length:**
+
 ```
 ✅ Good: 3-5 thoughts per branch
 ❌ Poor: 10+ thoughts per branch
 ```
 
 **Comparison:**
+
 ```
 Always include a thought to compare branches:
 💭 Thought 8/10: Branch comparison
@@ -116,12 +128,14 @@ Always include a thought to compare branches:
 ### When to Revise
 
 **Valid reasons:**
+
 - New critical information discovered
 - Previous assumption was wrong
 - Better approach identified
 - Logical error found
 
 **Invalid reasons:**
+
 - Minor wording change
 - Adding small details
 - Completely different direction
@@ -150,11 +164,13 @@ Always include a thought to compare branches:
 ### Be Specific
 
 **Vague:**
+
 ```
 💭 Thought 3/8: Think about the database
 ```
 
 **Specific:**
+
 ```
 💭 Thought 3/8: Database selection - comparing PostgreSQL vs MySQL
   Factors: JSON support, performance, cost
@@ -164,11 +180,13 @@ Always include a thought to compare branches:
 ### Show Your Reasoning
 
 **Weak:**
+
 ```
 💭 Thought 5/8: Use Redis
 ```
 
 **Strong:**
+
 ```
 💭 Thought 5/8: Add Redis caching layer
   Rationale: 80% read traffic, 20% write
@@ -191,18 +209,21 @@ Always include a thought to compare branches:
 ### Minimize Items
 
 **Strategy 1: Reasonable totalThoughts**
+
 ```
 ✅ Start with 5-10 thoughts
 ❌ Start with 20+ thoughts
 ```
 
 **Strategy 2: Complete promptly**
+
 ```
 ✅ Mark completed immediately after finishing
 ❌ Leave many in_progress
 ```
 
 **Strategy 3: Limit branches**
+
 ```
 ✅ 2-3 branches max
 ❌ 5+ branches
@@ -426,27 +447,34 @@ Sequential Thinking for:
 ## Related Documents
 
 ### 📚 Core Documentation
+
 - **[User Guide](user-guide.md)**: 전체 사용 가이드 및 기능 설명
 - **[Installation Guide](installation.md)**: 설치 및 설정 방법
 - **[Migration Guide](migration-from-mcp.md)**: MCP 서버에서의 전환
 
 ### 📋 Practice Examples
+
 Best Practices에서 설명한 패턴들의 실제 적용 예시:
 
 **Problem-Solution 패턴**:
+
 - [Basic Usage](../examples/basic-usage.md) - 기본 문제 해결 접근법
 - [Complex Problem](../examples/complex-problem.md) - 복잡한 문제의 체계적 분석
 
 **Comparison 패턴**:
+
 - [Branching Example](../examples/branching-example.md) - 다중 옵션 비교 및 평가
 
 **Investigation 패턴**:
+
 - [Debugging Scenario](../examples/debugging-scenario.md) - 체계적 디버깅 프로세스
 
 **Revision 패턴**:
+
 - [Revision Example](../examples/revision-example.md) - 사고 개선 및 수정 방법
 
 ### 🔗 Additional Resources
+
 - **[Main README](../README.md)**: 프로젝트 소개
 - **[Contributing](../CONTRIBUTING.md)**: 기여 가이드
 - **[Changelog](../CHANGELOG.md)**: 버전 히스토리

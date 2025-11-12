@@ -38,18 +38,22 @@ analyze microservices vs monolithic architecture step by step"
 ### Test Cases
 
 #### TC-001: Basic Sequential Thinking
+
 **Prompt**:
+
 ```
 Use sequential-thinking-test skill to
 analyze payment system design step by step
 ```
 
 **Expected Results**:
+
 - [ ] TodoWrite items created with 💭 icon
 - [ ] Display format: thoughtNumber/totalThoughts (e.g., 1/5)
 - [ ] Steps progress sequentially
 
 **Verification**:
+
 ```bash
 # Check TodoWrite in Claude Code:
 # - 💭 Thought 1/X: [content]
@@ -58,7 +62,9 @@ analyze payment system design step by step
 ```
 
 #### TC-002: Branch Exploration
+
 **Prompt**:
+
 ```
 Use sequential-thinking-test skill to
 compare database choices (MySQL vs PostgreSQL)
@@ -66,11 +72,13 @@ with branching to evaluate both approaches
 ```
 
 **Expected Results**:
+
 - [ ] Branches marked with 🌿 icon
 - [ ] Branch A and Branch B clearly distinguished
 - [ ] Each branch explored independently
 
 **Verification**:
+
 ```
 Expected output:
 💭 Thought 1/6: Problem definition
@@ -81,7 +89,9 @@ Expected output:
 ```
 
 #### TC-003: Revision Feature
+
 **Prompt**:
+
 ```
 Use sequential-thinking-test skill to
 analyze API design, and if new requirements are discovered midway,
@@ -89,12 +99,15 @@ revise previous steps
 ```
 
 **Expected Results**:
+
 - [ ] Revisions marked with ✏️ icon
 - [ ] revisesThought field is set
 - [ ] Revised thoughts clearly indicated
 
 #### TC-004: Dynamic Expansion
+
 **Prompt**:
+
 ```
 Use sequential-thinking-test skill to
 analyze complex distributed system architecture,
@@ -102,6 +115,7 @@ expand steps if needed
 ```
 
 **Expected Results**:
+
 - [ ] totalThoughts dynamically increases
 - [ ] needsMoreThoughts flag utilized
 
@@ -123,10 +137,12 @@ cp "$HOME/Library/Application Support/Claude/claude_desktop_config.json" \
 ### Disable MCP Server
 
 **Method A**: Rename
+
 ```json
 {
   "mcpServers": {
-    "_disabled_sequential-thinking": {  // Add underscore
+    "_disabled_sequential-thinking": {
+      // Add underscore
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-sequential-thinking"]
     }
@@ -135,6 +151,7 @@ cp "$HOME/Library/Application Support/Claude/claude_desktop_config.json" \
 ```
 
 **Method B**: Remove (JSON doesn't support comments, so removal recommended)
+
 ```json
 {
   "mcpServers": {
@@ -163,11 +180,13 @@ killall Claude
 ### Test Auto-Activation
 
 **Prompt** (using auto-activation keywords):
+
 ```
 Analyze this microservices architecture step by step
 ```
 
 **Expected Behavior**:
+
 - ✅ `sequential-thinking` skill automatically activates
 - ✅ MCP tool (`mcp__sequential-thinking__sequentialthinking`) NOT called
 - ✅ TodoWrite integration works
@@ -212,23 +231,27 @@ npm run test:integration
 ## ✅ Verification Checklist
 
 ### Auto-Activation
+
 - [ ] "Think step by step" → Skill activates
 - [ ] "Analyze systematically" → Skill activates
 - [ ] "Approach step by step" → Skill activates
 - [ ] MCP tool NOT directly called
 
 ### TodoWrite Integration
+
 - [ ] 💭 icon displayed
 - [ ] Thought X/Y format accurate
 - [ ] activeForm field correct
 - [ ] status field (in_progress, completed) accurate
 
 ### Branching Feature
+
 - [ ] Branches marked with 🌿 icon
 - [ ] branchId clearly distinguished
 - [ ] Independent exploration paths
 
 ### Revision Feature
+
 - [ ] Revisions marked with ✏️ icon
 - [ ] revisesThought field set
 - [ ] Revision history tracked
@@ -242,6 +265,7 @@ npm run test:integration
 **Cause**: Skill not installed or incorrect name
 
 **Solution**:
+
 ```bash
 # Check skill file
 cat ~/.claude/skills/sequential-thinking/SKILL.md | head -5
@@ -255,6 +279,7 @@ cat ~/.claude/skills/sequential-thinking/SKILL.md | head -5
 **Cause**: Activation keywords not matched
 
 **Solution**:
+
 - Explicitly mention skill name
 - Check activation conditions in SKILL.md
 
@@ -263,6 +288,7 @@ cat ~/.claude/skills/sequential-thinking/SKILL.md | head -5
 **Cause**: TodoWrite integration logic issue in SKILL.md
 
 **Solution**:
+
 ```bash
 # Check TodoWrite section in SKILL.md
 grep -A 20 "TodoWrite Integration" ~/.claude/skills/sequential-thinking/SKILL.md
@@ -278,12 +304,12 @@ grep -A 20 "TodoWrite Integration" ~/.claude/skills/sequential-thinking/SKILL.md
 **Environment**: Claude Code / Claude Desktop
 **MCP Status**: Enabled / Disabled
 
-| TC | Test Case | Result | Notes |
-|----|-----------|--------|-------|
-| TC-001 | Basic sequential thinking | ✅ | - |
-| TC-002 | Branch exploration | ✅ | - |
-| TC-003 | Revision feature | ⚠️ | revisesThought display needs improvement |
-| TC-004 | Dynamic expansion | ✅ | - |
+| TC     | Test Case                 | Result | Notes                                    |
+| ------ | ------------------------- | ------ | ---------------------------------------- |
+| TC-001 | Basic sequential thinking | ✅     | -                                        |
+| TC-002 | Branch exploration        | ✅     | -                                        |
+| TC-003 | Revision feature          | ⚠️     | revisesThought display needs improvement |
+| TC-004 | Dynamic expansion         | ✅     | -                                        |
 
 ### Issues Found
 

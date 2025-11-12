@@ -7,6 +7,7 @@
 **상황**: 실시간 채팅 애플리케이션의 메시지 저장 방식 설계
 
 **초기 요구사항**:
+
 - 사용자 간 1:1 채팅
 - 메시지 영구 저장
 - 빠른 검색
@@ -17,7 +18,7 @@
 
 ## Sequential Thinking with Revision
 
-```
+````
 💭 Thought 1/6: 채팅 애플리케이션 데이터 특성 분석
 
 주요 특성:
@@ -57,13 +58,14 @@ CREATE TABLE messages (
   created_at TIMESTAMP,
   INDEX idx_users (sender_id, receiver_id, created_at)
 );
-```
+````
 
 ---
 
 💭 Thought 4/6: API 엔드포인트 설계
 
 기본 API 구조:
+
 - POST /messages - 메시지 전송
 - GET /messages?user1={id}&user2={id} - 대화 조회
 - GET /messages/search?q={query} - 검색
@@ -77,6 +79,7 @@ MySQL의 LIKE 쿼리로 검색 구현 예정
 **중요 발견**: 제품 팀으로부터 추가 요구사항 확인
 
 새로운 요구사항:
+
 1. 그룹 채팅 지원 (최대 100명)
 2. 메시지 반응(이모지) 기능
 3. 스레드/답장 기능
@@ -91,11 +94,13 @@ MySQL의 LIKE 쿼리로 검색 구현 예정
 **수정된 결정**: MongoDB 사용
 
 **재평가 이유**:
+
 1. **유연한 스키마**:
    - 1:1 채팅과 그룹 채팅을 같은 컬렉션에
    - 메시지 타입 확장 용이 (텍스트, 이미지, 반응 등)
 
 2. **중첩 데이터 지원**:
+
    ```javascript
    {
      _id: ObjectId,
@@ -122,6 +127,7 @@ MySQL의 LIKE 쿼리로 검색 구현 예정
    - 수평 확장 용이
 
 **MySQL 포기 이유**:
+
 - 복잡한 JOIN 구조 필요 (groups, members, messages, reactions)
 - 스키마 변경 시 마이그레이션 부담
 - 풀텍스트 검색 제한적
@@ -131,12 +137,14 @@ MySQL의 LIKE 쿼리로 검색 구현 예정
 💭 Thought 6/6: 수정된 결정에 따른 아키텍처 조정
 
 **업데이트된 기술 스택**:
+
 - Database: MongoDB (revised from MySQL)
 - Search: MongoDB Text Index
 - Real-time: Socket.io + Redis Pub/Sub
 - API: Node.js/Express
 
 **MongoDB 스키마**:
+
 ```javascript
 // messages collection
 {
@@ -172,6 +180,7 @@ text index on content.text (검색용)
 ```
 
 **API 조정**:
+
 - POST /rooms/{roomId}/messages - 메시지 전송
 - GET /rooms/{roomId}/messages - 대화 조회
 - POST /messages/{messageId}/reactions - 반응 추가
@@ -187,16 +196,19 @@ text index on content.text (검색용)
 ### Implementation Plan
 
 **Phase 1 (Week 1-2):**
+
 - MongoDB 클러스터 설정
 - 스키마 설계 및 인덱스 생성
 - 기본 CRUD API 구현
 
 **Phase 2 (Week 3):**
+
 - 실시간 메시징 (Socket.io)
 - Redis Pub/Sub 통합
 - 메시지 반응 기능
 
 **Phase 3 (Week 4):**
+
 - 스레드/답장 기능
 - 풀텍스트 검색
 - 성능 최적화
@@ -204,12 +216,14 @@ text index on content.text (검색용)
 ### Benefits of Revision
 
 수정을 통해 얻은 이득:
+
 - ✅ 더 나은 기술 선택 (장기적)
 - ✅ 확장 가능한 아키텍처
 - ✅ 새 요구사항 충족
 - ✅ 미래 요구사항 대비
 
 만약 Thought 3에서 계속 진행했다면:
+
 - ❌ 복잡한 MySQL 스키마
 - ❌ 성능 문제 발생 가능
 - ❌ 나중에 더 큰 리팩토링 필요
@@ -221,6 +235,7 @@ text index on content.text (검색용)
 ### 수정이 적절한 시기
 
 **✅ 수정해야 할 때**:
+
 1. 새로운 중요 정보 발견
    - 예: 추가 요구사항 (그룹 채팅)
 2. 이전 가정이 잘못됨
@@ -229,6 +244,7 @@ text index on content.text (검색용)
    - 예: MongoDB의 유연성
 
 **❌ 수정이 불필요한 경우**:
+
 1. 사소한 표현 변경
 2. 추가 설명 (다음 단계로 충분)
 3. 완전히 다른 방향 (새 브랜치 생성)
@@ -252,11 +268,13 @@ Thought 3': 뒤늦은 수정 ← 늦음!
 ### 수정 후 영향 분석
 
 수정 후 반드시:
+
 1. 영향받는 이후 생각들 확인
 2. 필요시 추가 수정
 3. 전체 일관성 유지
 
 이 예시에서:
+
 - Thought 3' 수정
 - Thought 6에서 아키텍처 조정
 - 일관성 유지
@@ -298,6 +316,7 @@ Good solution → Explore → Better solution → Revision → Upgrade
 **문제**: "웹 애플리케이션 배포 전략 수립"
 
 **사고 과정**:
+
 1. 결정: 단일 서버 배포
 2. 기본 CI/CD 파이프라인 설계
 3. 발견: 트래픽이 예상보다 10배 높을 것
@@ -306,6 +325,7 @@ Good solution → Explore → Better solution → Revision → Upgrade
 6. 최종 배포 계획
 
 **질문**:
+
 - Thought 3에서 수정해야 하나요?
 - 아니면 새로운 브랜치를 만들어야 하나요?
 - 왜 그렇게 생각하나요?

@@ -15,6 +15,7 @@ Activate the sequential thinking skill to systematically analyze complex problem
 ## What It Does
 
 This command activates the `sequential-thinking` skill, which provides:
+
 - 🧠 **Step-by-step reasoning** with TodoWrite tracking
 - 🌿 **Branching support** to explore multiple approaches
 - ✏️ **Revision capability** to refine previous thoughts
@@ -33,16 +34,19 @@ This command activates the `sequential-thinking` skill, which provides:
 ## Examples
 
 ### Basic Usage
+
 ```
 /think How should I design a scalable microservices architecture for an e-commerce platform?
 ```
 
 ### Debugging
+
 ```
 /think Investigate why our API has intermittent 500 errors in production
 ```
 
 ### Design Decision
+
 ```
 /think Compare REST vs GraphQL for our new API, considering team expertise and use cases
 ```
@@ -50,6 +54,7 @@ This command activates the `sequential-thinking` skill, which provides:
 ## Activation
 
 When you run `/think`, Claude will:
+
 1. Load the sequential-thinking skill
 2. Initialize the thinking framework
 3. Begin structured analysis of your problem

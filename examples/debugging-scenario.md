@@ -9,6 +9,7 @@ Example demonstrating how to apply sequential thinking to systematic debugging. 
 **Situation**: Intermittent 500 errors occurring in production
 
 **Symptoms**:
+
 - Error frequency: 10-20 occurrences per day
 - Occurrence time: Mainly 2-4 PM
 - Impact: Specific API (`/api/users/profile`)
@@ -25,13 +26,15 @@ Example demonstrating how to apply sequential thinking to systematic debugging. 
 
 **Error log analysis:**
 ```
+
 [2025-01-15 14:23:41] ERROR: Database connection timeout
-  at pg.connect (postgres.js:142)
-  at UserController.getProfile (user.controller.js:45)
+at pg.connect (postgres.js:142)
+at UserController.getProfile (user.controller.js:45)
 Request ID: req-abc123
 User ID: 789456
 Duration: 30050ms (timeout at 30s)
-```
+
+````
 
 **Observed patterns:**
 - Time period: 14:00-16:00 (peak time)
@@ -70,9 +73,10 @@ FROM users u
 LEFT JOIN profiles p ON u.id = p.user_id
 LEFT JOIN relationships r ON u.id = r.user_id
 WHERE u.id = $1;
-```
+````
 
 **Explain Analyze Results:**
+
 - Full table scan on relationships table
 - Missing index found!
 
@@ -83,18 +87,22 @@ WHERE u.id = $1;
 **Hypothesis List:**
 
 **Hypothesis 1: Insufficient Connection Pool**
+
 - Evidence: 95% usage during peak
 - Mechanism: New requests wait for connection → timeout
 
 **Hypothesis 2: Slow Queries Occupying Connections**
+
 - Evidence: Some queries take 2-3 seconds
 - Mechanism: Slow queries occupy connections longer → pool exhaustion
 
 **Hypothesis 3: Database Performance Issues**
+
 - Evidence: Only occurs during specific time periods
 - Mechanism: DB resource shortage
 
 **Hypothesis 4: Connection Leak**
+
 - Evidence: Some connection usage times very long
 - Mechanism: Unreturned connections accumulate
 
@@ -106,16 +114,19 @@ WHERE u.id = $1;
 🌿 [Branch: hypothesis-pool] Thought 4a/10: Verifying insufficient connection pool hypothesis
 
 **Verification Method:**
+
 1. Temporarily increase pool size (100 → 200)
 2. Monitor during peak time
 3. Observe error rate changes
 
 **Test Results (Staging):**
+
 - Pool 100: 1.2% error rate
 - Pool 150: 0.8% error rate
 - Pool 200: 0.5% error rate
 
 **Interpretation:**
+
 - Increasing pool reduces errors
 - But doesn't completely solve it
 - Root cause is elsewhere
@@ -127,6 +138,7 @@ WHERE u.id = $1;
 🌿 [Branch: hypothesis-query] Thought 4b/10: Verifying slow query hypothesis
 
 **Problem Query Analysis:**
+
 ```sql
 -- Current query
 SELECT u.*, p.*, r.*
@@ -139,6 +151,7 @@ WHERE u.id = $1;
 ```
 
 **Index Check:**
+
 ```sql
 -- Existing indexes
 users: PRIMARY KEY (id)
@@ -147,16 +160,19 @@ relationships: PRIMARY KEY (id)  -- No user_id index!
 ```
 
 **Missing Index:**
+
 ```sql
 CREATE INDEX idx_relationships_user_id
 ON relationships(user_id);
 ```
 
 **Test (Staging):**
+
 - Before index: Average 2500ms
 - After index: Average 45ms (98% improvement!)
 
 **Connection Pool Impact:**
+
 - Fast query → Fast connection return
 - Pool usage: 95% → 65%
 - Waiting queue: 15 → 0
@@ -186,11 +202,13 @@ New requests wait
 ```
 
 **Integrated Understanding:**
+
 - Not single cause but compound causes
 - Fine during normal time (low traffic)
 - Problem explodes during peak (3x traffic)
 
 **Impact Calculation:**
+
 - Add index: 98% faster query
 - Fast connection return: 30% reduction in pool usage
 - Remove waiting queue: Prevent timeouts
@@ -200,6 +218,7 @@ New requests wait
 💭 Thought 6/10: Prioritizing solutions
 
 **Immediate (Urgent, Today):**
+
 1. ✅ Add index
    - `CREATE INDEX idx_relationships_user_id ON relationships(user_id)`
    - Impact: 98% query improvement
@@ -212,22 +231,22 @@ New requests wait
    - Reason: Fast fail gives retry opportunity
    - Risk: Low
 
-**Short-term (This Week):**
-3. ✅ Increase connection pool
-   - 100 → 150
-   - Provide buffer
-   - Risk: Need to monitor DB load
+**Short-term (This Week):** 3. ✅ Increase connection pool
+
+- 100 → 150
+- Provide buffer
+- Risk: Need to monitor DB load
 
 4. ✅ Query optimization
    - Remove unnecessary JOINs
    - SELECT only needed columns
    - Prevent N+1 queries
 
-**Long-term (This Month):**
-5. ✅ Strengthen monitoring
-   - Slow query alerts
-   - Connection pool dashboard
-   - Consider auto-scaling
+**Long-term (This Month):** 5. ✅ Strengthen monitoring
+
+- Slow query alerts
+- Connection pool dashboard
+- Consider auto-scaling
 
 6. ✅ Introduce caching
    - Cache profiles with Redis
@@ -241,6 +260,7 @@ New requests wait
 **Immediate Actions (Today)**
 
 **Step 1: Add index (14:00 deployment)**
+
 ```sql
 -- Deploy to production
 CREATE INDEX CONCURRENTLY idx_relationships_user_id
@@ -250,19 +270,21 @@ ON relationships(user_id);
 ```
 
 **Step 2: Adjust timeout (14:05 deployment)**
+
 ```javascript
 // Before
 pool: {
-  connectionTimeoutMillis: 30000
+  connectionTimeoutMillis: 30000;
 }
 
 // After
 pool: {
-  connectionTimeoutMillis: 10000
+  connectionTimeoutMillis: 10000;
 }
 ```
 
 **Step 3: Monitoring (14:10)**
+
 - Real-time error rate tracking
 - Connection pool usage
 - Query response time
@@ -270,18 +292,21 @@ pool: {
 **Verification Metrics (After 24 hours):**
 
 **Before (baseline):**
+
 - Error occurrences: 10-20/day
 - Average response time: 450ms
 - P95 response time: 2800ms
 - Connection pool usage: 95%
 
 **After (target):**
+
 - ✅ Error occurrences: < 1/day (95% reduction)
 - ✅ Average response time: < 200ms (56% improvement)
 - ✅ P95 response time: < 500ms (82% improvement)
 - ✅ Connection pool usage: < 70% (26% reduction)
 
 **Rollback Plan:**
+
 - If index issues: `DROP INDEX idx_relationships_user_id`
 - If timeout issues: Restore original value
 - Can rollback immediately (< 1 minute)
@@ -289,22 +314,27 @@ pool: {
 **Long-term Improvements (Week 1-4):**
 
 **Week 1:**
+
 - [ ] Increase connection pool to 150
 - [ ] Set slow query alert (>500ms)
 
 **Week 2:**
+
 - [ ] Rewrite profile query (remove N+1)
 - [ ] Remove unnecessary JOINs
 
 **Week 3:**
+
 - [ ] Implement Redis caching
 - [ ] Cache warming strategy
 
 **Week 4:**
+
 - [ ] Performance benchmark
 - [ ] Documentation and team sharing
 
 **Post-mortem:**
+
 - Root cause: Missing index
 - Lesson: Importance of initial schema design
 - Prevention: Auto-create indexes on all FKs rule
@@ -317,12 +347,14 @@ pool: {
 ### Resolution Results (After 24 hours)
 
 **Actual Metrics:**
+
 - 0 errors (Goal achieved!)
 - Average response time: 180ms
 - P95 response time: 420ms
 - Connection pool: 62% usage
 
 **Business Impact:**
+
 - Improved user experience
 - Eliminated customer complaints
 - Increased system reliability
@@ -334,6 +366,7 @@ pool: {
 ### Importance of Systematic Debugging
 
 **Without Sequential Thinking:**
+
 ```
 "Connection timeout error?"
 → "Need to increase pool size"
@@ -343,6 +376,7 @@ pool: {
 ```
 
 **With Sequential Thinking:**
+
 ```
 1. Accurately identify symptoms
 2. Collect data
@@ -356,16 +390,19 @@ pool: {
 ### Effect of Branching
 
 Independently verified two hypotheses:
+
 - Hypothesis 1 (pool): Partial cause
 - Hypothesis 2 (query): Main cause
 
 If done sequentially:
+
 - Would have only increased pool
 - Would have missed root cause
 
 ### Recognizing Compound Causes
 
 Not single cause but chain:
+
 1. Missing index
 2. Slow queries
 3. Connection occupation
@@ -400,6 +437,7 @@ Apply this to the following debugging scenario:
 **Problem**: "Service slows down every day at 3 AM. CPU usage reaches 100%."
 
 **Hints**:
+
 1. Accurately identify symptoms
 2. Investigate what runs at 3 AM
 3. Formulate hypotheses (scheduled jobs? batch processing? backup?)

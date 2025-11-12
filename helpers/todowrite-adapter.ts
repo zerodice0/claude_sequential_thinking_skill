@@ -5,12 +5,7 @@
  * Replaces in-memory state management from MCP server with persistent TodoWrite.
  */
 
-import {
-  ThoughtData,
-  ThoughtHistoryEntry,
-  SessionState,
-  TodoTask
-} from './types';
+import { ThoughtData, ThoughtHistoryEntry, SessionState, TodoTask } from './types';
 import { formatForTodoWrite } from './formatters';
 
 /**
@@ -27,7 +22,7 @@ const DEFAULT_CONFIG: TodoWriteConfig = {
   enableTracking: true,
   maxTasksInList: 20,
   autoCleanup: true,
-  taskPrefix: '💭'
+  taskPrefix: '💭',
 };
 
 /**
@@ -45,7 +40,7 @@ export class TodoWriteAdapter {
       thoughtHistory: [],
       branches: {},
       currentThought: 0,
-      totalThoughts: 0
+      totalThoughts: 0,
     };
   }
 
@@ -69,7 +64,7 @@ export class TodoWriteAdapter {
     return {
       content,
       status,
-      activeForm
+      activeForm,
     };
   }
 
@@ -102,7 +97,7 @@ export class TodoWriteAdapter {
     return {
       content: formatForTodoWrite(thoughtData),
       status: 'completed',
-      activeForm: 'Processing'
+      activeForm: 'Processing',
     };
   }
 
@@ -122,7 +117,7 @@ export class TodoWriteAdapter {
       isRevision: thoughtData.isRevision,
       revisesThought: thoughtData.revisesThought,
       branchId: thoughtData.branchId,
-      branchFromThought: thoughtData.branchFromThought
+      branchFromThought: thoughtData.branchFromThought,
     };
 
     this.sessionState.thoughtHistory.push(entry);
@@ -135,7 +130,7 @@ export class TodoWriteAdapter {
         this.sessionState.branches[thoughtData.branchId] = {
           id: thoughtData.branchId,
           fromThought: thoughtData.branchFromThought,
-          thoughts: []
+          thoughts: [],
         };
       }
       this.sessionState.branches[thoughtData.branchId]?.thoughts.push(entry);
@@ -179,7 +174,7 @@ export class TodoWriteAdapter {
       thoughtHistory: [],
       branches: {},
       currentThought: 0,
-      totalThoughts: 0
+      totalThoughts: 0,
     };
   }
 
@@ -192,10 +187,7 @@ export class TodoWriteAdapter {
    * @param branchIds - Optional branch identifiers
    * @returns Array of TodoTask objects
    */
-  public generateTodoList(
-    totalThoughts: number,
-    branchIds?: string[]
-  ): TodoTask[] {
+  public generateTodoList(totalThoughts: number, branchIds?: string[]): TodoTask[] {
     const tasks: TodoTask[] = [];
 
     // Main thinking sequence
@@ -203,7 +195,7 @@ export class TodoWriteAdapter {
       tasks.push({
         content: `${this.config.taskPrefix} Thought ${i}/${totalThoughts}`,
         status: 'pending',
-        activeForm: `Thinking step ${i}`
+        activeForm: `Thinking step ${i}`,
       });
     }
 
@@ -213,7 +205,7 @@ export class TodoWriteAdapter {
         tasks.push({
           content: `🌿 Explore branch: ${branchId}`,
           status: 'pending',
-          activeForm: `Exploring ${branchId}`
+          activeForm: `Exploring ${branchId}`,
         });
       }
     }
@@ -241,7 +233,7 @@ export class TodoWriteAdapter {
       totalThoughts: history.length,
       completedThoughts,
       branchCount,
-      revisionCount
+      revisionCount,
     };
   }
 
@@ -252,9 +244,7 @@ export class TodoWriteAdapter {
    * @returns Thought entry or undefined
    */
   public findThought(thoughtNumber: number): ThoughtHistoryEntry | undefined {
-    return this.sessionState.thoughtHistory.find(
-      t => t.thoughtNumber === thoughtNumber
-    );
+    return this.sessionState.thoughtHistory.find(t => t.thoughtNumber === thoughtNumber);
   }
 
   /**
@@ -308,9 +298,7 @@ export class TodoWriteAdapter {
  * @param config - Optional configuration
  * @returns New adapter instance
  */
-export function createTodoWriteAdapter(
-  config?: Partial<TodoWriteConfig>
-): TodoWriteAdapter {
+export function createTodoWriteAdapter(config?: Partial<TodoWriteConfig>): TodoWriteAdapter {
   return new TodoWriteAdapter(config);
 }
 

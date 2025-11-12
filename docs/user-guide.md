@@ -17,6 +17,7 @@ Complete guide to using Sequential Thinking Skill effectively.
 ### What is Sequential Thinking?
 
 Sequential Thinking is a structured approach to solving complex problems by:
+
 - Breaking down problems into logical steps
 - Exploring multiple approaches through branching
 - Refining ideas through revision
@@ -25,6 +26,7 @@ Sequential Thinking is a structured approach to solving complex problems by:
 ### When to Use
 
 ✅ **Use Sequential Thinking for:**
+
 - Complex multi-step problems
 - Architecture and design decisions
 - Systematic debugging
@@ -32,6 +34,7 @@ Sequential Thinking is a structured approach to solving complex problems by:
 - Creative problem-solving
 
 ❌ **Don't use for:**
+
 - Simple factual questions
 - Direct code generation
 - Quick lookups
@@ -54,6 +57,7 @@ Sequential Thinking is a structured approach to solving complex problems by:
 ```
 
 **Available Commands:**
+
 - **`/think [problem]`**: Full sequential thinking with branching and revision support
 - **`/analyze [topic]`**: Streamlined version for quick systematic analysis
 
@@ -103,11 +107,13 @@ Explore multiple approaches simultaneously:
 ```
 
 **When to branch:**
+
 - 2-3 distinct approaches exist
 - Trade-offs need evaluation
 - Parallel exploration beneficial
 
 **When not to branch:**
+
 - Only one clear path
 - Options are very similar
 - Already have 3+ branches
@@ -125,11 +131,13 @@ Refine previous thoughts with new insights:
 ```
 
 **When to revise:**
+
 - New information changes conclusion
 - Found error in previous reasoning
 - Better approach discovered
 
 **When not to revise:**
+
 - Minor wording changes (just continue)
 - Completely different direction (new branch)
 - Too many revisions (restart session)
@@ -205,6 +213,7 @@ This happens automatically when `thoughtNumber > totalThoughts`.
 ### Planning Thoughts
 
 **Good planning:**
+
 ```
 💭 Thought 1/7: Problem analysis
   Goals: Understand requirements
@@ -213,6 +222,7 @@ This happens automatically when `thoughtNumber > totalThoughts`.
 ```
 
 **Poor planning:**
+
 ```
 💭 Thought 1/3: Let's think about this
 ```
@@ -220,12 +230,14 @@ This happens automatically when `thoughtNumber > totalThoughts`.
 ### Naming Branches
 
 **Good names:**
+
 - `performance-first`
 - `security-focused`
 - `user-experience`
 - `cost-optimized`
 
 **Poor names:**
+
 - `option-1`
 - `approach`
 - `test`
@@ -234,12 +246,14 @@ This happens automatically when `thoughtNumber > totalThoughts`.
 ### Managing Complexity
 
 **Keep it manageable:**
+
 - 5-10 thoughts for simple problems
 - 10-15 for complex problems
 - 2-3 branches maximum
 - 3-5 thoughts per branch
 
 **Signs of over-complexity:**
+
 - More than 20 total thoughts
 - More than 3 active branches
 - Multiple revisions of same thought
@@ -259,6 +273,7 @@ Add intermediate summaries:
 ### Effective Conclusions
 
 **Good conclusion:**
+
 ```
 ✅ Thought 10/10 [Complete]: Final Recommendations
 1. Use PostgreSQL + Redis
@@ -269,6 +284,7 @@ Add intermediate summaries:
 ```
 
 **Poor conclusion:**
+
 ```
 ✅ Thought 10/10: We should probably use a good database
 ```
@@ -296,6 +312,7 @@ status: "in_progress"
 ### Cleaning Up
 
 TodoWrite items accumulate. Best practices:
+
 - Complete thoughts promptly
 - Don't create too many branches
 - Use reasonable totalThoughts
@@ -307,6 +324,7 @@ TodoWrite items accumulate. Best practices:
 ### Problem: Too Many TodoWrite Items
 
 **Solution:**
+
 - Reduce totalThoughts
 - Complete branches before starting new ones
 - Use revision instead of new thoughts
@@ -314,6 +332,7 @@ TodoWrite items accumulate. Best practices:
 ### Problem: Lost Track of Original Question
 
 **Solution:**
+
 - Add checkpoint thoughts
 - Reference original question
 - Restart if needed
@@ -321,6 +340,7 @@ TodoWrite items accumulate. Best practices:
 ### Problem: Branches Too Complex
 
 **Solution:**
+
 - Limit to 2-3 branches
 - Keep branches focused
 - Merge or abandon branches early
@@ -328,6 +348,7 @@ TodoWrite items accumulate. Best practices:
 ### Problem: Not Making Progress
 
 **Solution:**
+
 - Break down into smaller steps
 - Use more specific thought descriptions
 - Consider if sequential thinking is right tool
@@ -337,6 +358,7 @@ TodoWrite items accumulate. Best practices:
 ## Examples Reference
 
 See detailed examples in:
+
 - [Basic Usage](../examples/basic-usage.md)
 - [Branching](../examples/branching-example.md)
 - [Revision](../examples/revision-example.md)
@@ -348,11 +370,13 @@ See detailed examples in:
 ## Related Documents
 
 ### 📚 Documentation Guide
+
 - **[Best Practices](best-practices.md)**: 효과적인 사용을 위한 가이드라인과 패턴
 - **[Installation Guide](installation.md)**: 설치 방법 및 문제 해결
 - **[Migration Guide](migration-from-mcp.md)**: MCP 서버에서 마이그레이션하는 경우
 
 ### 📋 Example Reference
+
 - **[Basic Usage](../examples/basic-usage.md)**: 기본 사용 패턴 및 워크플로우
 - **[Branching Example](../examples/branching-example.md)**: 다중 접근 방식 탐색 예시
 - **[Revision Example](../examples/revision-example.md)**: 사고 개선 및 수정 예시
@@ -360,6 +384,7 @@ See detailed examples in:
 - **[Debugging Scenario](../examples/debugging-scenario.md)**: 체계적 디버깅 접근법
 
 ### 🔗 External Resources
+
 - **[Main README](../README.md)**: 프로젝트 개요 및 소개
 - **[Contributing Guide](../CONTRIBUTING.md)**: 기여 방법
 - **[Changelog](../CHANGELOG.md)**: 버전 히스토리

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+
 - Additional real-world examples
 - Helper function enhancements
 - Integration guides with other skills
@@ -16,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.1.0] - 2025-01-12
 
 ### Added
+
 - GitHub Actions CI/CD pipeline
   - Automated testing on Node.js 18.x and 20.x
   - Code formatting checks with Prettier
@@ -41,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Language switcher links in both files
 
 ### Changed
+
 - Updated validation logic for empty thought strings
   - Improved error message clarity
   - Better error categorization
@@ -50,11 +53,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Clearer organization
 
 ### Fixed
+
 - Validation error message for empty thought field
 - Test suite compatibility issues
 - 97/104 tests now passing (7 integration tests need adjustment)
 
 ### Developer Experience
+
 - Improved initial setup process
 - Better error messages and debugging
 - Enhanced documentation navigation
@@ -63,6 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2025-01-10
 
 ### Added
+
 - Initial release as Claude Code Skill
 - Core SKILL.md with comprehensive framework
   - YAML frontmatter with skill metadata
@@ -113,6 +119,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Apache 2.0 License
 
 ### Changed
+
 - Migrated from MCP Server to Claude Code Skill
   - Removed server dependency
   - Replaced IPC with direct function calls
@@ -120,11 +127,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Improved performance (~10x faster)
 
 ### Removed
+
 - MCP server dependency (NPM/Docker)
 - Chalk library for console coloring (replaced with emoji)
 - Yargs CLI argument parsing (not needed)
 
 ### Migration Notes from MCP Server
+
 - Core validation logic preserved from lib.ts
 - Test suite fully ported and passing
 - All features maintained with feature parity
@@ -137,6 +146,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Reference implementation as MCP server.
 
 ### Features
+
 - Sequential thinking with thought tracking
 - Branching support
 - Revision capability

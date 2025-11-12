@@ -9,6 +9,7 @@ Thank you for your interest in contributing to Sequential Thinking Skill! This d
 Found a bug? Please create an issue with:
 
 **Bug Report Template**:
+
 ```
 **Describe the bug**
 A clear and concise description of the bug.
@@ -39,6 +40,7 @@ Any other relevant information.
 Have an idea for improvement? Create an issue with:
 
 **Enhancement Template**:
+
 ```
 **Is your feature request related to a problem?**
 A clear description of the problem.
@@ -56,6 +58,7 @@ Any other relevant information, mockups, or examples.
 ### 3. 📝 Improving Documentation
 
 Documentation improvements are always welcome:
+
 - Fix typos or unclear explanations
 - Add more examples
 - Improve existing examples
@@ -64,6 +67,7 @@ Documentation improvements are always welcome:
 ### 4. 🔧 Contributing Code
 
 Code contributions include:
+
 - Bug fixes
 - New features
 - Helper function improvements
@@ -94,17 +98,20 @@ npm --version
    - Clone your fork locally
 
 2. **Clone your fork**:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/claude_sequential_thinking_skill.git
    cd claude_sequential_thinking_skill
    ```
 
 3. **Add upstream remote**:
+
    ```bash
    git remote add upstream https://github.com/zerodice0/claude_sequential_thinking_skill.git
    ```
 
 4. **Install dependencies** (if working with helpers):
+
    ```bash
    npm install
    ```
@@ -128,6 +135,7 @@ The core skill definition in `SKILL.md`:
    - Maintain consistency with examples
 
 2. **Test locally**:
+
    ```bash
    # Copy to Claude skills directory
    cp SKILL.md ~/.claude/skills/sequential-thinking/
@@ -147,17 +155,20 @@ The core skill definition in `SKILL.md`:
 TypeScript helper functions in `helpers/`:
 
 1. **Make changes**:
+
    ```bash
    # Edit files in helpers/
    vim helpers/sequential-thinking.ts
    ```
 
 2. **Run tests**:
+
    ```bash
    npm test
    ```
 
 3. **Check coverage**:
+
    ```bash
    npm run coverage
    ```
@@ -172,24 +183,30 @@ TypeScript helper functions in `helpers/`:
 New examples in `examples/`:
 
 1. **Create example file**:
+
    ```bash
    touch examples/my-new-example.md
    ```
 
 2. **Follow template**:
+
    ```markdown
    # Example: [Title]
 
    ## Problem
+
    [Clear problem statement]
 
    ## Sequential Thinking Application
+
    [Step-by-step thought process]
 
    ## Results
+
    [Outcomes and insights]
 
    ## Key Learnings
+
    [What this example demonstrates]
    ```
 
@@ -202,6 +219,7 @@ New examples in `examples/`:
 Documentation in `docs/`:
 
 1. **Edit documentation**:
+
    ```bash
    vim docs/user-guide.md
    ```
@@ -233,6 +251,7 @@ Documentation in `docs/`:
 Follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 **Format**:
+
 ```
 <type>(<scope>): <subject>
 
@@ -242,6 +261,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 ```
 
 **Types**:
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -251,6 +271,7 @@ Follow [Conventional Commits](https://www.conventionalcommits.org/):
 - `chore`: Maintenance tasks
 
 **Examples**:
+
 ```bash
 # Feature
 git commit -m "feat(skill): add support for nested branching"
@@ -268,6 +289,7 @@ git commit -m "test(helpers): add unit tests for revision logic"
 ### Submitting Pull Request
 
 1. **Push to your fork**:
+
    ```bash
    git push origin feature/my-amazing-feature
    ```
@@ -279,11 +301,14 @@ git commit -m "test(helpers): add unit tests for revision logic"
    - Fill out PR template
 
 3. **PR Description Template**:
+
    ```markdown
    ## Description
+
    [Clear description of changes]
 
    ## Type of Change
+
    - [ ] Bug fix
    - [ ] New feature
    - [ ] Documentation update
@@ -291,18 +316,22 @@ git commit -m "test(helpers): add unit tests for revision logic"
    - [ ] Refactoring
 
    ## Testing
+
    - [ ] Tested with Claude Code
    - [ ] Unit tests pass
    - [ ] Integration tests pass
    - [ ] Examples verified
 
    ## Related Issues
+
    Fixes #(issue number)
 
    ## Screenshots (if applicable)
+
    [Add screenshots or examples]
 
    ## Checklist
+
    - [ ] Code follows project style
    - [ ] Self-review completed
    - [ ] Documentation updated
@@ -345,7 +374,7 @@ git commit -m "test(helpers): add unit tests for revision logic"
 ```typescript
 // Use clear, descriptive names
 export interface ThoughtData {
-  thought: string;  // Clear field names
+  thought: string; // Clear field names
   thoughtNumber: number;
 }
 
@@ -406,7 +435,7 @@ describe('SequentialThinkingHelper', () => {
         thought: 'test',
         thoughtNumber: -1,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       expect(result.valid).toBe(false);
@@ -446,6 +475,7 @@ npm test -- helpers/sequential-thinking.test.ts
 ### Required Documentation
 
 When adding features:
+
 1. **SKILL.md**: Update usage protocol
 2. **README.md**: Update features/examples
 3. **CHANGELOG.md**: Add entry
@@ -455,6 +485,7 @@ When adding features:
 ### Example Documentation
 
 For new features, provide:
+
 - **What**: Clear description
 - **Why**: Use case and benefits
 - **How**: Step-by-step instructions
@@ -502,18 +533,21 @@ For new features, provide:
 Current priority areas for contribution:
 
 ### High Priority
+
 - 🐛 Bug fixes
 - 📖 Documentation improvements
 - 🧪 Test coverage improvements
 - 📝 More real-world examples
 
 ### Medium Priority
+
 - ⚡ Performance optimizations
 - 🔧 Helper function enhancements
 - 🌐 Integration with other skills
 - 📊 Analytics and insights
 
 ### Low Priority
+
 - 🎨 Visual improvements
 - 🔮 Advanced features
 - 🌍 Internationalization
@@ -526,6 +560,7 @@ Current priority areas for contribution:
 ### Contributors
 
 All contributors will be recognized in:
+
 - README.md contributors section
 - GitHub contributors page
 - Release notes
@@ -533,6 +568,7 @@ All contributors will be recognized in:
 ### Significant Contributions
 
 Major contributions may result in:
+
 - Maintainer status
 - Decision-making input
 - Feature naming rights
@@ -564,6 +600,7 @@ We pledge to make participation in our project a harassment-free experience for 
 ### Our Standards
 
 **Examples of behavior that contributes to a positive environment**:
+
 - Using welcoming and inclusive language
 - Being respectful of differing viewpoints and experiences
 - Gracefully accepting constructive criticism
@@ -571,6 +608,7 @@ We pledge to make participation in our project a harassment-free experience for 
 - Showing empathy towards other community members
 
 **Unacceptable behavior includes**:
+
 - Trolling, insulting/derogatory comments, and personal or political attacks
 - Public or private harassment
 - Publishing others' private information without permission

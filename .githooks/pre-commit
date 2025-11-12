@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Pre-commit hook: 자동 코드 포맷팅 및 검증
+echo "🎨 코드 포맷팅 확인 중..."
+
+# Staged 파일 중 .ts, .md, .json 파일만 가져오기
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(ts|md|json)$')
+
+if [ -z "$STAGED_FILES" ]; then
+    echo "✅ 포맷팅할 파일이 없습니다."
+    exit 0
+fi
+
+# Prettier로 staged 파일 포맷팅
+echo "🔧 Prettier로 파일 포맷팅 중..."
+echo "$STAGED_FILES" | xargs prettier --write
+
+# 포맷팅된 파일을 다시 스테이징
+echo "$STAGED_FILES" | xargs git add
+
+echo "✅ 코드 포맷팅 완료!"
+exit 0

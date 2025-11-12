@@ -14,7 +14,7 @@ import {
   getSessionStats,
   findThought,
   getBranchThoughts,
-  canReviseThought
+  canReviseThought,
 } from '../helpers/sequential-thinking';
 import type { SessionState } from '../helpers/types';
 
@@ -24,7 +24,7 @@ describe('Sequential Thinking - Validation', () => {
       const input = {
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -37,7 +37,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 123,
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -50,7 +50,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: '',
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const result = validateThought(input);
@@ -62,7 +62,7 @@ describe('Sequential Thinking - Validation', () => {
       const input = {
         thought: 'Test thought',
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -75,7 +75,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: '1',
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -87,7 +87,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: 0,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -99,7 +99,7 @@ describe('Sequential Thinking - Validation', () => {
       const input = {
         thought: 'Test thought',
         thoughtNumber: 1,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -112,7 +112,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: '3',
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -123,7 +123,7 @@ describe('Sequential Thinking - Validation', () => {
       const input = {
         thought: 'Test thought',
         thoughtNumber: 1,
-        totalThoughts: 3
+        totalThoughts: 3,
       };
 
       const result = validateThought(input);
@@ -136,7 +136,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: 'true'
+        nextThoughtNeeded: 'true',
       };
 
       const result = validateThought(input);
@@ -149,7 +149,7 @@ describe('Sequential Thinking - Validation', () => {
         thoughtNumber: 1,
         totalThoughts: 3,
         nextThoughtNeeded: true,
-        isRevision: true
+        isRevision: true,
       };
 
       const result = validateThought(input);
@@ -164,7 +164,7 @@ describe('Sequential Thinking - Validation', () => {
         thoughtNumber: 2,
         totalThoughts: 3,
         nextThoughtNeeded: true,
-        branchFromThought: 1
+        branchFromThought: 1,
       };
 
       const result = validateThought(input);
@@ -178,7 +178,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: 5,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = validateThought(input);
@@ -194,7 +194,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const normalized = normalizeThought(input);
@@ -209,7 +209,7 @@ describe('Sequential Thinking - Validation', () => {
         thought: 'Thought 5',
         thoughtNumber: 5,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const normalized = normalizeThought(input);
@@ -220,7 +220,7 @@ describe('Sequential Thinking - Validation', () => {
       const input = {
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       expect(() => normalizeThought(input)).toThrow();
@@ -241,7 +241,7 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'This is my first thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const result = processThought(input, { sessionState });
@@ -260,7 +260,7 @@ describe('Sequential Thinking - Processing', () => {
         nextThoughtNeeded: true,
         isRevision: true,
         revisesThought: 1,
-        needsMoreThoughts: false
+        needsMoreThoughts: false,
       };
 
       const result = processThought(input, { sessionState });
@@ -273,21 +273,21 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'First thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const input2 = {
         thought: 'Second thought',
         thoughtNumber: 2,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const input3 = {
         thought: 'Final thought',
         thoughtNumber: 3,
         totalThoughts: 3,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       processThought(input1, { sessionState });
@@ -303,7 +303,7 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const result = processThought(input);
@@ -317,7 +317,7 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'Test thought',
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const result = processThought(input, { disableFormatting: true });
@@ -330,7 +330,7 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'a'.repeat(10000),
         thoughtNumber: 1,
         totalThoughts: 1,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       };
 
       const result = processThought(input);
@@ -344,7 +344,7 @@ describe('Sequential Thinking - Processing', () => {
         thought: 'Main thought',
         thoughtNumber: 1,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       };
 
       const input2 = {
@@ -353,7 +353,7 @@ describe('Sequential Thinking - Processing', () => {
         totalThoughts: 3,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       };
 
       const input3 = {
@@ -362,7 +362,7 @@ describe('Sequential Thinking - Processing', () => {
         totalThoughts: 3,
         nextThoughtNeeded: false,
         branchFromThought: 1,
-        branchId: 'branch-b'
+        branchId: 'branch-b',
       };
 
       processThought(input1, { sessionState });
@@ -382,7 +382,7 @@ describe('Sequential Thinking - Processing', () => {
         totalThoughts: 2,
         nextThoughtNeeded: true,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       };
 
       const input2 = {
@@ -391,7 +391,7 @@ describe('Sequential Thinking - Processing', () => {
         totalThoughts: 2,
         nextThoughtNeeded: false,
         branchFromThought: 1,
-        branchId: 'branch-a'
+        branchId: 'branch-a',
       };
 
       processThought(input1, { sessionState });
@@ -407,7 +407,7 @@ describe('Sequential Thinking - Processing', () => {
       const input = {
         thought: 'Test',
         thoughtNumber: 1,
-        totalThoughts: 1
+        totalThoughts: 1,
         // missing nextThoughtNeeded
       };
 
@@ -452,30 +452,39 @@ describe('Sequential Thinking - Session Management', () => {
     });
 
     it('should calculate stats correctly', () => {
-      processThought({
-        thought: 'Thought 1',
-        thoughtNumber: 1,
-        totalThoughts: 5,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Thought 1',
+          thoughtNumber: 1,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
-      processThought({
-        thought: 'Thought 2 (revision)',
-        thoughtNumber: 2,
-        totalThoughts: 5,
-        nextThoughtNeeded: true,
-        isRevision: true,
-        revisesThought: 1
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Thought 2 (revision)',
+          thoughtNumber: 2,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+          isRevision: true,
+          revisesThought: 1,
+        },
+        { sessionState }
+      );
 
-      processThought({
-        thought: 'Branch A',
-        thoughtNumber: 3,
-        totalThoughts: 5,
-        nextThoughtNeeded: true,
-        branchFromThought: 2,
-        branchId: 'branch-a'
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Branch A',
+          thoughtNumber: 3,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+          branchFromThought: 2,
+          branchId: 'branch-a',
+        },
+        { sessionState }
+      );
 
       const stats = getSessionStats(sessionState);
       expect(stats.totalThoughts).toBe(3);
@@ -487,12 +496,15 @@ describe('Sequential Thinking - Session Management', () => {
 
   describe('findThought', () => {
     it('should find thought by number', () => {
-      processThought({
-        thought: 'Test thought',
-        thoughtNumber: 2,
-        totalThoughts: 5,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Test thought',
+          thoughtNumber: 2,
+          totalThoughts: 5,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       const found = findThought(sessionState, 2);
       expect(found).toBeDefined();
@@ -507,23 +519,29 @@ describe('Sequential Thinking - Session Management', () => {
 
   describe('getBranchThoughts', () => {
     it('should return thoughts in branch', () => {
-      processThought({
-        thought: 'Branch thought 1',
-        thoughtNumber: 1,
-        totalThoughts: 2,
-        nextThoughtNeeded: true,
-        branchFromThought: 1,
-        branchId: 'test-branch'
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Branch thought 1',
+          thoughtNumber: 1,
+          totalThoughts: 2,
+          nextThoughtNeeded: true,
+          branchFromThought: 1,
+          branchId: 'test-branch',
+        },
+        { sessionState }
+      );
 
-      processThought({
-        thought: 'Branch thought 2',
-        thoughtNumber: 2,
-        totalThoughts: 2,
-        nextThoughtNeeded: false,
-        branchFromThought: 1,
-        branchId: 'test-branch'
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Branch thought 2',
+          thoughtNumber: 2,
+          totalThoughts: 2,
+          nextThoughtNeeded: false,
+          branchFromThought: 1,
+          branchId: 'test-branch',
+        },
+        { sessionState }
+      );
 
       const branchThoughts = getBranchThoughts(sessionState, 'test-branch');
       expect(branchThoughts.length).toBe(2);
@@ -537,12 +555,15 @@ describe('Sequential Thinking - Session Management', () => {
 
   describe('canReviseThought', () => {
     it('should return true for existing thought', () => {
-      processThought({
-        thought: 'Test thought',
-        thoughtNumber: 1,
-        totalThoughts: 3,
-        nextThoughtNeeded: true
-      }, { sessionState });
+      processThought(
+        {
+          thought: 'Test thought',
+          thoughtNumber: 1,
+          totalThoughts: 3,
+          nextThoughtNeeded: true,
+        },
+        { sessionState }
+      );
 
       expect(canReviseThought(sessionState, 1)).toBe(true);
     });
@@ -559,7 +580,7 @@ describe('Sequential Thinking - Edge Cases', () => {
       thought: 'Only thought',
       thoughtNumber: 1,
       totalThoughts: 1,
-      nextThoughtNeeded: false
+      nextThoughtNeeded: false,
     };
 
     const result = processThought(input);
@@ -573,7 +594,7 @@ describe('Sequential Thinking - Edge Cases', () => {
       thought: 'Final thought',
       thoughtNumber: 3,
       totalThoughts: 3,
-      nextThoughtNeeded: false
+      nextThoughtNeeded: false,
     };
 
     const result = processThought(input);

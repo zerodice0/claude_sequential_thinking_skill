@@ -46,6 +46,7 @@ cd claude_sequential_thinking_skill
 ```
 
 The install script automatically:
+
 - ✅ Creates necessary directories
 - ✅ Copies SKILL.md and slash command files
 - ✅ Verifies installation and provides usage instructions
@@ -121,6 +122,7 @@ Claude: [sequential-thinking skill auto-activated]
 ```
 
 The skill automatically activates when:
+
 - "Think step by step", "Systematically analyze"
 - Complex problems requiring 3+ reasoning steps
 - Situations involving comparison and evaluation of multiple options
@@ -135,15 +137,18 @@ The skill automatically activates when:
 ## 📚 Documentation
 
 ### 🚀 Getting Started
+
 - [⚡ 5-Minute Quick Start](SKILL.md#-5분-시작-가이드) - Fast tutorial
 - [⚙️ Installation Guide](docs/installation.md) - Detailed installation and verification
 - [⚡ Slash Command Usage](examples/slash-command-usage.md) - `/think` and `/analyze` guide
 
 ### 📖 Core Guides
+
 - [📖 User Guide](docs/user-guide.md) - Complete feature and usage guide
 - [💡 Best Practices](docs/best-practices.md) - Effective usage patterns and guidelines
 
 ### 🔄 Migration & Advanced
+
 - [🔄 Migration from MCP](docs/migration-from-mcp.md) - Migrating from MCP server
 - [🧪 Testing Guide](test/SKILL_TEST_GUIDE.md) - Skill testing guide
 
@@ -198,19 +203,20 @@ The skill automatically activates when:
 
 ### MCP Server vs Skill
 
-| Feature | MCP Server | Skill |
-|---------|-----------|-------|
-| **Installation** | Requires NPM/Docker | Single file copy |
-| **Setup Time** | 5-10 minutes | 1 minute |
-| **Performance** | ~50ms (IPC overhead) | ~5ms (direct call) |
-| **Customization** | Source modification + build | Direct SKILL.md editing |
-| **State Management** | Memory (volatile) | TodoWrite (persistent) |
-| **Debugging** | External process | Local execution |
-| **Dependencies** | Node.js, npm | None |
+| Feature              | MCP Server                  | Skill                   |
+| -------------------- | --------------------------- | ----------------------- |
+| **Installation**     | Requires NPM/Docker         | Single file copy        |
+| **Setup Time**       | 5-10 minutes                | 1 minute                |
+| **Performance**      | ~50ms (IPC overhead)        | ~5ms (direct call)      |
+| **Customization**    | Source modification + build | Direct SKILL.md editing |
+| **State Management** | Memory (volatile)           | TodoWrite (persistent)  |
+| **Debugging**        | External process            | Local execution         |
+| **Dependencies**     | Node.js, npm                | None                    |
 
 ### When to Use
 
 **Sequential Thinking Skill is best for:**
+
 - 🎯 Complex problem analysis (3+ steps)
 - 🔍 Systematic debugging and investigation
 - 🏗️ Architecture and design decisions
@@ -218,6 +224,7 @@ The skill automatically activates when:
 - 🎨 Creative problem-solving and brainstorming
 
 **Not recommended for:**
+
 - ❌ Simple information lookup
 - ❌ Simple questions that end in 1-2 steps
 - ❌ Cases where only code generation is needed
@@ -233,16 +240,16 @@ Each thought step has the following structure:
 ```typescript
 interface ThoughtData {
   // Required fields
-  thought: string;              // Thought content
-  thoughtNumber: number;        // Current step
-  totalThoughts: number;        // Total steps
-  nextThoughtNeeded: boolean;   // Whether next step is needed
+  thought: string; // Thought content
+  thoughtNumber: number; // Current step
+  totalThoughts: number; // Total steps
+  nextThoughtNeeded: boolean; // Whether next step is needed
 
   // Optional fields
-  isRevision?: boolean;         // Whether it's a revision
-  revisesThought?: number;      // Target of revision
-  branchId?: string;            // Branch ID
-  branchFromThought?: number;   // Branch starting point
+  isRevision?: boolean; // Whether it's a revision
+  revisesThought?: number; // Target of revision
+  branchId?: string; // Branch ID
+  branchFromThought?: number; // Branch starting point
 }
 ```
 
@@ -474,18 +481,21 @@ This skill was developed based on:
 ## 🗺️ Roadmap
 
 ### v1.1 (Current)
+
 - ✅ GitHub Actions CI/CD pipeline
 - ✅ Quick Start guide
 - ✅ Enhanced cross-document references
 - ✅ Installation verification guide
 
 ### v1.2 (Planned)
+
 - ⏳ Additional real-world examples
 - ⏳ Helper function enhancements
 - ⏳ Integration with other skills
 - ⏳ Performance optimizations
 
 ### v2.0 (Future)
+
 - 🔮 Advanced visualization
 - 🔮 Collaborative thinking sessions
 - 🔮 Thought templates

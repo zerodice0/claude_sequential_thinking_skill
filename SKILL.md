@@ -27,6 +27,7 @@ description: Structured multi-step reasoning framework with branching, revision,
 ### 빠른 시작
 
 **1. 설치** (선택사항 - 자동 활성화됨)
+
 ```bash
 # 설치 스크립트 사용 (권장)
 ./install.sh --global
@@ -39,12 +40,14 @@ cp SKILL.md ~/.claude/skills/sequential-thinking/
 **2. 사용 방법**
 
 **Option A: Slash Command (명시적)**
+
 ```
 /think [문제 설명]
 /analyze [분석 주제]
 ```
 
 **Option B: 자연어 (자동 활성화)**
+
 ```
 "이 시스템을 단계적으로 분석해줘"
 "체계적으로 생각해보자"
@@ -52,6 +55,7 @@ cp SKILL.md ~/.claude/skills/sequential-thinking/
 ```
 
 **3. 예시**
+
 ```
 You: "마이크로서비스 아키텍처의 장단점을 분석해줘"
 
@@ -67,10 +71,12 @@ Claude: 💭 Thought 1/6: 마이크로서비스의 핵심 특성 파악
 ```
 
 **4. 설치 검증**
+
 - Skill 인식: "단계적으로 생각해봐" → Sequential Thinking 활성화 확인
 - Slash 명령어: `/think` 입력 → 자동완성 표시 확인
 
 **5. 다음 단계**
+
 - 자세한 사용법: [Usage Protocol](#usage-protocol) 섹션 참조
 - 실전 예시: [Examples](#examples) 섹션 참조
 - 문제 해결: [Troubleshooting](#troubleshooting) 섹션 참조
@@ -82,26 +88,31 @@ Claude: 💭 Thought 1/6: 마이크로서비스의 핵심 특성 파악
 이 스킬은 다음과 같은 상황에서 특히 유용합니다:
 
 ### 🧩 Complex Problem Analysis
+
 - 다단계 논리적 추론이 필요한 복잡한 문제
 - 여러 요소를 고려해야 하는 시스템 분석
 - 장단점을 체계적으로 평가해야 하는 의사결정
 
 ### 🔍 Debugging & Investigation
+
 - 버그의 근본 원인을 찾기 위한 체계적 조사
 - 시스템 동작을 단계별로 추적하고 분석
 - 가설 수립 및 검증을 통한 문제 해결
 
 ### 🏗️ Architecture & Design
+
 - 여러 설계 옵션을 비교하고 평가
 - 시스템 아키텍처의 장단점 분석
 - 확장성과 유지보수성을 고려한 설계 결정
 
 ### 📊 Strategic Decision Making
+
 - 비즈니스 의사결정을 위한 구조화된 분석
 - 리스크와 기회를 체계적으로 평가
 - 여러 대안의 장단점 비교
 
 ### 🎨 Creative Problem Solving
+
 - 창의적 해결책을 찾기 위한 다양한 접근법 탐색
 - 브레인스토밍 결과를 구조화하여 정리
 - 아이디어를 체계적으로 발전시키기
@@ -115,12 +126,14 @@ Claude: 💭 Thought 1/6: 마이크로서비스의 핵심 특성 파악
 각 사고 단계는 다음 구조를 가집니다:
 
 **필수 필드 (Required Fields)**:
+
 - `thought`: 현재 생각의 내용 (string, non-empty)
 - `thoughtNumber`: 현재 단계 번호 (positive integer)
 - `totalThoughts`: 예상 총 단계 수 (positive integer)
 - `nextThoughtNeeded`: 다음 단계가 필요한지 여부 (boolean)
 
 **선택 필드 (Optional Fields)**:
+
 - `isRevision`: 이전 생각을 수정하는지 여부 (boolean, default: false)
 - `revisesThought`: 수정 대상 단계 번호 (number, isRevision=true일 때 필수)
 - `branchFromThought`: 어느 단계에서 분기했는지 (number)
@@ -200,11 +213,13 @@ TodoWrite {
 동일한 지점에서 여러 경로를 탐색할 수 있습니다.
 
 **사용 시나리오**:
+
 - 여러 설계 옵션을 병렬로 평가
 - 서로 다른 가설을 동시에 검증
 - 다양한 해결책을 탐색하고 비교
 
 **구조 예시**:
+
 ```
 Thought 1: 문제 정의 및 분석
 Thought 2: 주요 제약사항 파악
@@ -222,6 +237,7 @@ Thought 2: 주요 제약사항 파악
 ```
 
 **브랜치 명명 규칙**:
+
 - 명확하고 설명적인 ID 사용 (예: `performance-opt`, `security-focus`, `user-experience`)
 - 하이픈으로 단어 연결
 - 각 브랜치의 목적이 ID에서 드러나도록
@@ -231,12 +247,14 @@ Thought 2: 주요 제약사항 파악
 이전 생각을 되돌아보고 개선할 수 있습니다.
 
 **사용 시나리오**:
+
 - 새로운 정보나 인사이트를 발견했을 때
 - 이전 가정이 잘못되었음을 깨달았을 때
 - 더 나은 접근법을 생각해냈을 때
 - 논리적 오류를 발견했을 때
 
 **예시**:
+
 ```
 Thought 3: 데이터베이스로 MySQL 선택
 Thought 4: API 엔드포인트 설계
@@ -267,6 +285,7 @@ Thought 6: 수정된 데이터베이스 선택을 반영한 API 설계 조정
 ```
 
 **Available Commands**:
+
 - **`/think [problem]`**: 전체 sequential thinking 프레임워크 활성화 (branching, revision 지원)
 - **`/analyze [topic]`**: 빠른 체계적 분석을 위한 간소화 버전
 
@@ -413,6 +432,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 마지막 단계에서:
 
 1. **최종 생각 작성**:
+
    ```
    content: "✅ Thought 8/8 [Complete]: 최종 결론 및 권장 사항"
    status: "completed"
@@ -425,6 +445,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
    - 각 브랜치의 평가 (브랜치가 있는 경우)
 
 3. **사고 과정 시각화**:
+
    ```
    ## 사고 과정 요약
 
@@ -447,6 +468,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 ### Required Field Validation
 
 ✅ **필수 필드 존재**:
+
 - `thought`: 비어있지 않은 문자열
 - `thoughtNumber`: 양의 정수
 - `totalThoughts`: 양의 정수
@@ -455,6 +477,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 ### Type Validation
 
 ✅ **타입 검증**:
+
 - `thought`: string 타입, 길이 > 0, 길이 < 10000
 - `thoughtNumber`: number 타입, > 0
 - `totalThoughts`: number 타입, > 0
@@ -467,6 +490,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 ### Logic Validation
 
 ✅ **논리 검증**:
+
 - `thoughtNumber ≤ totalThoughts` (자동 조정 가능)
 - `isRevision=true`이면 `revisesThought` 필수
 - `branchId`가 있으면 `branchFromThought` 필수
@@ -476,6 +500,7 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 ### Automatic Adjustments
 
 ⚙️ **자동 조정**:
+
 - `thoughtNumber > totalThoughts`인 경우:
   - `totalThoughts`를 `thoughtNumber`로 자동 증가
   - 사용자에게 확장 사실 알림
@@ -489,40 +514,45 @@ Thought 4 진행 중: 추가 분석이 필요함을 인식
 
 각 생각의 타입에 따라 적절한 이모지를 사용합니다:
 
-| 이모지 | 의미 | 사용 시점 |
-|--------|------|----------|
-| 💭 | 일반 생각 | 기본 추론 단계 |
-| 🌿 | 분기 | 새로운 접근법 탐색 |
-| ✏️ | 수정 | 이전 생각 재평가 |
-| ✅ | 완료 | 마지막 단계 완료 |
-| 🔍 | 조사 | 세부 분석 또는 조사 |
-| 💡 | 인사이트 | 중요한 깨달음 |
-| ⚠️ | 주의 | 잠재적 문제 발견 |
-| 🎯 | 목표 | 목표 설정 또는 재확인 |
+| 이모지 | 의미      | 사용 시점             |
+| ------ | --------- | --------------------- |
+| 💭     | 일반 생각 | 기본 추론 단계        |
+| 🌿     | 분기      | 새로운 접근법 탐색    |
+| ✏️     | 수정      | 이전 생각 재평가      |
+| ✅     | 완료      | 마지막 단계 완료      |
+| 🔍     | 조사      | 세부 분석 또는 조사   |
+| 💡     | 인사이트  | 중요한 깨달음         |
+| ⚠️     | 주의      | 잠재적 문제 발견      |
+| 🎯     | 목표      | 목표 설정 또는 재확인 |
 
 ### Formatting Examples
 
 **일반 생각**:
+
 ```
 💭 Thought 3/10: 데이터베이스 스키마 설계 고려사항
 ```
 
 **분기**:
+
 ```
 🌿 [Branch: microservices] Thought 5/12: 마이크로서비스 아키텍처의 장점
 ```
 
 **수정**:
+
 ```
 ✏️ [Revision of #4] Thought 4': API 버전 관리 전략 재평가
 ```
 
 **완료**:
+
 ```
 ✅ Thought 10/10 [Complete]: 최종 아키텍처 권장사항 및 구현 로드맵
 ```
 
 **인사이트 강조**:
+
 ```
 💡 Thought 7/10: 핵심 발견 - 캐싱 레이어가 성능의 병목
 ```
@@ -591,7 +621,7 @@ Phase 3: 멀티 PG 지원으로 리스크 분산
 
 **Sequential Thinking 적용**:
 
-```
+````
 💭 Thought 1/7: 문제 현상 정확히 파악
 - 에러 발생 빈도: 하루 10-20건
 - 발생 시간: 주로 오후 2-4시 사이
@@ -646,15 +676,18 @@ Phase 3: 멀티 PG 지원으로 리스크 분산
 1. 인덱스 추가 (예상 효과: 쿼리 시간 80% 감소)
    ```sql
    CREATE INDEX idx_relationships_user_id ON relationships(user_id);
-   ```
+````
+
 2. Connection timeout 조정 후 모니터링
 3. 1주일 후 에러 발생률 재측정
 4. 필요시 추가 조치 실행
 
 검증 메트릭:
+
 - 에러 발생률: 목표 < 1건/일
 - 평균 응답 시간: 목표 < 200ms
 - Connection pool 사용률: 목표 < 70%
+
 ```
 
 ### Example 3: Architecture Decision with Branching
@@ -671,18 +704,23 @@ Phase 3: 멀티 PG 지원으로 리스크 분산
 
 ❌ **피해야 할 것**:
 ```
+
 Thought 1/3: 문제를 생각해보자
 Thought 2/3: 음... 더 생각해보니 복잡하네
-Thought 3/5: 아니다, 단계를 더 늘려야겠다  ← 혼란스러운 진행
+Thought 3/5: 아니다, 단계를 더 늘려야겠다 ← 혼란스러운 진행
+
 ```
 
 ✅ **권장 방법**:
 ```
+
 Thought 1/7: 문제 정의 - 시스템의 확장성 요구사항 분석
-  - 현재 트래픽: 1만 DAU
-  - 목표: 6개월 내 10만 DAU 지원
-  - 예산 제약: 인프라 비용 월 $500 이내
+
+- 현재 트래픽: 1만 DAU
+- 목표: 6개월 내 10만 DAU 지원
+- 예산 제약: 인프라 비용 월 $500 이내
   → 7단계로 체계적 분석 계획
+
 ```
 
 ### 2. 적절한 단계 수 설정
@@ -699,16 +737,20 @@ Thought 1/7: 문제 정의 - 시스템의 확장성 요구사항 분석
 
 ❌ **과도한 분기** (피해야 함):
 ```
+
 Thought 2 → 5개 브랜치 생성
 각 브랜치마다 10단계씩
 → 총 50단계, 너무 복잡함
+
 ```
 
 ✅ **적절한 분기**:
 ```
+
 Thought 2 → 2-3개 주요 접근법만 브랜치
 각 브랜치는 3-5단계로 핵심만 분석
 → 명확하고 관리 가능
+
 ```
 
 ### 4. 수정 기능의 효과적 활용
@@ -728,29 +770,37 @@ Thought 2 → 2-3개 주요 접근법만 브랜치
 매 3-5단계마다 중간 요약을 제공하세요:
 
 ```
+
 💭 Thought 5/12: 중간 요약 - 지금까지의 주요 발견
+
 1. 데이터베이스는 PostgreSQL이 적합
 2. 캐싱 레이어가 필수적
 3. 두 가지 배포 전략 고려 중
-→ 다음: 각 배포 전략의 구체적 분석
+   → 다음: 각 배포 전략의 구체적 분석
+
 ```
 
 ### 6. 구체적이고 실행 가능한 결론
 
 ❌ **추상적 결론** (피해야 함):
 ```
+
 ✅ Thought 8/8: 좋은 아키텍처를 선택하면 됩니다.
+
 ```
 
 ✅ **구체적 결론**:
 ```
+
 ✅ Thought 8/8 [Complete]: 최종 권장사항
+
 1. PostgreSQL + Redis 조합 채택
 2. Docker Compose로 로컬 개발 환경 구성
 3. Phase 1 (1-2주): 기본 CRUD API 구현
 4. Phase 2 (3-4주): 캐싱 레이어 추가
 5. Phase 3 (5-6주): 모니터링 및 최적화
-예상 비용: 월 $350 (목표 $500 이내 충족)
+   예상 비용: 월 $350 (목표 $500 이내 충족)
+
 ```
 
 ---
@@ -761,32 +811,41 @@ Sequential Thinking은 다음과 함께 사용하면 더욱 강력합니다:
 
 ### 1. Code Review Skill
 ```
+
 Sequential Thinking으로 코드 리뷰 접근:
+
 1. 코드의 목적과 요구사항 이해
 2. 아키텍처 및 설계 패턴 분석
 3. 잠재적 버그 및 엣지 케이스 식별
 4. 성능 및 보안 고려사항 평가
 5. 개선 제안 우선순위화
+
 ```
 
 ### 2. Test-Driven Development
 ```
+
 TDD 프로세스를 Sequential Thinking으로:
+
 1. 요구사항을 테스트 케이스로 변환
 2. 각 테스트의 목적과 범위 정의
 3. 구현 전략 수립
 4. 단계별 구현 및 검증
+
 ```
 
 ### 3. Debugging Skill
 ```
+
 체계적 디버깅:
+
 1. 문제 현상 정확히 파악
 2. 가능한 원인들 나열
 3. 각 가설을 검증 (브랜치 활용)
 4. 근본 원인 식별
 5. 해결 방안 및 예방책 수립
-```
+
+````
 
 ---
 
@@ -878,7 +937,7 @@ interface ThinkingSession {
   currentThought: number;             // current progress
   totalThoughts: number;              // total planned thoughts
 }
-```
+````
 
 ### Processing Algorithm
 
@@ -911,23 +970,25 @@ interface ThinkingSession {
 
 ### 주요 차이점
 
-| 항목 | MCP 서버 | Skill |
-|------|---------|-------|
-| 설치 | NPM/Docker 필요 | SKILL.md 파일만 |
-| 상태 관리 | 서버 메모리 | TodoWrite |
-| 성능 | ~50ms (IPC) | ~5ms (직접 호출) |
-| 로깅 | Chalk 콘솔 출력 | TodoWrite 시각화 |
-| 커스터마이징 | 소스 수정 + 빌드 | SKILL.md 수정 |
+| 항목         | MCP 서버         | Skill            |
+| ------------ | ---------------- | ---------------- |
+| 설치         | NPM/Docker 필요  | SKILL.md 파일만  |
+| 상태 관리    | 서버 메모리      | TodoWrite        |
+| 성능         | ~50ms (IPC)      | ~5ms (직접 호출) |
+| 로깅         | Chalk 콘솔 출력  | TodoWrite 시각화 |
+| 커스터마이징 | 소스 수정 + 빌드 | SKILL.md 수정    |
 
 ### 마이그레이션 가이드
 
 1. **MCP 서버 제거** (선택사항):
+
    ```bash
    # MCP 서버 설정 제거
    # ~/.claude/mcp.json에서 sequential-thinking 항목 삭제
    ```
 
 2. **Skill 설치**:
+
    ```bash
    mkdir -p ~/.claude/skills/sequential-thinking
    curl -o ~/.claude/skills/sequential-thinking/SKILL.md \
@@ -960,6 +1021,7 @@ Apache 2.0 - [LICENSE](https://github.com/zerodice0/claude_sequential_thinking_s
 ## Credits
 
 이 skill은 다음을 기반으로 개발되었습니다:
+
 - [Sequential Thinking MCP Server](https://github.com/modelcontextprotocol/servers/tree/main/src/sequential-thinking)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
 
@@ -968,6 +1030,7 @@ Apache 2.0 - [LICENSE](https://github.com/zerodice0/claude_sequential_thinking_s
 ## Version History
 
 **v1.0.0** (2025-01-XX)
+
 - Initial release as Claude Code Skill
 - TodoWrite integration
 - Full feature parity with MCP server

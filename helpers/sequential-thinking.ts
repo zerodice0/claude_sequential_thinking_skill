@@ -10,7 +10,7 @@ import {
   ValidationResult,
   ProcessingResult,
   ThoughtHistoryEntry,
-  SessionState
+  SessionState,
 } from './types';
 import { formatThought, formatValidationErrors } from './formatters';
 
@@ -29,7 +29,7 @@ export function validateThought(input: unknown): ValidationResult {
   if (typeof input !== 'object' || input === null) {
     return {
       valid: false,
-      errors: ['Input must be a non-null object']
+      errors: ['Input must be a non-null object'],
     };
   }
 
@@ -72,14 +72,16 @@ export function validateThought(input: unknown): ValidationResult {
     const totalNum = data.totalThoughts as number;
 
     if (thoughtNum > totalNum && !data.needsMoreThoughts) {
-      warnings.push(`thoughtNumber (${thoughtNum}) exceeds totalThoughts (${totalNum}). Consider setting needsMoreThoughts=true`);
+      warnings.push(
+        `thoughtNumber (${thoughtNum}) exceeds totalThoughts (${totalNum}). Consider setting needsMoreThoughts=true`
+      );
     }
   }
 
   return {
     valid: errors.length === 0,
     errors: errors.length > 0 ? errors : undefined,
-    warnings: warnings.length > 0 ? warnings : undefined
+    warnings: warnings.length > 0 ? warnings : undefined,
   };
 }
 
@@ -121,7 +123,7 @@ export function normalizeThought(input: unknown): ThoughtData {
     revisesThought: data.revisesThought as number | undefined,
     branchFromThought: data.branchFromThought as number | undefined,
     branchId: data.branchId as string | undefined,
-    needsMoreThoughts: data.needsMoreThoughts as boolean | undefined
+    needsMoreThoughts: data.needsMoreThoughts as boolean | undefined,
   };
 }
 
@@ -157,13 +159,11 @@ export function processThought(
       thoughtNumber: thoughtData.thoughtNumber,
       totalThoughts: thoughtData.totalThoughts,
       nextThoughtNeeded: thoughtData.nextThoughtNeeded,
-      branches: options.sessionState
-        ? Object.keys(options.sessionState.branches)
-        : undefined,
+      branches: options.sessionState ? Object.keys(options.sessionState.branches) : undefined,
       thoughtHistoryLength: options.sessionState
         ? options.sessionState.thoughtHistory.length
         : undefined,
-      formattedOutput
+      formattedOutput,
     };
   } catch (error) {
     return {
@@ -171,7 +171,7 @@ export function processThought(
       thoughtNumber: 0,
       totalThoughts: 0,
       nextThoughtNeeded: false,
-      error: error instanceof Error ? error.message : String(error)
+      error: error instanceof Error ? error.message : String(error),
     };
   }
 }
@@ -193,7 +193,7 @@ function updateSessionState(state: SessionState, thought: ThoughtData): void {
     isRevision: thought.isRevision,
     revisesThought: thought.revisesThought,
     branchId: thought.branchId,
-    branchFromThought: thought.branchFromThought
+    branchFromThought: thought.branchFromThought,
   };
 
   state.thoughtHistory.push(entry);
@@ -206,7 +206,7 @@ function updateSessionState(state: SessionState, thought: ThoughtData): void {
       state.branches[thought.branchId] = {
         id: thought.branchId,
         fromThought: thought.branchFromThought,
-        thoughts: []
+        thoughts: [],
       };
     }
     state.branches[thought.branchId]?.thoughts.push(entry);
@@ -223,7 +223,7 @@ export function createSessionState(): SessionState {
     thoughtHistory: [],
     branches: {},
     currentThought: 0,
-    totalThoughts: 0
+    totalThoughts: 0,
   };
 }
 
@@ -240,15 +240,14 @@ export function getSessionStats(state: SessionState): {
   completionRate: number;
 } {
   const revisionCount = state.thoughtHistory.filter(t => t.isRevision).length;
-  const completionRate = state.totalThoughts > 0
-    ? (state.currentThought / state.totalThoughts) * 100
-    : 0;
+  const completionRate =
+    state.totalThoughts > 0 ? (state.currentThought / state.totalThoughts) * 100 : 0;
 
   return {
     totalThoughts: state.thoughtHistory.length,
     branchCount: Object.keys(state.branches).length,
     revisionCount,
-    completionRate: Math.round(completionRate)
+    completionRate: Math.round(completionRate),
   };
 }
 
@@ -273,10 +272,7 @@ export function findThought(
  * @param branchId - Branch ID
  * @returns Array of thoughts in branch
  */
-export function getBranchThoughts(
-  state: SessionState,
-  branchId: string
-): ThoughtHistoryEntry[] {
+export function getBranchThoughts(state: SessionState, branchId: string): ThoughtHistoryEntry[] {
   return state.branches[branchId]?.thoughts || [];
 }
 
@@ -287,9 +283,6 @@ export function getBranchThoughts(
  * @param thoughtNumber - Thought number to check
  * @returns True if thought exists and can be revised
  */
-export function canReviseThought(
-  state: SessionState,
-  thoughtNumber: number
-): boolean {
+export function canReviseThought(state: SessionState, thoughtNumber: number): boolean {
   return findThought(state, thoughtNumber) !== undefined;
 }

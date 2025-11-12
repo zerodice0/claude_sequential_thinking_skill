@@ -9,12 +9,14 @@ Example demonstrating how to apply sequential thinking to complex architecture d
 **Situation**: Legacy monolithic application facing scalability issues
 
 **Current State**:
+
 - Single Rails application (10-year history)
 - 1 million DAU, continuously growing
 - 2-hour deployment time
 - Team size: 20 developers
 
 **Problems**:
+
 - Slow deployments (full restart required)
 - Scaling difficulties (only vertical scaling possible)
 - Frequent code conflicts between teams
@@ -106,15 +108,17 @@ Evaluate each strategy as a branch
 
 **Structure Example:**
 ```
+
 monolith/
 ├── modules/
-│   ├── users/          (Team A)
-│   ├── payments/       (Team B)
-│   ├── inventory/      (Team C)
-│   └── shipping/       (Team D)
+│ ├── users/ (Team A)
+│ ├── payments/ (Team B)
+│ ├── inventory/ (Team C)
+│ └── shipping/ (Team D)
 └── shared/
-    ├── database
-    └── common_libs
+├── database
+└── common_libs
+
 ```
 
 **Pros:**
@@ -145,12 +149,14 @@ monolith/
 
 **Target Architecture:**
 ```
+
 API Gateway
 ├── User Service
 ├── Payment Service
 ├── Inventory Service
 ├── Shipping Service
 └── Notification Service
+
 ```
 
 **Pros:**
@@ -270,17 +276,19 @@ Start with Modular Monolith → Gradual Microservices transition
 
 **Infrastructure:**
 ```
+
 ┌─────────────────────┐
-│  API Gateway        │
+│ API Gateway │
 ├─────────────────────┤
-│  Monolith (Core)    │
+│ Monolith (Core) │
 ├─────────────────────┤
-│  Notification       │  ← First separated service
-│  Service            │
+│ Notification │ ← First separated service
+│ Service │
 ├─────────────────────┤
-│  Monitoring         │
-│  (Datadog/Grafana)  │
+│ Monitoring │
+│ (Datadog/Grafana) │
 └─────────────────────┘
+
 ```
 
 **Learning Points:**
@@ -374,3 +382,4 @@ Apply this to the following complex problem:
 - Evaluate cost, time, risk
 - Consider team capabilities
 - Explore phased transition possibilities
+```

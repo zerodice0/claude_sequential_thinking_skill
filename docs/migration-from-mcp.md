@@ -5,6 +5,7 @@ Guide for users migrating from Sequential Thinking MCP Server to the Claude Code
 ## Overview
 
 The Sequential Thinking Skill provides the same functionality as the MCP server but with several improvements:
+
 - ✅ No server installation required
 - ✅ ~10x faster (no IPC overhead)
 - ✅ Better state persistence (TodoWrite)
@@ -17,27 +18,27 @@ The Sequential Thinking Skill provides the same functionality as the MCP server 
 
 ### Architecture
 
-| Aspect | MCP Server | Skill |
-|--------|-----------|-------|
-| **Process Model** | Separate Node.js process | Direct function calls |
-| **Communication** | JSON-RPC over stdio | Native integration |
-| **State Management** | In-memory (volatile) | TodoWrite (persistent) |
-| **Installation** | NPM/Docker | Single file copy |
-| **Performance** | ~50ms (IPC) | ~5ms |
-| **Customization** | Source code + rebuild | Edit SKILL.md |
-| **Dependencies** | Node.js, npm, chalk | None |
+| Aspect               | MCP Server               | Skill                  |
+| -------------------- | ------------------------ | ---------------------- |
+| **Process Model**    | Separate Node.js process | Direct function calls  |
+| **Communication**    | JSON-RPC over stdio      | Native integration     |
+| **State Management** | In-memory (volatile)     | TodoWrite (persistent) |
+| **Installation**     | NPM/Docker               | Single file copy       |
+| **Performance**      | ~50ms (IPC)              | ~5ms                   |
+| **Customization**    | Source code + rebuild    | Edit SKILL.md          |
+| **Dependencies**     | Node.js, npm, chalk      | None                   |
 
 ### Feature Comparison
 
-| Feature | MCP Server | Skill | Notes |
-|---------|-----------|-------|-------|
-| Sequential thinking | ✅ | ✅ | Same |
-| Branching | ✅ | ✅ | Same |
-| Revision | ✅ | ✅ | Same |
-| Dynamic expansion | ✅ | ✅ | Same |
-| State tracking | Memory | TodoWrite | Improved |
-| Visualization | Chalk console | Emoji + TodoWrite | Different |
-| Logging | console.error | TodoWrite | Different |
+| Feature             | MCP Server    | Skill             | Notes     |
+| ------------------- | ------------- | ----------------- | --------- |
+| Sequential thinking | ✅            | ✅                | Same      |
+| Branching           | ✅            | ✅                | Same      |
+| Revision            | ✅            | ✅                | Same      |
+| Dynamic expansion   | ✅            | ✅                | Same      |
+| State tracking      | Memory        | TodoWrite         | Improved  |
+| Visualization       | Chalk console | Emoji + TodoWrite | Different |
+| Logging             | console.error | TodoWrite         | Different |
 
 ---
 
@@ -108,11 +109,13 @@ npm uninstall -g @modelcontextprotocol/server-sequential-thinking
 ### Activation
 
 **MCP Server:**
+
 ```
 Tool call to mcp__sequential-thinking__sequentialthinking
 ```
 
 **Skill:**
+
 ```
 Automatic activation on complex problems
 Or explicit: "Use sequential thinking..."
@@ -121,6 +124,7 @@ Or explicit: "Use sequential thinking..."
 ### Output Format
 
 **MCP Server:**
+
 ```
 Console output with Chalk colors:
 ┌─────────────────────────────────┐
@@ -131,6 +135,7 @@ Console output with Chalk colors:
 ```
 
 **Skill:**
+
 ```
 TodoWrite integration:
 content: "💭 Thought 1/5: Problem analysis..."
@@ -141,11 +146,13 @@ status: "in_progress"
 ### State Management
 
 **MCP Server:**
+
 - State stored in server memory
 - Lost on server restart
 - No cross-session persistence
 
 **Skill:**
+
 - State in TodoWrite
 - Survives session restart
 - Can review history
@@ -161,6 +168,7 @@ If you customized the MCP server code:
 MCP server's `lib.ts` → Skill's SKILL.md or helpers
 
 **MCP Server (lib.ts):**
+
 ```typescript
 class SequentialThinkingServer {
   private thoughtHistory: ThoughtData[] = [];
@@ -179,6 +187,7 @@ class SequentialThinkingServer {
 ```
 
 **Skill (helpers/sequential-thinking.ts):**
+
 ```typescript
 export class SequentialThinkingHelper {
   private thoughtHistory: ThoughtData[] = [];
@@ -207,6 +216,7 @@ if (!data.thought || typeof data.thought !== 'string') {
 ### Formatting
 
 **MCP Server:**
+
 ```typescript
 formatThought(data: ThoughtData): string {
   return chalk.blue(`💭 Thought ${data.thoughtNumber}/${data.totalThoughts}`);
@@ -214,6 +224,7 @@ formatThought(data: ThoughtData): string {
 ```
 
 **Skill:**
+
 ```typescript
 formatForTodoWrite(data: ThoughtData): TodoItem {
   return {
@@ -230,6 +241,7 @@ formatForTodoWrite(data: ThoughtData): TodoItem {
 ### Environment Variables
 
 **MCP Server:**
+
 ```bash
 export DISABLE_THOUGHT_LOGGING=true
 ```
@@ -240,6 +252,7 @@ No environment variables needed. Control via SKILL.md.
 ### Customization
 
 **MCP Server:**
+
 ```bash
 # Edit source
 vim lib.ts
@@ -251,6 +264,7 @@ npm run build
 ```
 
 **Skill:**
+
 ```bash
 # Edit SKILL.md
 vim ~/.claude/skills/sequential-thinking/SKILL.md
@@ -268,6 +282,7 @@ vim ~/.claude/skills/sequential-thinking/SKILL.md
 **Problem:** Both systems responding
 
 **Solution:**
+
 1. Disable MCP server in mcp.json
 2. Or rename MCP server to avoid conflicts
 3. Restart Claude Code
@@ -289,6 +304,7 @@ time: ~5ms per thought
 **MCP Server state is not migrated automatically.**
 
 To preserve history:
+
 1. Export MCP thought history (if customized)
 2. Manually recreate in TodoWrite
 3. Or start fresh with Skill

@@ -10,7 +10,7 @@ import {
   createInitialThought,
   createBranchThought,
   createRevisionThought,
-  createFinalThought
+  createFinalThought,
 } from '../helpers';
 
 describe('Integration Tests', () => {
@@ -19,9 +19,7 @@ describe('Integration Tests', () => {
       const thinking = createSequentialThinking();
 
       // Initial thought
-      let result = thinking.processThought(
-        createInitialThought('Analyzing the problem', 5)
-      );
+      let result = thinking.processThought(createInitialThought('Analyzing the problem', 5));
       expect(result.success).toBe(true);
       expect(result.thoughtNumber).toBe(1);
 
@@ -30,7 +28,7 @@ describe('Integration Tests', () => {
         thought: 'Identifying constraints',
         thoughtNumber: 2,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
       expect(result.success).toBe(true);
 
@@ -38,7 +36,7 @@ describe('Integration Tests', () => {
         thought: 'Exploring solutions',
         thoughtNumber: 3,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
       expect(result.success).toBe(true);
 
@@ -46,14 +44,12 @@ describe('Integration Tests', () => {
         thought: 'Evaluating trade-offs',
         thoughtNumber: 4,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
       expect(result.success).toBe(true);
 
       // Final thought
-      result = thinking.processThought(
-        createFinalThought('Recommendation', 5, 5)
-      );
+      result = thinking.processThought(createFinalThought('Recommendation', 5, 5));
       expect(result.success).toBe(true);
       expect(result.nextThoughtNeeded).toBe(false);
 
@@ -69,9 +65,7 @@ describe('Integration Tests', () => {
       const thinking = createSequentialThinking();
 
       // Main thought
-      let result = thinking.processThought(
-        createInitialThought('Main analysis', 10)
-      );
+      let result = thinking.processThought(createInitialThought('Main analysis', 10));
       expect(result.success).toBe(true);
 
       // Branch A
@@ -87,7 +81,7 @@ describe('Integration Tests', () => {
         totalThoughts: 10,
         nextThoughtNeeded: true,
         branchId: 'option-a',
-        branchFromThought: 1
+        branchFromThought: 1,
       });
       expect(result.success).toBe(true);
 
@@ -104,7 +98,7 @@ describe('Integration Tests', () => {
         totalThoughts: 10,
         nextThoughtNeeded: true,
         branchId: 'option-b',
-        branchFromThought: 1
+        branchFromThought: 1,
       });
       expect(result.success).toBe(true);
 
@@ -113,14 +107,12 @@ describe('Integration Tests', () => {
         thought: 'Comparing options',
         thoughtNumber: 6,
         totalThoughts: 10,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
       expect(result.success).toBe(true);
 
       // Final
-      result = thinking.processThought(
-        createFinalThought('Selected Option A', 10, 10)
-      );
+      result = thinking.processThought(createFinalThought('Selected Option A', 10, 10));
       expect(result.success).toBe(true);
 
       const stats = thinking.getStats();
@@ -132,9 +124,7 @@ describe('Integration Tests', () => {
 
       thinking.processThought(createInitialThought('Main', 5));
 
-      thinking.processThought(
-        createBranchThought('Branch A1', 2, 5, 'branch-a', 1)
-      );
+      thinking.processThought(createBranchThought('Branch A1', 2, 5, 'branch-a', 1));
 
       thinking.processThought({
         thought: 'Branch A2',
@@ -142,7 +132,7 @@ describe('Integration Tests', () => {
         totalThoughts: 5,
         nextThoughtNeeded: true,
         branchId: 'branch-a',
-        branchFromThought: 1
+        branchFromThought: 1,
       });
 
       const branchThoughts = thinking.adapter.getBranchThoughts('branch-a');
@@ -161,7 +151,7 @@ describe('Integration Tests', () => {
         thought: 'Initial conclusion',
         thoughtNumber: 2,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       // Revise second thought
@@ -181,13 +171,9 @@ describe('Integration Tests', () => {
 
       thinking.processThought(createInitialThought('Original', 5));
 
-      thinking.processThought(
-        createRevisionThought('First revision', 2, 5, 1)
-      );
+      thinking.processThought(createRevisionThought('First revision', 2, 5, 1));
 
-      thinking.processThought(
-        createRevisionThought('Second revision', 3, 5, 1)
-      );
+      thinking.processThought(createRevisionThought('Second revision', 3, 5, 1));
 
       const stats = thinking.getStats();
       expect(stats.revisionCount).toBe(2);
@@ -205,7 +191,7 @@ describe('Integration Tests', () => {
         thoughtNumber: 2,
         totalThoughts: 3,
         nextThoughtNeeded: true,
-        needsMoreThoughts: true
+        needsMoreThoughts: true,
       });
 
       // Extend to 5 thoughts
@@ -213,19 +199,17 @@ describe('Integration Tests', () => {
         thought: 'Additional step',
         thoughtNumber: 3,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       thinking.processThought({
         thought: 'Another step',
         thoughtNumber: 4,
         totalThoughts: 5,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
-      const result = thinking.processThought(
-        createFinalThought('Final', 5, 5)
-      );
+      const result = thinking.processThought(createFinalThought('Final', 5, 5));
 
       expect(result.success).toBe(true);
       expect(result.totalThoughts).toBe(5);
@@ -244,13 +228,11 @@ describe('Integration Tests', () => {
         thought: 'Requirements gathering',
         thoughtNumber: 2,
         totalThoughts: 15,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       // Branch A: Technical approach
-      thinking.processThought(
-        createBranchThought('Technical approach A', 3, 15, 'tech-a', 2)
-      );
+      thinking.processThought(createBranchThought('Technical approach A', 3, 15, 'tech-a', 2));
 
       thinking.processThought({
         thought: 'Architecture for A',
@@ -258,13 +240,11 @@ describe('Integration Tests', () => {
         totalThoughts: 15,
         nextThoughtNeeded: true,
         branchId: 'tech-a',
-        branchFromThought: 2
+        branchFromThought: 2,
       });
 
       // Branch B: Alternative approach
-      thinking.processThought(
-        createBranchThought('Technical approach B', 5, 15, 'tech-b', 2)
-      );
+      thinking.processThought(createBranchThought('Technical approach B', 5, 15, 'tech-b', 2));
 
       thinking.processThought({
         thought: 'Architecture for B',
@@ -272,7 +252,7 @@ describe('Integration Tests', () => {
         totalThoughts: 15,
         nextThoughtNeeded: true,
         branchId: 'tech-b',
-        branchFromThought: 2
+        branchFromThought: 2,
       });
 
       // Comparison
@@ -280,20 +260,18 @@ describe('Integration Tests', () => {
         thought: 'Comparing approaches',
         thoughtNumber: 7,
         totalThoughts: 15,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       // Revise comparison with new insights
-      thinking.processThought(
-        createRevisionThought('Updated comparison', 8, 15, 7)
-      );
+      thinking.processThought(createRevisionThought('Updated comparison', 8, 15, 7));
 
       // Continue with selected approach
       thinking.processThought({
         thought: 'Selected approach A',
         thoughtNumber: 9,
         totalThoughts: 15,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       // Implementation details
@@ -301,13 +279,11 @@ describe('Integration Tests', () => {
         thought: 'Implementation plan',
         thoughtNumber: 10,
         totalThoughts: 15,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       // Final recommendation
-      thinking.processThought(
-        createFinalThought('Final recommendation', 15, 15)
-      );
+      thinking.processThought(createFinalThought('Final recommendation', 15, 15));
 
       const stats = thinking.getStats();
       expect(stats.totalThoughts).toBeGreaterThanOrEqual(10);
@@ -325,7 +301,7 @@ describe('Integration Tests', () => {
         thought: 'Test 2',
         thoughtNumber: 2,
         totalThoughts: 3,
-        nextThoughtNeeded: true
+        nextThoughtNeeded: true,
       });
 
       const exported = thinking1.exportSession();
@@ -348,7 +324,7 @@ describe('Integration Tests', () => {
         thought: 'Test 2',
         thoughtNumber: 2,
         totalThoughts: 3,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       });
 
       let stats = thinking.getStats();
@@ -381,7 +357,7 @@ describe('Integration Tests', () => {
         thought: 'Continue',
         thoughtNumber: 2,
         totalThoughts: 3,
-        nextThoughtNeeded: false
+        nextThoughtNeeded: false,
       });
       expect(result.success).toBe(true);
 

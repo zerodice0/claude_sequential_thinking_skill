@@ -37,12 +37,6 @@
       "@/*": ["helpers/*"]
     }
   },
-  "include": [
-    "helpers/**/*.ts",
-    "test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "include": ["helpers/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

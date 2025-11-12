@@ -99,11 +99,8 @@ export function createSequentialThinking() {
       });
 
       if (result.success) {
-        // Update adapter state
+        // Track in TodoWrite only (sessionState is updated by processThought)
         const thoughtData = normalizeThought(input);
-        adapter.updateState(thoughtData);
-
-        // Track in TodoWrite
         adapter.trackThought(thoughtData);
       }
 

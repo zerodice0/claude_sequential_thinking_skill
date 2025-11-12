@@ -5,7 +5,7 @@ echo "🔍 검증 중: GitHub Actions 워크플로우 파일"
 
 # actionlint 실행
 if [ -f "./actionlint" ]; then
-    ./actionlint .github/workflows/ci.yml
+    ./actionlint .github/workflows/ci.yml .github/workflows/test.yml
     if [ $? -ne 0 ]; then
         echo "❌ 워크플로우 파일 검증 실패. 푸시 중단."
         echo "💡 수정 후 다시 시도하세요."
@@ -20,15 +20,23 @@ echo "🔍 YAML 구문 검증 중..."
 python3 -c "
 import yaml
 import sys
-try:
-    with open('.github/workflows/ci.yml', 'r') as f:
-        yaml.safe_load(f)
-    print('✅ YAML 구문 검증 성공')
-except yaml.YAMLError as e:
-    print(f'❌ YAML 구문 오류: {e}')
-    sys.exit(1)
-except Exception as e:
-    print(f'❌ 파일 읽기 오류: {e}')
+
+workflows = ['.github/workflows/ci.yml', '.github/workflows/test.yml']
+all_valid = True
+
+for workflow in workflows:
+    try:
+        with open(workflow, 'r') as f:
+            yaml.safe_load(f)
+        print(f'✅ {workflow} 구문 검증 성공')
+    except yaml.YAMLError as e:
+        print(f'❌ {workflow} 구문 오류: {e}')
+        all_valid = False
+    except Exception as e:
+        print(f'❌ {workflow} 파일 읽기 오류: {e}')
+        all_valid = False
+
+if not all_valid:
     sys.exit(1)
 "
 
